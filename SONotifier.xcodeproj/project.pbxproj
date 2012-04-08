@@ -1,0 +1,448 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		824A924E15324356002033A7 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A924D15324356002033A7 /* Cocoa.framework */; };
+		824A925815324356002033A7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 824A925615324356002033A7 /* InfoPlist.strings */; };
+		824A925A15324356002033A7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 824A925915324356002033A7 /* main.m */; };
+		824A925E15324356002033A7 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 824A925C15324356002033A7 /* Credits.rtf */; };
+		824A926115324356002033A7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 824A926015324356002033A7 /* AppDelegate.m */; };
+		824A926415324357002033A7 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 824A926215324357002033A7 /* MainMenu.xib */; };
+		824A926C15324357002033A7 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A926B15324357002033A7 /* SenTestingKit.framework */; };
+		824A926D15324357002033A7 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A924D15324356002033A7 /* Cocoa.framework */; };
+		824A927515324357002033A7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 824A927315324357002033A7 /* InfoPlist.strings */; };
+		824A927815324357002033A7 /* SONotifierTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 824A927715324357002033A7 /* SONotifierTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		824A926E15324357002033A7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 824A924015324356002033A7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 824A924815324356002033A7;
+			remoteInfo = SONotifier;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		824A924915324356002033A7 /* SONotifier.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SONotifier.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		824A924D15324356002033A7 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		824A925015324356002033A7 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		824A925115324356002033A7 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		824A925215324356002033A7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		824A925515324356002033A7 /* SONotifier-Info.plist */ = {isa = PBXFileReference; path = "SONotifier-Info.plist"; sourceTree = "<group>"; };
+		824A925715324356002033A7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		824A925915324356002033A7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		824A925B15324356002033A7 /* SONotifier-Prefix.pch */ = {isa = PBXFileReference; path = "SONotifier-Prefix.pch"; sourceTree = "<group>"; };
+		824A925D15324356002033A7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		824A925F15324356002033A7 /* AppDelegate.h */ = {isa = PBXFileReference; path = AppDelegate.h; sourceTree = "<group>"; };
+		824A926015324356002033A7 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		824A926315324357002033A7 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		824A926A15324357002033A7 /* SONotifierTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SONotifierTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		824A926B15324357002033A7 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		824A927215324357002033A7 /* SONotifierTests-Info.plist */ = {isa = PBXFileReference; path = "SONotifierTests-Info.plist"; sourceTree = "<group>"; };
+		824A927415324357002033A7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		824A927615324357002033A7 /* SONotifierTests.h */ = {isa = PBXFileReference; path = SONotifierTests.h; sourceTree = "<group>"; };
+		824A927715324357002033A7 /* SONotifierTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SONotifierTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		824A924615324356002033A7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				824A924E15324356002033A7 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		824A926615324357002033A7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				824A926C15324357002033A7 /* SenTestingKit.framework in Frameworks */,
+				824A926D15324357002033A7 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		824A923E15324356002033A7 = {
+			isa = PBXGroup;
+			children = (
+				824A925315324356002033A7 /* SONotifier */,
+				824A927015324357002033A7 /* SONotifierTests */,
+				824A924C15324356002033A7 /* Frameworks */,
+				824A924A15324356002033A7 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		824A924A15324356002033A7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				824A924915324356002033A7 /* SONotifier.app */,
+				824A926A15324357002033A7 /* SONotifierTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		824A924C15324356002033A7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				824A924D15324356002033A7 /* Cocoa.framework */,
+				824A926B15324357002033A7 /* SenTestingKit.framework */,
+				824A924F15324356002033A7 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		824A924F15324356002033A7 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				824A925015324356002033A7 /* AppKit.framework */,
+				824A925115324356002033A7 /* CoreData.framework */,
+				824A925215324356002033A7 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		824A925315324356002033A7 /* SONotifier */ = {
+			isa = PBXGroup;
+			children = (
+				824A925F15324356002033A7 /* AppDelegate.h */,
+				824A926015324356002033A7 /* AppDelegate.m */,
+				824A926215324357002033A7 /* MainMenu.xib */,
+				824A925415324356002033A7 /* Supporting Files */,
+			);
+			path = SONotifier;
+			sourceTree = "<group>";
+		};
+		824A925415324356002033A7 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				824A925515324356002033A7 /* SONotifier-Info.plist */,
+				824A925615324356002033A7 /* InfoPlist.strings */,
+				824A925915324356002033A7 /* main.m */,
+				824A925B15324356002033A7 /* SONotifier-Prefix.pch */,
+				824A925C15324356002033A7 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		824A927015324357002033A7 /* SONotifierTests */ = {
+			isa = PBXGroup;
+			children = (
+				824A927615324357002033A7 /* SONotifierTests.h */,
+				824A927715324357002033A7 /* SONotifierTests.m */,
+				824A927115324357002033A7 /* Supporting Files */,
+			);
+			path = SONotifierTests;
+			sourceTree = "<group>";
+		};
+		824A927115324357002033A7 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				824A927215324357002033A7 /* SONotifierTests-Info.plist */,
+				824A927315324357002033A7 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		824A924815324356002033A7 /* SONotifier */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 824A927B15324357002033A7 /* Build configuration list for PBXNativeTarget "SONotifier" */;
+			buildPhases = (
+				824A924515324356002033A7 /* Sources */,
+				824A924615324356002033A7 /* Frameworks */,
+				824A924715324356002033A7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SONotifier;
+			productName = SONotifier;
+			productReference = 824A924915324356002033A7 /* SONotifier.app */;
+			productType = "com.apple.product-type.application";
+		};
+		824A926915324357002033A7 /* SONotifierTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 824A927E15324357002033A7 /* Build configuration list for PBXNativeTarget "SONotifierTests" */;
+			buildPhases = (
+				824A926515324357002033A7 /* Sources */,
+				824A926615324357002033A7 /* Frameworks */,
+				824A926715324357002033A7 /* Resources */,
+				824A926815324357002033A7 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				824A926F15324357002033A7 /* PBXTargetDependency */,
+			);
+			name = SONotifierTests;
+			productName = SONotifierTests;
+			productReference = 824A926A15324357002033A7 /* SONotifierTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		824A924015324356002033A7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = 824A924315324356002033A7 /* Build configuration list for PBXProject "SONotifier" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 824A923E15324356002033A7;
+			productRefGroup = 824A924A15324356002033A7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				824A924815324356002033A7 /* SONotifier */,
+				824A926915324357002033A7 /* SONotifierTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		824A924715324356002033A7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				824A925815324356002033A7 /* InfoPlist.strings in Resources */,
+				824A925E15324356002033A7 /* Credits.rtf in Resources */,
+				824A926415324357002033A7 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		824A926715324357002033A7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				824A927515324357002033A7 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		824A926815324357002033A7 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		824A924515324356002033A7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				824A925A15324356002033A7 /* main.m in Sources */,
+				824A926115324356002033A7 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		824A926515324357002033A7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				824A927815324357002033A7 /* SONotifierTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		824A926F15324357002033A7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 824A924815324356002033A7 /* SONotifier */;
+			targetProxy = 824A926E15324357002033A7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		824A925615324356002033A7 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				824A925715324356002033A7 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		824A925C15324356002033A7 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				824A925D15324356002033A7 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		824A926215324357002033A7 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				824A926315324357002033A7 /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		824A927315324357002033A7 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				824A927415324357002033A7 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		824A927915324357002033A7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		824A927A15324357002033A7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		824A927C15324357002033A7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SONotifier/SONotifier-Prefix.pch";
+				INFOPLIST_FILE = "SONotifier/SONotifier-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		824A927D15324357002033A7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SONotifier/SONotifier-Prefix.pch";
+				INFOPLIST_FILE = "SONotifier/SONotifier-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		824A927F15324357002033A7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SONotifier.app/Contents/MacOS/SONotifier";
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SONotifier/SONotifier-Prefix.pch";
+				INFOPLIST_FILE = "SONotifierTests/SONotifierTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		824A928015324357002033A7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SONotifier.app/Contents/MacOS/SONotifier";
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SONotifier/SONotifier-Prefix.pch";
+				INFOPLIST_FILE = "SONotifierTests/SONotifierTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		824A924315324356002033A7 /* Build configuration list for PBXProject "SONotifier" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				824A927915324357002033A7 /* Debug */,
+				824A927A15324357002033A7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		824A927B15324357002033A7 /* Build configuration list for PBXNativeTarget "SONotifier" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				824A927C15324357002033A7 /* Debug */,
+				824A927D15324357002033A7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		824A927E15324357002033A7 /* Build configuration list for PBXNativeTarget "SONotifierTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				824A927F15324357002033A7 /* Debug */,
+				824A928015324357002033A7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 824A924015324356002033A7 /* Project object */;
+}
