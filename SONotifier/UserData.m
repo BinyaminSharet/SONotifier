@@ -1,13 +1,89 @@
-//
-//  UserData.m
-//  SONotifier
-//
-//  Created by Sharet, Binyamin on 4/9/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
+/*
+ * Copyright (C) 2012 Binyamin Sharet
+ *
+ * This file is part of SONotifier.
+ * 
+ * SONotifier is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * SONotifier is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with SONotifier. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #import "UserData.h"
 
 @implementation UserData
+
+@synthesize username        = username;
+@synthesize reputation      = reputation;
+@synthesize reputationOffset = reputationOffset;
+@synthesize badgesGold      = badgesGold;
+@synthesize badgesBronze    = badgesBronze;
+@synthesize badgesSilver    = badgesSilver;
+@synthesize reputationFromAnswers = reputationFromAnswers;
+@synthesize reputationFromQuestions = reputationFromQuestions;
+
+- (id) init {
+    self = [super init];
+    if (self) {
+        reputationFromAnswers = [[NSMutableArray alloc] init];
+        reputationFromQuestions = [[NSMutableArray alloc] init];
+        username = @"--";
+        reputation = [NSNumber numberWithInt:0];
+    }
+    return self;
+}
+
+- (BOOL) updateLastChangesFromJsonString:(NSString *)jsonString {
+    NSError *jsonParsingError = nil;
+    NSDictionary *data = [NSJSONSerialization JSONObjectWithData:[jsonString dataUsingEncoding:NSUTF8StringEncoding] 
+                                                         options:0 error:&jsonParsingError];
+    if (data) {
+        NSArray * repArray = [data objectForKey:@"items"];
+        [reputationFromAnswers removeAllObjects];
+        [reputationFromQuestions removeAllObjects];
+        for (NSDictionary * dict in repArray) {
+            if ([(NSNumber*)[dict objectForKey:@"reputation_change"] compare:[NSNumber numberWithInt:0]] != NSOrderedSame) {
+                if ([(NSString*)[dict objectForKey:@"post_type"] compare:@"answer"] == NSOrderedSame) {
+                    [reputationFromAnswers addObject:dict];
+                }
+                else if ([(NSString*)[dict objectForKey:@"post_type"] compare:@"question"] == NSOrderedSame) {
+                    [reputationFromQuestions addObject:dict];
+                }
+            }
+        }
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL) updateInfoFromJsonString:(NSString *)jsonString {
+    NSError *jsonParsingError = nil;
+    NSDictionary *data = [NSJSONSerialization JSONObjectWithData:[jsonString dataUsingEncoding:NSUTF8StringEncoding] 
+                                                         options:0 error:&jsonParsingError];
+    if (data) {
+        NSNumber * prevReputation = reputation;
+        data = [[data objectForKey:@"items"] objectAtIndex:0];
+
+        [self setUsername:[data objectForKey:@"display_name"]];
+        [self setReputation:[data objectForKey:@"reputation"]];
+        [self setReputationOffset:[NSNumber numberWithInt:[reputation intValue] - [prevReputation intValue]]];
+        
+        // badge count
+        data = [data objectForKey:@"badge_counts"];
+        [self setBadgesGold:[data objectForKey:@"gold"]];
+        [self setBadgesSilver:[data objectForKey:@"silver"]];
+        [self setBadgesBronze:[data objectForKey:@"bronze"]];
+        return YES;
+    }
+    return NO;
+}
 
 @end

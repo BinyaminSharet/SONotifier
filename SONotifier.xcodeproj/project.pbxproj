@@ -17,6 +17,12 @@
 		824A926D15324357002033A7 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A924D15324356002033A7 /* Cocoa.framework */; };
 		824A927515324357002033A7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 824A927315324357002033A7 /* InfoPlist.strings */; };
 		824A927815324357002033A7 /* SONotifierTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 824A927715324357002033A7 /* SONotifierTests.m */; };
+		824A928315324767002033A7 /* BaseMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 824A928215324767002033A7 /* BaseMenu.m */; };
+		824A9286153248C3002033A7 /* UserData.m in Sources */ = {isa = PBXBuildFile; fileRef = 824A9285153248C3002033A7 /* UserData.m */; };
+		824A928C1533194B002033A7 /* UpdateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 824A928B1533194B002033A7 /* UpdateManager.m */; };
+		824A928F15345BEF002033A7 /* LinkMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 824A928E15345BEF002033A7 /* LinkMenuItem.m */; };
+		82B7849A15355BFF0097863D /* PersistantData.m in Sources */ = {isa = PBXBuildFile; fileRef = 82B7849915355BFF0097863D /* PersistantData.m */; };
+		82B784A31535835A0097863D /* stackoverflow.png in Resources */ = {isa = PBXBuildFile; fileRef = 82B784A21535835A0097863D /* stackoverflow.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,20 +41,32 @@
 		824A925015324356002033A7 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		824A925115324356002033A7 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		824A925215324356002033A7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		824A925515324356002033A7 /* SONotifier-Info.plist */ = {isa = PBXFileReference; path = "SONotifier-Info.plist"; sourceTree = "<group>"; };
+		824A925515324356002033A7 /* SONotifier-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SONotifier-Info.plist"; sourceTree = "<group>"; };
 		824A925715324356002033A7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		824A925915324356002033A7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		824A925B15324356002033A7 /* SONotifier-Prefix.pch */ = {isa = PBXFileReference; path = "SONotifier-Prefix.pch"; sourceTree = "<group>"; };
+		824A925B15324356002033A7 /* SONotifier-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SONotifier-Prefix.pch"; sourceTree = "<group>"; };
 		824A925D15324356002033A7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
-		824A925F15324356002033A7 /* AppDelegate.h */ = {isa = PBXFileReference; path = AppDelegate.h; sourceTree = "<group>"; };
+		824A925F15324356002033A7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		824A926015324356002033A7 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		824A926315324357002033A7 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		824A926A15324357002033A7 /* SONotifierTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SONotifierTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		824A926B15324357002033A7 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		824A927215324357002033A7 /* SONotifierTests-Info.plist */ = {isa = PBXFileReference; path = "SONotifierTests-Info.plist"; sourceTree = "<group>"; };
+		824A927215324357002033A7 /* SONotifierTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SONotifierTests-Info.plist"; sourceTree = "<group>"; };
 		824A927415324357002033A7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		824A927615324357002033A7 /* SONotifierTests.h */ = {isa = PBXFileReference; path = SONotifierTests.h; sourceTree = "<group>"; };
+		824A927615324357002033A7 /* SONotifierTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SONotifierTests.h; sourceTree = "<group>"; };
 		824A927715324357002033A7 /* SONotifierTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SONotifierTests.m; sourceTree = "<group>"; };
+		824A928115324767002033A7 /* BaseMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseMenu.h; sourceTree = "<group>"; };
+		824A928215324767002033A7 /* BaseMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseMenu.m; sourceTree = "<group>"; };
+		824A9284153248C3002033A7 /* UserData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserData.h; sourceTree = "<group>"; };
+		824A9285153248C3002033A7 /* UserData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserData.m; sourceTree = "<group>"; };
+		824A928A1533194B002033A7 /* UpdateManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateManager.h; sourceTree = "<group>"; };
+		824A928B1533194B002033A7 /* UpdateManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateManager.m; sourceTree = "<group>"; };
+		824A928D15345BEF002033A7 /* LinkMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkMenuItem.h; sourceTree = "<group>"; };
+		824A928E15345BEF002033A7 /* LinkMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinkMenuItem.m; sourceTree = "<group>"; };
+		82B7849815355BFF0097863D /* PersistantData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersistantData.h; sourceTree = "<group>"; };
+		82B7849915355BFF0097863D /* PersistantData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersistantData.m; sourceTree = "<group>"; };
+		82B7849C1535610C0097863D /* Globals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Globals.h; sourceTree = "<group>"; };
+		82B784A21535835A0097863D /* stackoverflow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stackoverflow.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,8 +134,20 @@
 			children = (
 				824A925F15324356002033A7 /* AppDelegate.h */,
 				824A926015324356002033A7 /* AppDelegate.m */,
+				824A928115324767002033A7 /* BaseMenu.h */,
+				824A928215324767002033A7 /* BaseMenu.m */,
+				82B7849C1535610C0097863D /* Globals.h */,
+				824A928D15345BEF002033A7 /* LinkMenuItem.h */,
+				824A928E15345BEF002033A7 /* LinkMenuItem.m */,
 				824A926215324357002033A7 /* MainMenu.xib */,
+				82B7849815355BFF0097863D /* PersistantData.h */,
+				82B7849915355BFF0097863D /* PersistantData.m */,
+				82B7849D153581ED0097863D /* Shared */,
 				824A925415324356002033A7 /* Supporting Files */,
+				824A928A1533194B002033A7 /* UpdateManager.h */,
+				824A928B1533194B002033A7 /* UpdateManager.m */,
+				824A9284153248C3002033A7 /* UserData.h */,
+				824A9285153248C3002033A7 /* UserData.m */,
 			);
 			path = SONotifier;
 			sourceTree = "<group>";
@@ -151,6 +181,14 @@
 				824A927315324357002033A7 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		82B7849D153581ED0097863D /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				82B784A21535835A0097863D /* stackoverflow.png */,
+			);
+			name = Shared;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -226,6 +264,7 @@
 				824A925815324356002033A7 /* InfoPlist.strings in Resources */,
 				824A925E15324356002033A7 /* Credits.rtf in Resources */,
 				824A926415324357002033A7 /* MainMenu.xib in Resources */,
+				82B784A31535835A0097863D /* stackoverflow.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,6 +301,11 @@
 			files = (
 				824A925A15324356002033A7 /* main.m in Sources */,
 				824A926115324356002033A7 /* AppDelegate.m in Sources */,
+				824A928315324767002033A7 /* BaseMenu.m in Sources */,
+				824A9286153248C3002033A7 /* UserData.m in Sources */,
+				824A928C1533194B002033A7 /* UpdateManager.m in Sources */,
+				824A928F15345BEF002033A7 /* LinkMenuItem.m in Sources */,
+				82B7849A15355BFF0097863D /* PersistantData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -433,6 +477,7 @@
 				824A927D15324357002033A7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		824A927E15324357002033A7 /* Build configuration list for PBXNativeTarget "SONotifierTests" */ = {
 			isa = XCConfigurationList;
@@ -441,6 +486,7 @@
 				824A928015324357002033A7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
