@@ -42,7 +42,6 @@ enum {
     [imageObj release];
     [statusItem setHighlightMode:YES];
     [statusItem setEnabled:YES];
-    [statusItem setToolTip:@"Tool tip"];    
     [statusItem setTarget:self];
 }
 
