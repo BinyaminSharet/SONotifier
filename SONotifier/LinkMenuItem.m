@@ -22,17 +22,29 @@
 @implementation LinkMenuItem
 @synthesize url;
 
+- (NSAttributedString *) createTitleFromString:(NSString *)strTitle {
+    NSMutableAttributedString * mas = [[NSMutableAttributedString alloc] initWithString:strTitle];
+    NSDictionary *attributes = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                [NSFont fontWithName:@"Helvetica" size:12], NSFontAttributeName,
+                                [NSColor greenColor], NSForegroundColorAttributeName, nil];
+    [mas setAttributes:attributes range:NSMakeRange(0, 4)];
+    return mas;
+}
+
 - (id) initFromDictionary:(NSDictionary *) dict {
     self = [super init];
     if (self) {
-        NSString * currentTitle = [NSString stringWithFormat:@"[%@]  %@", 
+        NSString * currentTitle = [NSString stringWithFormat:@"%@  \t%@", 
                                    [dict objectForKey:@"reputation_change"],
                                    [dict objectForKey:@"title"]];
-        if ([currentTitle length] > 40) {
+        if ([currentTitle length] > 60) {
             currentTitle = [NSString stringWithFormat:@"%@...", 
-                            [currentTitle substringToIndex:37]];
+                            [currentTitle substringToIndex:57]];
         }
-        [self setTitle:currentTitle];
+        
+        NSAttributedString * ftitle = [self createTitleFromString:currentTitle];
+        [self setAttributedTitle:ftitle];
+//        [self setTitle:currentTitle];
         [self setUrl:[NSString stringWithFormat:@"http://www.stackoverflow.com/questions/%@",
                       [dict objectForKey:@"post_id"]]];
         [self setEnabled:YES];
@@ -41,6 +53,7 @@
     }
     return self;
 }
+
 - (IBAction)openUrl:(id)sender
 {
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[self url]]];
