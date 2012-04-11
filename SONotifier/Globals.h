@@ -32,7 +32,7 @@
 #define API_KEY_USER_TYPE           @"user_type"
 #define API_KEY_USER_CREATION_DATE  @"creation_date"
 #define API_KEY_USER_NAME           @"display_name"
-#define API_KEY_USER_BADGES_DICT    @"badges_count"
+#define API_KEY_USER_BADGES_DICT    @"badge_counts"
 #define API_KEY_USER_BADGE_GOLD     @"gold"
 #define API_KEY_USER_BADGE_SILVER   @"silver"
 #define API_KEY_USER_BADGE_BRONZE   @"bronze"
