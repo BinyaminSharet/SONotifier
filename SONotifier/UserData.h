@@ -35,6 +35,12 @@
 @property (nonatomic, retain) NSString * username;
 @property (nonatomic, retain) NSNumber * reputation;
 @property (nonatomic, retain) NSNumber * reputationOffset;
+@property (nonatomic, retain) NSNumber * reputationDay;
+@property (nonatomic, retain) NSNumber * reputationWeek;
+@property (nonatomic, retain) NSNumber * reputationMonth;
+@property (nonatomic, retain) NSNumber * reputationQuarter;
+@property (nonatomic, retain) NSNumber * reputationYear;
+
 @property (nonatomic, retain) NSNumber * badgesGold;
 @property (nonatomic, retain) NSNumber * badgesSilver;
 @property (nonatomic, retain) NSNumber * badgesBronze;

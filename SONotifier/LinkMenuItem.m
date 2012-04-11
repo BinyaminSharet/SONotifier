@@ -18,6 +18,7 @@
  */
 
 #import "LinkMenuItem.h"
+#import "Globals.h"
 
 @implementation LinkMenuItem
 @synthesize url;
@@ -31,25 +32,39 @@
     return mas;
 }
 
+- (NSAttributedString *) createTitleFromDictionary:(NSDictionary *)dict {
+    NSString * simpleString;
+    NSMutableAttributedString * finalStr;
+    NSDictionary * attributes;
+    NSColor * repColor;
+    NSNumber * reputation = [dict objectForKey:API_KEY_REPUTATION_CHANGE];
+    repColor = ([reputation intValue] > 0) ? [NSColor greenColor] : [NSColor redColor];
+    attributes = [[NSDictionary alloc] initWithObjectsAndKeys:
+                  [NSFont fontWithName:@"Helvetica" size:12], NSFontAttributeName, 
+                  repColor, NSForegroundColorAttributeName,
+                  nil];
+    simpleString = [NSString stringWithFormat:@"%@  \t%@", reputation, [dict objectForKey:API_KEY_REPUTATION_TITLE]];
+    if ([simpleString length] > 60) {
+        simpleString = [NSString stringWithFormat:@"%@...", 
+                        [simpleString substringToIndex:57]];
+    }
+    finalStr = [[NSMutableAttributedString alloc] initWithString:simpleString];
+    [finalStr setAttributes:attributes range:NSMakeRange(0, 4)];
+    [attributes release];
+    return finalStr;
+}
+
 - (id) initFromDictionary:(NSDictionary *) dict {
     self = [super init];
     if (self) {
-        NSString * currentTitle = [NSString stringWithFormat:@"%@  \t%@", 
-                                   [dict objectForKey:@"reputation_change"],
-                                   [dict objectForKey:@"title"]];
-        if ([currentTitle length] > 60) {
-            currentTitle = [NSString stringWithFormat:@"%@...", 
-                            [currentTitle substringToIndex:57]];
-        }
-        
-        NSAttributedString * ftitle = [self createTitleFromString:currentTitle];
+        NSAttributedString * ftitle = [self createTitleFromDictionary:dict];
         [self setAttributedTitle:ftitle];
-//        [self setTitle:currentTitle];
         [self setUrl:[NSString stringWithFormat:@"http://www.stackoverflow.com/questions/%@",
                       [dict objectForKey:@"post_id"]]];
         [self setEnabled:YES];
         [self setTarget:self];
         [self setAction:@selector(openUrl:)];
+        [ftitle release];
     }
     return self;
 }

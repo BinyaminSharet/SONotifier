@@ -18,6 +18,7 @@
  */
 
 #import "UserData.h"
+#import "Globals.h"
 
 @implementation UserData
 
@@ -29,6 +30,11 @@
 @synthesize badgesSilver    = badgesSilver;
 @synthesize reputationFromAnswers = reputationFromAnswers;
 @synthesize reputationFromQuestions = reputationFromQuestions;
+@synthesize reputationDay;
+@synthesize reputationWeek;
+@synthesize reputationMonth;
+@synthesize reputationQuarter;
+@synthesize reputationYear;
 
 - (id) init {
     self = [super init];
@@ -50,7 +56,7 @@
         [reputationFromAnswers removeAllObjects];
         [reputationFromQuestions removeAllObjects];
         for (NSDictionary * dict in repArray) {
-            if ([(NSNumber*)[dict objectForKey:@"reputation_change"] compare:[NSNumber numberWithInt:0]] != NSOrderedSame) {
+            if ([(NSNumber*)[dict objectForKey:API_KEY_REPUTATION_CHANGE] compare:[NSNumber numberWithInt:0]] != NSOrderedSame) {
                 if ([(NSString*)[dict objectForKey:@"post_type"] compare:@"answer"] == NSOrderedSame) {
                     [reputationFromAnswers addObject:dict];
                 }
@@ -72,15 +78,20 @@
         NSNumber * prevReputation = reputation;
         data = [[data objectForKey:@"items"] objectAtIndex:0];
 
-        [self setUsername:[data objectForKey:@"display_name"]];
-        [self setReputation:[data objectForKey:@"reputation"]];
+        [self setUsername:[data objectForKey:API_KEY_USER_NAME]];
+        [self setReputation:[data objectForKey:API_KEY_USER_REPUTATION]];
+        [self setReputationDay:[data objectForKey:API_KEY_USER_REP_DAY]];
+        [self setReputationWeek:[data objectForKey:API_KEY_USER_REP_WEEK]];
+        [self setReputationMonth:[data objectForKey:API_KEY_USER_REP_MONTH]];
+        [self setReputationQuarter:[data objectForKey:API_KEY_USER_REP_QUARTER]];
+        [self setReputationYear:[data objectForKey:API_KEY_USER_REP_YEAR]];
         [self setReputationOffset:[NSNumber numberWithInt:[reputation intValue] - [prevReputation intValue]]];
         
         // badge count
-        data = [data objectForKey:@"badge_counts"];
-        [self setBadgesGold:[data objectForKey:@"gold"]];
-        [self setBadgesSilver:[data objectForKey:@"silver"]];
-        [self setBadgesBronze:[data objectForKey:@"bronze"]];
+        data = [data objectForKey:API_KEY_USER_BADGES_DICT];
+        [self setBadgesGold:[data objectForKey:API_KEY_USER_BADGE_GOLD]];
+        [self setBadgesSilver:[data objectForKey:API_KEY_USER_BADGE_SILVER]];
+        [self setBadgesBronze:[data objectForKey:API_KEY_USER_BADGE_BRONZE]];
         return YES;
     }
     return NO;

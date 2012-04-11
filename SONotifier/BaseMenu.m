@@ -62,7 +62,9 @@ enum {
     LinkMenuItem * nameItem = [[LinkMenuItem alloc] init];
     [menu addItem:nameItem];// name
     
-    [menu addItem:[[NSMenuItem alloc] init]];// reputation
+    currentItem = [[NSMenuItem alloc] init];
+    [menu addItem:currentItem];// reputation
+    [menu setSubmenu:[[NSMenu alloc] initWithTitle:@""] forItem:currentItem];    
     
     [menu addItem:[NSMenuItem separatorItem]];
     
@@ -93,7 +95,8 @@ enum {
     [statusItem setMenu:menu];
 }
 
-- (void) updateFailedForProblem:(UPDATE_PROBLEMS)problem {
+- (void) updateUiForFailingWithProblem:(NSNumber *)number {
+    UPDATE_PROBLEMS problem = (UPDATE_PROBLEMS)[number intValue];
     switch(problem) {
         case UPDATE_PROBLEM_CONNECTION:
             [[[statusItem menu] itemAtIndex:SM_INDEX_ONLINE_STATUS] setTitle:@"Offline"];
@@ -102,6 +105,38 @@ enum {
             [[[statusItem menu] itemAtIndex:SM_INDEX_ONLINE_STATUS] setTitle:@"Connecting"];
             break;
     }
+}
+
+- (void) updateFailedForProblem:(UPDATE_PROBLEMS)problem {
+    NSNumber * number = [NSNumber numberWithInt:problem];
+    [self performSelectorOnMainThread:@selector(updateUiForFailingWithProblem:) withObject:number waitUntilDone:NO];
+}
+
+- (void) updateExtendedReputationInfoWithData:(UserData *) data {
+    NSMenu * extendedInfoMenu = [[[statusItem menu] itemAtIndex:SM_INDEX_REPUTATION] submenu]; 
+    NSString * currentTitle;
+    [extendedInfoMenu removeAllItems];
+    currentTitle = [NSString stringWithFormat:@"Day     \t%10d", [[data reputationDay] intValue]];
+    [extendedInfoMenu addItem:[[NSMenuItem alloc] initWithTitle:currentTitle action:nil keyEquivalent:@""]];
+    currentTitle = [NSString stringWithFormat:@"Week    \t%10d", [[data reputationWeek] intValue]];
+    [extendedInfoMenu addItem:[[NSMenuItem alloc] initWithTitle:currentTitle action:nil keyEquivalent:@""]];
+    currentTitle = [NSString stringWithFormat:@"Month  \t%10d", [[data reputationMonth] intValue]];
+    [extendedInfoMenu addItem:[[NSMenuItem alloc] initWithTitle:currentTitle action:nil keyEquivalent:@""]];
+    currentTitle = [NSString stringWithFormat:@"Quarter\t%10d", [[data reputationQuarter] intValue]];
+    [extendedInfoMenu addItem:[[NSMenuItem alloc] initWithTitle:currentTitle action:nil keyEquivalent:@""]];
+    currentTitle = [NSString stringWithFormat:@"Year    \t%10d", [[data reputationYear] intValue]];
+    [extendedInfoMenu addItem:[[NSMenuItem alloc] initWithTitle:currentTitle action:nil keyEquivalent:@""]];
+}
+- (void) updateExtendedInfoWithData:(UserData *) data {
+    NSMenu * extendedInfoMenu = [[[statusItem menu] itemAtIndex:SM_INDEX_EXTENDED_INFO] submenu];
+    NSString * currentTitle;
+    [extendedInfoMenu removeAllItems];
+    currentTitle = [NSString stringWithFormat:@"Gold Badges:\t%@", [data badgesGold]];
+    [extendedInfoMenu addItem:[[NSMenuItem alloc] initWithTitle:currentTitle action:nil keyEquivalent:@""]];
+    currentTitle = [NSString stringWithFormat:@"Silver Badges:\t%@", [data badgesSilver]];
+    [extendedInfoMenu addItem:[[NSMenuItem alloc] initWithTitle:currentTitle action:nil keyEquivalent:@""]];
+    currentTitle = [NSString stringWithFormat:@"Bronze Badges:\t%@", [data badgesBronze]];
+    [extendedInfoMenu addItem:[[NSMenuItem alloc] initWithTitle:currentTitle action:nil keyEquivalent:@""]];
 }
 
 - (void) updateUiWithUserData:(UserData *) data {
@@ -120,18 +155,12 @@ enum {
     // reputation
     currentTitle = [NSString stringWithFormat:@"Rep: %@", [data reputation]];
     [[menu itemAtIndex:SM_INDEX_REPUTATION] setTitle:currentTitle];
+    [self updateExtendedReputationInfoWithData:data];
     // connection status
     currentTitle = @"Online";
-    [[menu itemAtIndex:SM_INDEX_ONLINE_STATUS] setTitle:currentTitle];    
+    [[menu itemAtIndex:SM_INDEX_ONLINE_STATUS] setTitle:currentTitle];
     // extended info
-    currentSubMenu = [[menu itemAtIndex:SM_INDEX_EXTENDED_INFO] submenu];
-    [currentSubMenu removeAllItems];
-    currentTitle = [NSString stringWithFormat:@"Gold Badges:\t%@", [data badgesGold]];
-    [currentSubMenu addItem:[[NSMenuItem alloc] initWithTitle:currentTitle action:nil keyEquivalent:@""]];
-    currentTitle = [NSString stringWithFormat:@"Silver Badges:\t%@", [data badgesSilver]];
-    [currentSubMenu addItem:[[NSMenuItem alloc] initWithTitle:currentTitle action:nil keyEquivalent:@""]];
-    currentTitle = [NSString stringWithFormat:@"Bronze Badges:\t%@", [data badgesBronze]];
-    [currentSubMenu addItem:[[NSMenuItem alloc] initWithTitle:currentTitle action:nil keyEquivalent:@""]];
+    [self updateExtendedInfoWithData:data];
     // reputation changes
     NSNumber * repOffset = [data reputationOffset];
     if ([repOffset intValue] != 0)
