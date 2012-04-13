@@ -49,6 +49,7 @@
 
 - (BOOL) updateLastChangesFromJsonString:(NSString *)jsonString {
     NSError *jsonParsingError = nil;
+    NSLog(@"Asking to parse jsonString:!!!!!%@!!!!!", jsonString);
     NSDictionary *data = [NSJSONSerialization JSONObjectWithData:[jsonString dataUsingEncoding:NSUTF8StringEncoding] 
                                                          options:0 error:&jsonParsingError];
     if (data) {

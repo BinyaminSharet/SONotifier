@@ -24,25 +24,31 @@
 @synthesize url;
 
 - (NSAttributedString *) createTitleFromDictionary:(NSDictionary *)dict {
-    NSString * simpleString;
-    NSMutableAttributedString * finalStr;
+    NSMutableAttributedString * finalStr = [[[NSMutableAttributedString alloc] init] autorelease];
+    NSAttributedString * current;
+    NSString * title;
     NSDictionary * attributes;
     NSColor * repColor;
     NSNumber * reputation = [dict objectForKey:API_KEY_REPUTATION_CHANGE];
     repColor = ([reputation intValue] > 0) ? [NSColor greenColor] : [NSColor redColor];
-    attributes = [[NSDictionary alloc] initWithObjectsAndKeys:
-                  [NSFont fontWithName:@"Helvetica" size:12], NSFontAttributeName, 
+    attributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                  [NSFont fontWithName:@"Helvetica" size:14], NSFontAttributeName, 
                   repColor, NSForegroundColorAttributeName,
                   nil];
-    simpleString = [NSString stringWithFormat:@"%@  \t%@", reputation, [dict objectForKey:API_KEY_REPUTATION_TITLE]];
-    if ([simpleString length] > 60) {
-        simpleString = [NSString stringWithFormat:@"%@...", 
-                        [simpleString substringToIndex:57]];
+    current = [[[NSAttributedString alloc] 
+                initWithString:[NSString stringWithFormat:@"%@\t", reputation] 
+                attributes:attributes] autorelease];
+    [finalStr appendAttributedString:current];
+    attributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                  [NSFont fontWithName:@"Helvetica" size:14], NSFontAttributeName, 
+                  nil];
+    title = [dict objectForKey:API_KEY_REPUTATION_TITLE];
+    if ([title length] > 50) {
+        title = [NSString stringWithFormat:@"%@...", [title substringToIndex:47]];
     }
-    finalStr = [[NSMutableAttributedString alloc] initWithString:simpleString];
-    [finalStr setAttributes:attributes range:NSMakeRange(0, 4)];
-    [attributes release];
-    [finalStr autorelease];
+    current = [[[NSAttributedString alloc]
+                initWithString:title attributes:attributes] autorelease];
+    [finalStr appendAttributedString:current];
     return finalStr;
 }
 

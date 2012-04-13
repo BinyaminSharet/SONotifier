@@ -54,6 +54,8 @@
     response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
     if (response != nil) {
         responseStr = [[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding] autorelease];
+        responseStr = [responseStr stringByReplacingOccurrencesOfString:@"&quot;" withString:@"\\\""];
+        responseStr = [responseStr stringByReplacingOccurrencesOfString:@"&#39;" withString:@"'"];
         NSLog(@"Received data: %@", responseStr);
     }
     return responseStr;
@@ -65,7 +67,8 @@
 }
 
 - (NSString *) buildNewQuestionQuery {
-    return @"/questions?page=1&pagesize=10&order=desc&sort=activity&site=stackoverflow";
+    //return @"/questions?page=1&pagesize=10&order=desc&sort=activity&site=stackoverflow";
+    return @"/questions?page=1&pagesize=10&order=desc&sort=activity&site=stackoverflow&filter=!-rf7acLF";
 }
 
 - (void) bgUpdate {
