@@ -22,14 +22,14 @@
 
 @implementation UserData
 
-@synthesize username        = username;
-@synthesize reputation      = reputation;
-@synthesize reputationOffset = reputationOffset;
-@synthesize badgesGold      = badgesGold;
-@synthesize badgesBronze    = badgesBronze;
-@synthesize badgesSilver    = badgesSilver;
-@synthesize reputationFromAnswers = reputationFromAnswers;
-@synthesize reputationFromQuestions = reputationFromQuestions;
+@synthesize username;
+@synthesize reputation;
+@synthesize reputationOffset;
+@synthesize badgesGold;
+@synthesize badgesBronze;
+@synthesize badgesSilver;
+@synthesize reputationFromAnswers;
+@synthesize reputationFromQuestions;
 @synthesize reputationDay;
 @synthesize reputationWeek;
 @synthesize reputationMonth;

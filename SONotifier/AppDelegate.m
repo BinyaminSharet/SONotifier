@@ -61,7 +61,7 @@
                                        otherButton:nil
                          informativeTextWithFormat:@""];
     
-    NSTextField *input = [[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, 200, 24)];
+    NSTextField *input = [[[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, 200, 24)] autorelease];
     [input setStringValue:defaultValue];
     [alert setAccessoryView:input];
     NSInteger button = [alert runModal];

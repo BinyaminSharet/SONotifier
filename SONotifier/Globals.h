@@ -26,6 +26,7 @@
 #define DATA_KEY_REPUTATION_CHANGE  @"com_bsharet_sonotifier_reputation_change"
 #define DATA_KEY_CONFIGURED         @"com_bsharet_sonotifier_configured"
 
+#define API_20_BASE_URL             @"http://api.stackexchange.com/2.0"
 #define API_KEY_REPUTATION_CHANGE   @"reputation_change"
 #define API_KEY_REPUTATION_TITLE    @"title"
 #define API_KEY_USER_ID             @"user_id"
@@ -42,6 +43,15 @@
 #define API_KEY_USER_REP_MONTH      @"reputation_change_month"
 #define API_KEY_USER_REP_QUARTER    @"reputation_change_quarter"
 #define API_KEY_USER_REP_YEAR       @"reputation_change_year"
+
+#define API_KEY_QUESTION_ID             @"question_id"
+#define API_KEY_QUESTION_SCORE          @"score"
+#define API_KEY_QUESTION_ANSWER_COUNT   @"answer_count"
+#define API_KEY_QUESTION_TITLE          @"title"
+#define API_KEY_QUESTION_TAGS_ARRAY     @"tags"
+#define API_KEY_QUESTION_LINK           @"link"
+#define API_KEY_QUESTION_ANSWERED       @"is_answered"
+
 
 #define DEFAULT_UPDATE_INTERVAL     (60. * 10)
 

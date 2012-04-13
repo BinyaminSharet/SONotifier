@@ -18,13 +18,13 @@
  */
 
 #import "UpdateManager.h"
-#import "UserData.h"
 #import "PersistantData.h"
 
 @implementation UpdateManager
 
-@synthesize updateDelegate = updateDelegate;
-@synthesize userData = userData;
+@synthesize updateDelegate;
+@synthesize userData;
+@synthesize siteData;
 @synthesize userId;
 
 - (id) init {
@@ -32,6 +32,7 @@
     if (self) {
         updateTimer = nil;
         userData = [[UserData alloc] init];
+        siteData = [[SiteData alloc] init];
     }
     return self;
 }
@@ -41,54 +42,68 @@
     updateTimer = nil;
     [userData release];
     userData = nil;
+    [siteData release];
+    siteData = nil;
+}
+
+- (NSString *) getDataForUrl:(NSString *)urlString {
+    NSURLRequest *request;
+    NSData * response;
+    NSString *responseStr = nil;
+    request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];    
+    response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+    if (response != nil) {
+        responseStr = [[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding] autorelease];
+        NSLog(@"Received data: %@", responseStr);
+    }
+    return responseStr;
+}
+
+- (NSString *) getDataForApiRequest:(NSString *) apiRequest {
+    NSString * urlString = [NSString stringWithFormat:@"%@%@", API_20_BASE_URL, apiRequest];
+    return [self getDataForUrl:urlString];
+}
+
+- (NSString *) buildNewQuestionQuery {
+    return @"/questions?page=1&pagesize=10&order=desc&sort=activity&site=stackoverflow";
 }
 
 - (void) bgUpdate {
-    NSString * urlString;
-    NSURLRequest *request;
-    NSData * response;
+    NSString * apiRequest;
     NSString *responseStr;
     BOOL problem = NO;
     
     NSLog(@"[UpdateManager/bgUpdate] Getting user info");    
-    urlString = [NSString stringWithFormat:@"http://api.stackexchange.com/2.0/users/%@?site=stackoverflow", userId];
-    request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];    
-    response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-    if (response != nil) {
-        responseStr = [[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding];
-        NSLog(@"Response: %@", responseStr);
-        if (responseStr != nil){
-            [userData updateInfoFromJsonString:responseStr];
-            [PersistantData saveItemToPreferences:responseStr withKey:DATA_KEY_USER_INFO];
-        } else {
-            problem = YES;
-        }
-        [responseStr release];
-    }
-    else {
+    apiRequest = [NSString stringWithFormat:@"/users/%@?site=stackoverflow", userId];
+    responseStr = [self getDataForApiRequest:apiRequest];
+    if (responseStr != nil){
+        [userData updateInfoFromJsonString:responseStr];
+        [PersistantData saveItemToPreferences:responseStr withKey:DATA_KEY_USER_INFO];
+    } else {
         problem = YES;
     }
     
-
     NSLog(@"[UpdateManager/bgUpdate] Getting reputation changes");    
-    urlString = [NSString stringWithFormat:@"http://api.stackexchange.com/2.0/users/%@/reputation?page=1&pagesize=7&site=stackoverflow&filter=!amIOctbmUQ-Bx0", userId];
-    request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];    
-    response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-    if (response != nil) {
-        responseStr = [[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding];
-        NSLog(@"Response: %@", responseStr);
-        if (responseStr != nil){
-            [userData updateLastChangesFromJsonString:responseStr];
-            [PersistantData saveItemToPreferences:responseStr withKey:DATA_KEY_REPUTATION_CHANGE];
-        } else {
-            problem = YES;
-        }
-        [responseStr release];
-    }
-    else {
+    apiRequest = [NSString stringWithFormat:@"/users/%@/reputation?page=1&pagesize=7&site=stackoverflow&filter=!amIOctbmUQ-Bx0", userId];
+    responseStr = [self getDataForApiRequest:apiRequest];
+
+    if (responseStr != nil){
+        [userData updateLastChangesFromJsonString:responseStr];
+        [PersistantData saveItemToPreferences:responseStr withKey:DATA_KEY_REPUTATION_CHANGE];
+    } else {
         problem = YES;
     }
-
+    
+    NSLog(@"[UpdateManager/bgUpdate] Getting new questions");
+    responseStr = [self getDataForApiRequest:[self buildNewQuestionQuery]];
+    if (responseStr != nil){
+        [siteData updateNewsetQuestionsFromJsonString:responseStr];
+//        [userData updateLastChangesFromJsonString:responseStr];
+//        [PersistantData saveItemToPreferences:responseStr withKey:DATA_KEY_REPUTATION_CHANGE];
+    } else {
+        problem = YES;
+    }
+    
     [updateDelegate updateCompletedWithUpdater:self];
     if (problem == YES) {
         [updateDelegate updateFailedForProblem:UPDATE_PROBLEM_CONNECTION];

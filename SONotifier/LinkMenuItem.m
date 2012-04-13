@@ -23,15 +23,6 @@
 @implementation LinkMenuItem
 @synthesize url;
 
-- (NSAttributedString *) createTitleFromString:(NSString *)strTitle {
-    NSMutableAttributedString * mas = [[NSMutableAttributedString alloc] initWithString:strTitle];
-    NSDictionary *attributes = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                [NSFont fontWithName:@"Helvetica" size:12], NSFontAttributeName,
-                                [NSColor greenColor], NSForegroundColorAttributeName, nil];
-    [mas setAttributes:attributes range:NSMakeRange(0, 4)];
-    return mas;
-}
-
 - (NSAttributedString *) createTitleFromDictionary:(NSDictionary *)dict {
     NSString * simpleString;
     NSMutableAttributedString * finalStr;
@@ -51,6 +42,7 @@
     finalStr = [[NSMutableAttributedString alloc] initWithString:simpleString];
     [finalStr setAttributes:attributes range:NSMakeRange(0, 4)];
     [attributes release];
+    [finalStr autorelease];
     return finalStr;
 }
 
@@ -64,7 +56,6 @@
         [self setEnabled:YES];
         [self setTarget:self];
         [self setAction:@selector(openUrl:)];
-        [ftitle release];
     }
     return self;
 }

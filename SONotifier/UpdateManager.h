@@ -19,6 +19,8 @@
 
 #import <Foundation/Foundation.h>
 #import "UserData.h"
+#import "SiteData.h"
+
 @protocol UpdateDelegate <NSObject>
 typedef enum {
     UPDATE_PROBLEM_CONNECTION,
@@ -32,13 +34,12 @@ typedef enum {
 
 @interface UpdateManager : NSObject {
     NSTimeInterval updateInterval;
-    NSObject<UpdateDelegate> * updateDelegate;
     NSTimer * updateTimer;
-    UserData * userData;
 }
 
 @property (nonatomic, retain) NSObject<UpdateDelegate> * updateDelegate;
 @property (nonatomic, retain) UserData * userData;
+@property (nonatomic, retain) SiteData * siteData;
 @property (nonatomic, retain) NSNumber * userId;
 
 - (void) setUpdateInterval:(NSTimeInterval)interval;

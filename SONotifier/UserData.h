@@ -20,16 +20,6 @@
 #import <Foundation/Foundation.h>
 
 @interface UserData : NSObject {
-    NSString * username;
-    NSNumber * reputation;
-    NSNumber * reputationOffset;
-    
-    NSNumber * badgesGold;
-    NSNumber * badgesSilver;
-    NSNumber * badgesBronze;
-    
-    NSMutableArray * reputationFromQuestions;
-    NSMutableArray * reputationFromAnswers;
 }
 
 @property (nonatomic, retain) NSString * username;
