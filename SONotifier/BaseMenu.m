@@ -59,6 +59,7 @@ enum {
     NSMenuItem * currentItem = nil;
     NSMenu * menu = [[[NSMenu alloc] init] autorelease];
     [menu setAutoenablesItems:NO];
+    [menu setDelegate:self];
     
     LinkMenuItem * nameItem = [[LinkMenuItem alloc] init];
     [menu addItem:nameItem];// name
@@ -142,23 +143,68 @@ enum {
     [extendedInfoMenu addItem:[[[NSMenuItem alloc] initWithTitle:currentTitle action:nil keyEquivalent:@""] autorelease]];
 }
 
+- (NSMenuItem *) makeBadgeItemWithRgbColor:(unsigned long)color forValue:(NSNumber *)value {
+    NSMenuItem * item = [[[NSMenuItem alloc] init] autorelease];
+    NSMutableAttributedString * nas;
+    NSString * title;
+    float red, green, blue;
+    red = ((color >> 16) & 0xFF) / 255.0;
+    green = ((color >> 8) & 0xFF) / 255.0;
+    blue = ((color) & 0xFF) / 255.0;
+    title = [NSString stringWithUTF8String:TEXT_SHAOE_CSTRING_UTF8_CIRCLE_MED];
+    title = [NSString stringWithFormat:@"%@   %@", title, [value stringValue]];
+    nas = [[NSMutableAttributedString alloc] initWithString:title];
+    [nas setAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                        [NSColor colorWithDeviceRed:red green:green blue:blue alpha:1.0], NSForegroundColorAttributeName,
+                        nil]
+                 range:NSMakeRange(0, 1)];
+    [item setAttributedTitle:nas];
+    [nas release];
+    return item;
+}
+
 - (void) updateExtendedInfoWithData:(UserData *) data {
     NSMenu * extendedInfoMenu = [[[statusItem menu] itemAtIndex:SM_INDEX_EXTENDED_INFO] submenu];
-    NSString * currentTitle;
+    
     [extendedInfoMenu setAutoenablesItems:NO];
     [extendedInfoMenu removeAllItems];
-    currentTitle = [NSString stringWithFormat:@"Gold Badges:\t%@", [data badgesGold]];
-    [extendedInfoMenu addItem:[[[NSMenuItem alloc] initWithTitle:currentTitle action:nil keyEquivalent:@""] autorelease]];
-    currentTitle = [NSString stringWithFormat:@"Silver Badges:\t%@", [data badgesSilver]];
-    [extendedInfoMenu addItem:[[[NSMenuItem alloc] initWithTitle:currentTitle action:nil keyEquivalent:@""] autorelease]];
-    currentTitle = [NSString stringWithFormat:@"Bronze Badges:\t%@", [data badgesBronze]];
-    [extendedInfoMenu addItem:[[[NSMenuItem alloc] initWithTitle:currentTitle action:nil keyEquivalent:@""] autorelease]];
+    
+    [extendedInfoMenu addItem:[self makeBadgeItemWithRgbColor:0xFFFF00 forValue:[data badgesGold]]];
+    [extendedInfoMenu addItem:[self makeBadgeItemWithRgbColor:0xC0C0C0 forValue:[data badgesSilver]]];
+    [extendedInfoMenu addItem:[self makeBadgeItemWithRgbColor:0xFFD700 forValue:[data badgesBronze]]];
+}
+
+- (void) updateReputationChangesWithData:(UserData *) data {
+    NSMenu * menu = [[[statusItem menu] itemAtIndex:SM_INDEX_REPUTATION_CHANGES] submenu];
+    [menu setAutoenablesItems:NO];
+    [menu removeAllItems];
+    NSArray * reputationChangeArray = [data reputationFromAnswers];
+    int counter = 0;
+    for (NSDictionary * dict in reputationChangeArray) {
+        if (counter++ == 7)
+            break; // up to 7 results
+        [menu addItem:[[[LinkMenuItem alloc] initFromDictionary:dict] autorelease]];
+    }    
+}
+
+- (void) updateReputationInfoWithData:(UserData *) data {
+    NSMenuItem * menuItem = [[statusItem menu] itemAtIndex:SM_INDEX_REPUTATION];
+    NSNumber * offset;
+    lastSetRep = [data reputation];
+    offset = [NSNumber numberWithInt:[lastSetRep intValue] - [lastViewedRep intValue]];
+    if ([offset intValue] == 0) {
+        [menuItem setTitle:[NSString stringWithFormat:@"Rep: %@", [data reputation]]];
+    }
+    else {
+        [menuItem setTitle:[NSString stringWithFormat:@"Rep: %@(%@)", [data reputation], offset]];
+    }
+
+    [self updateExtendedReputationInfoWithData:data];
 }
 
 - (void) updateUiWithUserData:(UserData *) data {
     NSMenu * menu = [statusItem menu];
     NSString * currentTitle;
-    NSMenu * currentSubMenu;
     // username
     currentTitle = [data username];
     LinkMenuItem * nameItem = (LinkMenuItem*)[menu itemAtIndex:SM_INDEX_NAME];
@@ -168,34 +214,10 @@ enum {
     [nameItem setEnabled:YES];
     [nameItem setTarget:nameItem];
     [nameItem setTitle:currentTitle];
-    // reputation
-    currentTitle = [NSString stringWithFormat:@"Rep: %@", [data reputation]];
-    [[menu itemAtIndex:SM_INDEX_REPUTATION] setTitle:currentTitle];
-    [self updateExtendedReputationInfoWithData:data];
-    // connection status
-    currentTitle = @"Online";
-    [[menu itemAtIndex:SM_INDEX_ONLINE_STATUS] setTitle:currentTitle];
-    // extended info
-    [self updateExtendedInfoWithData:data];
-    // reputation changes
-    NSNumber * repOffset = [data reputationOffset];
-    if ([repOffset intValue] != 0)
-        currentTitle = [NSString stringWithFormat:@"(%@) Rep Changes", repOffset];
-    else
-        currentTitle = @"Rep Changes";
-    [[menu itemAtIndex:SM_INDEX_REPUTATION_CHANGES] setTitle:currentTitle];
-    
-    currentSubMenu = [[menu itemAtIndex:SM_INDEX_REPUTATION_CHANGES] submenu];
-    [currentSubMenu setAutoenablesItems:NO];
-    [currentSubMenu removeAllItems];
-    NSArray * reputationChangeArray = [data reputationFromAnswers];
-    int counter = 0;
-    for (NSDictionary * dict in reputationChangeArray) {
-        if (counter++ == 7)
-            break; // up to 7 results
-        LinkMenuItem * currentLinkMenuItem = [[[LinkMenuItem alloc] initFromDictionary:dict] autorelease];
-        [currentSubMenu addItem:currentLinkMenuItem];
-    }
+    [self updateReputationInfoWithData:data];
+    [[menu itemAtIndex:SM_INDEX_ONLINE_STATUS] setTitle:@"Online"];
+    [self updateExtendedInfoWithData:data];    
+    [self updateReputationChangesWithData:data];
 }
 
 - (void) updateUiWithSiteData:(SiteData *) data {
@@ -210,6 +232,7 @@ enum {
         [menu addItem:currentQuestionItem];
     }
 }
+
 - (void) updateCompletedWithUpdater:(id)updater {
     [self performSelectorOnMainThread:@selector(updateUiWithUserData:) 
                            withObject:[(UpdateManager*)updater userData] waitUntilDone:NO];
@@ -225,12 +248,29 @@ enum {
 - (id) init {
     self = [super init];
     if (self) {
-        statusItem = [[[NSStatusBar systemStatusBar]
-                       statusItemWithLength:NSVariableStatusItemLength]
-                      retain];
+        statusItem = [[[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength] retain];
         
     }
     return self;
+}
+
+- (void)menu:(NSMenu *)menu willHighlightItem:(NSMenuItem *)item {
+    NSInteger index = [menu indexOfItem:item];
+    switch(index) {
+        case SM_INDEX_REPUTATION:
+            [item setTitle:[NSString stringWithFormat:@"Rep: %@", lastSetRep]];
+            lastViewedRep = lastSetRep;
+            break;
+        case SM_INDEX_REPUTATION_CHANGES:
+        case SM_INDEX_NAME:
+        case SM_INDEX_EXTENDED_INFO:
+        case SM_INDEX_NEW_QUESTIONS:
+        case SM_INDEX_ONLINE_STATUS:
+        case SM_INDEX_SETTINGS:
+        case SM_INDEX_QUIT:
+        default:
+            break;
+    }
 }
 
 @end

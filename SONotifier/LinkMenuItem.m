@@ -19,6 +19,7 @@
 
 #import "LinkMenuItem.h"
 #import "Globals.h"
+#import "Utils.h"
 
 @implementation LinkMenuItem
 @synthesize url;
@@ -42,10 +43,8 @@
     attributes = [NSDictionary dictionaryWithObjectsAndKeys:
                   [NSFont fontWithName:@"Helvetica" size:14], NSFontAttributeName, 
                   nil];
-    title = [dict objectForKey:API_KEY_REPUTATION_TITLE];
-    if ([title length] > 50) {
-        title = [NSString stringWithFormat:@"%@...", [title substringToIndex:47]];
-    }
+    title = [Utils decorateStringWithThreeDots:[dict objectForKey:API_KEY_REPUTATION_TITLE] 
+                              limitedForLength:50];
     current = [[[NSAttributedString alloc]
                 initWithString:title attributes:attributes] autorelease];
     [finalStr appendAttributedString:current];

@@ -50,6 +50,7 @@
     NSURLRequest *request;
     NSData * response;
     NSString *responseStr = nil;
+    NSLog(@"[UpdateManager/getDataForUrl:] URL: %@", urlString);
     request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];    
     response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
     if (response != nil) {
@@ -101,8 +102,6 @@
     responseStr = [self getDataForApiRequest:[self buildNewQuestionQuery]];
     if (responseStr != nil){
         [siteData updateNewsetQuestionsFromJsonString:responseStr];
-//        [userData updateLastChangesFromJsonString:responseStr];
-//        [PersistantData saveItemToPreferences:responseStr withKey:DATA_KEY_REPUTATION_CHANGE];
     } else {
         problem = YES;
     }
@@ -111,7 +110,6 @@
     if (problem == YES) {
         [updateDelegate updateFailedForProblem:UPDATE_PROBLEM_CONNECTION];
     }
-    NSLog(@"[UpdateManager/bgUpdate] exit");
 }
 
 - (void) update {

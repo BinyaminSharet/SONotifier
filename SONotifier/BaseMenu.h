@@ -20,11 +20,14 @@
 #import <Foundation/Foundation.h>
 #import "UpdateManager.h"
 
-@interface BaseMenu : NSObject<UpdateDelegate> {
+@interface BaseMenu : NSObject<UpdateDelegate, NSMenuDelegate> {
     NSStatusItem * statusItem;
+    NSNumber * lastViewedRep;
+    NSNumber * lastSetRep;
 }
 
 - (void) buildUi;
 - (void) updateCompletedWithUpdater:(id)updater;
 - (void) updateFailedForProblem:(UPDATE_PROBLEMS)problem;
+- (void)menu:(NSMenu *)menu willHighlightItem:(NSMenuItem *)item;
 @end

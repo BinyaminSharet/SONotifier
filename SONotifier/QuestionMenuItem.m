@@ -19,17 +19,14 @@
 
 #import "QuestionMenuItem.h"
 #import "Globals.h"
+#import "Utils.h"
 
 @implementation QuestionMenuItem
 @synthesize url;
 
 - (NSString *) createTitleFromDictionary:(NSDictionary *) dict {
-    NSString * title = [dict objectForKey:API_KEY_QUESTION_TITLE];
-    if ([title length] > 60) {
-        title = [NSString stringWithFormat:@"%@...", 
-                        [title substringToIndex:57]];
-    }
-    return title;
+    return [Utils decorateStringWithThreeDots:[dict objectForKey:API_KEY_QUESTION_TITLE]
+                             limitedForLength:60];
 }
 
 - (id) initFromDictionary:(NSDictionary *) dict {

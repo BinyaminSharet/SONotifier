@@ -52,6 +52,8 @@
 #define API_KEY_QUESTION_LINK           @"link"
 #define API_KEY_QUESTION_ANSWERED       @"is_answered"
 
+#define TEXT_SHAPE_CSTRING_UTF8_CIRCLE_SML  "\u25CF"
+#define TEXT_SHAOE_CSTRING_UTF8_CIRCLE_MED  "\u26AB"
 
 #define DEFAULT_UPDATE_INTERVAL     (60. * 10)
 
