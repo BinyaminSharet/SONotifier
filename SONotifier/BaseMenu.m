@@ -22,6 +22,7 @@
 #import "LinkMenuItem.h"
 #import "QuestionMenuItem.h"
 #import "PersistantData.h"
+
 @implementation BaseMenu
 
 enum {
@@ -37,6 +38,10 @@ enum {
     SM_INDEX_QUIT,
 };
 
+
+@synthesize delegate;
+
+
 - (void) initStatusItem {
     NSString* imageName = [[NSBundle mainBundle] pathForResource:@"stackoverflow" ofType:@"png"];
     NSImage* imageObj = [[NSImage alloc] initWithContentsOfFile:imageName];
@@ -45,10 +50,6 @@ enum {
     [statusItem setHighlightMode:YES];
     [statusItem setEnabled:YES];
     [statusItem setTarget:self];
-}
-
-- (void) showSettings {
-    NSLog(@"Settings are shown");
 }
 
 - (void) quitApp {
@@ -95,7 +96,7 @@ enum {
     [currentItem release];
     
     currentItem = [[NSMenuItem alloc] initWithTitle:@"Settings" action:@selector(showSettings) keyEquivalent:@""];
-    [currentItem setTarget:self];
+    [currentItem setTarget:delegate];
     [currentItem setEnabled:YES];
     [menu addItem:currentItem];
     [currentItem release];

@@ -54,16 +54,11 @@
                                                          options:0 error:&jsonParsingError];
     if (data) {
         NSArray * repArray = [data objectForKey:@"items"];
-        [reputationFromAnswers removeAllObjects];
         [reputationFromQuestions removeAllObjects];
+        [reputationFromAnswers removeAllObjects];
         for (NSDictionary * dict in repArray) {
             if ([(NSNumber*)[dict objectForKey:API_KEY_REPUTATION_CHANGE] compare:[NSNumber numberWithInt:0]] != NSOrderedSame) {
-                if ([(NSString*)[dict objectForKey:@"post_type"] compare:@"answer"] == NSOrderedSame) {
-                    [reputationFromAnswers addObject:dict];
-                }
-                else if ([(NSString*)[dict objectForKey:@"post_type"] compare:@"question"] == NSOrderedSame) {
-                    [reputationFromQuestions addObject:dict];
-                }
+                [reputationFromAnswers addObject:dict];
             }
         }
         return YES;
@@ -73,27 +68,32 @@
 
 - (BOOL) updateInfoFromJsonString:(NSString *)jsonString {
     NSError *jsonParsingError = nil;
+    NSArray * userArray;
     NSDictionary *data = [NSJSONSerialization JSONObjectWithData:[jsonString dataUsingEncoding:NSUTF8StringEncoding] 
                                                          options:0 error:&jsonParsingError];
     if (data) {
         NSNumber * prevReputation = reputation;
-        data = [[data objectForKey:@"items"] objectAtIndex:0];
-
-        [self setUsername:[data objectForKey:API_KEY_USER_NAME]];
-        [self setReputation:[data objectForKey:API_KEY_USER_REPUTATION]];
-        [self setReputationDay:[data objectForKey:API_KEY_USER_REP_DAY]];
-        [self setReputationWeek:[data objectForKey:API_KEY_USER_REP_WEEK]];
-        [self setReputationMonth:[data objectForKey:API_KEY_USER_REP_MONTH]];
-        [self setReputationQuarter:[data objectForKey:API_KEY_USER_REP_QUARTER]];
-        [self setReputationYear:[data objectForKey:API_KEY_USER_REP_YEAR]];
-        [self setReputationOffset:[NSNumber numberWithInt:[reputation intValue] - [prevReputation intValue]]];
-        
-        // badge count
-        data = [data objectForKey:API_KEY_USER_BADGES_DICT];
-        [self setBadgesGold:[data objectForKey:API_KEY_USER_BADGE_GOLD]];
-        [self setBadgesSilver:[data objectForKey:API_KEY_USER_BADGE_SILVER]];
-        [self setBadgesBronze:[data objectForKey:API_KEY_USER_BADGE_BRONZE]];
-        return YES;
+        userArray = [data objectForKey:@"items"];
+        NSLog(@"%lu", [userArray count]);
+        if ([userArray count] > 0) {
+            data = [userArray objectAtIndex:0];
+            
+            [self setUsername:[data objectForKey:API_KEY_USER_NAME]];
+            [self setReputation:[data objectForKey:API_KEY_USER_REPUTATION]];
+            [self setReputationDay:[data objectForKey:API_KEY_USER_REP_DAY]];
+            [self setReputationWeek:[data objectForKey:API_KEY_USER_REP_WEEK]];
+            [self setReputationMonth:[data objectForKey:API_KEY_USER_REP_MONTH]];
+            [self setReputationQuarter:[data objectForKey:API_KEY_USER_REP_QUARTER]];
+            [self setReputationYear:[data objectForKey:API_KEY_USER_REP_YEAR]];
+            [self setReputationOffset:[NSNumber numberWithInt:[reputation intValue] - [prevReputation intValue]]];
+            
+            // badge count
+            data = [data objectForKey:API_KEY_USER_BADGES_DICT];
+            [self setBadgesGold:[data objectForKey:API_KEY_USER_BADGE_GOLD]];
+            [self setBadgesSilver:[data objectForKey:API_KEY_USER_BADGE_SILVER]];
+            [self setBadgesBronze:[data objectForKey:API_KEY_USER_BADGE_BRONZE]];
+            return YES;
+        }
     }
     return NO;
 }

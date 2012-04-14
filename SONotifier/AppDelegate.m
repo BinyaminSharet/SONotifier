@@ -23,6 +23,7 @@
 
 @implementation AppDelegate
 
+@synthesize settingWindow;
 @synthesize window = _window;
 
 - (void)dealloc
@@ -52,6 +53,7 @@
 - (void) setUi {
     menus = [[BaseMenu alloc] init];
     [menus buildUi];
+    [menus setDelegate:self];
 }
 
 - (NSString *)input: (NSString *)prompt defaultValue: (NSString *)defaultValue {
@@ -102,7 +104,20 @@
             NSLog(@"DAMN");
         }
     }
-    [self runUpdateManager];
+    else {
+        [self runUpdateManager];   
+    }
 }
 
+- (void) showSettings {
+    SettingsWindowController * settings = [[[SettingsWindowController alloc] init] autorelease];
+    [settings setDelegate:self];
+    [settings showWindow:self];
+    [self setSettingWindow:settings];
+}
+
+- (void) dataUpdated {
+    [updateManager setUserId:[PersistantData retrieveFromUserDefaults:DATA_KEY_USER_ID]];
+    [updateManager setUpdateInterval:[[PersistantData retrieveFromUserDefaults:DATA_KEY_UPDATE_INTERVAL] doubleValue]];
+}
 @end

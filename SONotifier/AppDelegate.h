@@ -20,12 +20,17 @@
 #import <Cocoa/Cocoa.h>
 #import "BaseMenu.h"
 #import "UpdateManager.h"
+#import "SettingsWindowController.h"
 
-@interface AppDelegate : NSObject <NSApplicationDelegate> {
+@interface AppDelegate : NSObject <NSApplicationDelegate, BaseMenuDelegate, SettingsWindowDelegate> {
     BaseMenu * menus;
     UpdateManager * updateManager;
 }
 
 @property (assign) IBOutlet NSWindow *window;
+@property (nonatomic, retain) SettingsWindowController * settingWindow;
+
+- (void) showSettings;
+- (void) dataUpdated;
 
 @end

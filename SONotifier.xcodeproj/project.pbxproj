@@ -24,6 +24,8 @@
 		82A68A7415379ECC008DA2E8 /* SiteData.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A68A7315379ECC008DA2E8 /* SiteData.m */; };
 		82A68A781537AE3B008DA2E8 /* QuestionMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A68A771537AE3B008DA2E8 /* QuestionMenuItem.m */; };
 		82A68A7B15397058008DA2E8 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A68A7A15397058008DA2E8 /* Utils.m */; };
+		82A68A7D1539C3EE008DA2E8 /* SettingsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82A68A7C1539C3EA008DA2E8 /* SettingsWindow.xib */; };
+		82A68A801539C9E5008DA2E8 /* SettingsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A68A7F1539C9E5008DA2E8 /* SettingsWindowController.m */; };
 		82B7849A15355BFF0097863D /* PersistantData.m in Sources */ = {isa = PBXBuildFile; fileRef = 82B7849915355BFF0097863D /* PersistantData.m */; };
 		82B784A31535835A0097863D /* stackoverflow.png in Resources */ = {isa = PBXBuildFile; fileRef = 82B784A21535835A0097863D /* stackoverflow.png */; };
 /* End PBXBuildFile section */
@@ -72,6 +74,9 @@
 		82A68A771537AE3B008DA2E8 /* QuestionMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionMenuItem.m; sourceTree = "<group>"; };
 		82A68A7915397058008DA2E8 /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		82A68A7A15397058008DA2E8 /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
+		82A68A7C1539C3EA008DA2E8 /* SettingsWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsWindow.xib; sourceTree = "<group>"; };
+		82A68A7E1539C9E5008DA2E8 /* SettingsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsWindowController.h; sourceTree = "<group>"; };
+		82A68A7F1539C9E5008DA2E8 /* SettingsWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsWindowController.m; sourceTree = "<group>"; };
 		82B7849815355BFF0097863D /* PersistantData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersistantData.h; sourceTree = "<group>"; };
 		82B7849915355BFF0097863D /* PersistantData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersistantData.m; sourceTree = "<group>"; };
 		82B7849C1535610C0097863D /* Globals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Globals.h; sourceTree = "<group>"; };
@@ -163,6 +168,9 @@
 				82A68A771537AE3B008DA2E8 /* QuestionMenuItem.m */,
 				82A68A7915397058008DA2E8 /* Utils.h */,
 				82A68A7A15397058008DA2E8 /* Utils.m */,
+				82A68A7C1539C3EA008DA2E8 /* SettingsWindow.xib */,
+				82A68A7E1539C9E5008DA2E8 /* SettingsWindowController.h */,
+				82A68A7F1539C9E5008DA2E8 /* SettingsWindowController.m */,
 			);
 			path = SONotifier;
 			sourceTree = "<group>";
@@ -280,6 +288,7 @@
 				824A925E15324356002033A7 /* Credits.rtf in Resources */,
 				824A926415324357002033A7 /* MainMenu.xib in Resources */,
 				82B784A31535835A0097863D /* stackoverflow.png in Resources */,
+				82A68A7D1539C3EE008DA2E8 /* SettingsWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -324,6 +333,7 @@
 				82A68A7415379ECC008DA2E8 /* SiteData.m in Sources */,
 				82A68A781537AE3B008DA2E8 /* QuestionMenuItem.m in Sources */,
 				82A68A7B15397058008DA2E8 /* Utils.m in Sources */,
+				82A68A801539C9E5008DA2E8 /* SettingsWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -17,13 +17,22 @@
  * along with SONotifier. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import <Foundation/Foundation.h>
-#import "Globals.h"
+#import <Cocoa/Cocoa.h>
 
-@interface PersistantData : NSObject
+@protocol SettingsWindowDelegate <NSObject>
 
-+ (BOOL)saveItemToPreferences:(id)item withKey:(NSString *)key;
-+ (id)retrieveFromUserDefaults:(NSString *)key;
-+ (void)cleanAll;
+- (void) dataUpdated;
 
+@end
+@interface SettingsWindowController : NSWindowController <NSWindowDelegate>{
+
+    IBOutlet NSTextField *favoriteTags;
+    IBOutlet NSTextField *userId;
+    IBOutlet NSTextField *updateIntervals;
+    IBOutlet NSWindow *window;
+}
+
+@property (nonatomic, retain) NSObject<SettingsWindowDelegate> * delegate;
+
+- (BOOL)windowShouldClose:(id)sender;
 @end

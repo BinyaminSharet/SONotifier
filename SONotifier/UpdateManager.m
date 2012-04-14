@@ -81,8 +81,12 @@
     apiRequest = [NSString stringWithFormat:@"/users/%@?site=stackoverflow", userId];
     responseStr = [self getDataForApiRequest:apiRequest];
     if (responseStr != nil){
-        [userData updateInfoFromJsonString:responseStr];
-        [PersistantData saveItemToPreferences:responseStr withKey:DATA_KEY_USER_INFO];
+        if ([userData updateInfoFromJsonString:responseStr]) {
+            [PersistantData saveItemToPreferences:responseStr withKey:DATA_KEY_USER_INFO];
+        }
+        else {
+            problem = YES;
+        }
     } else {
         problem = YES;
     }

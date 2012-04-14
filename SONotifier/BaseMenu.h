@@ -20,11 +20,19 @@
 #import <Foundation/Foundation.h>
 #import "UpdateManager.h"
 
+@protocol BaseMenuDelegate <NSObject> 
+
+- (void) showSettings;
+
+@end
+
 @interface BaseMenu : NSObject<UpdateDelegate, NSMenuDelegate> {
     NSStatusItem * statusItem;
     NSNumber * lastViewedRep;
     NSNumber * lastSetRep;
 }
+
+@property (nonatomic, retain) NSObject<BaseMenuDelegate> * delegate;
 
 - (void) buildUi;
 - (void) updateCompletedWithUpdater:(id)updater;

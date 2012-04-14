@@ -44,4 +44,10 @@
 	return val;
 }
 
++ (void)cleanAll 
+{
+    NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
+    [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
+}
+
 @end
