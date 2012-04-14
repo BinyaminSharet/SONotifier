@@ -1,0 +1,26 @@
+SONotifier
+----------
+
+This project is a Mac OSX status bar application for displaying information regarding your (or other person) account in StackOverflow.
+
+The application currently shows:
+- Reputation (day/week/month/quarter/year/overall)
+- Badge count.
+- Latest reputation changes.
+- Recent questions in the site.
+
+Soon to be added:
+- Settings:
+  - Switching user
+  - Changing update intervals
+  - Favorite tags for new questions
+- Hot questions
+- Latest comments
+- Login (??)
+
+Requirements:
+- Mac OSX 10.7.
+
+The application is based on StackExchange API 2.0, (docs may be found at http://api.stackexchange.com/).
+
+This is my very first Mac OSX application, so any comments regarding features you'd like to see or code improvements are very welcome.
