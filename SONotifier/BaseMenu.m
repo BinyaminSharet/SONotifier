@@ -25,15 +25,18 @@
 
 @implementation BaseMenu
 
+#define CONNECTION_OFFLINE      @"Connection Problem"
+#define CONNECTION_CONNECTING   @"Connecting..."
+#define CONNECTION_CONNECTED    @"Connected"
 enum {
     SM_INDEX_NAME,
     SM_INDEX_REPUTATION,
+    SM_INDEX_BADGES,
     SM_INDEX_SEPARATOR_1,
-    SM_INDEX_EXTENDED_INFO,
     SM_INDEX_REPUTATION_CHANGES,
     SM_INDEX_NEW_QUESTIONS,
     SM_INDEX_SEPARATOR_2,
-    SM_INDEX_ONLINE_STATUS,
+    SM_INDEX_CONNECTION_STATUS,
     SM_INDEX_SETTINGS,
     SM_INDEX_QUIT,
 };
@@ -71,13 +74,12 @@ enum {
     [menu setSubmenu:[[[NSMenu alloc] initWithTitle:@""] autorelease] forItem:currentItem];    
     [currentItem release];
     
-    [menu addItem:[NSMenuItem separatorItem]];
-    
     currentItem = [[NSMenuItem alloc] initWithTitle:@"Extended Info" action:nil keyEquivalent:@""];
     [menu addItem:currentItem];
-    [menu setSubmenu:[[[NSMenu alloc] initWithTitle:@""] autorelease] forItem:currentItem];
     [currentItem release];
-    
+
+    [menu addItem:[NSMenuItem separatorItem]];
+        
     currentItem = [[NSMenuItem alloc] initWithTitle:@"Rep Changes" action:nil keyEquivalent:@""];
     [menu addItem:currentItem];
     [menu setSubmenu:[[[NSMenu alloc] initWithTitle:@""] autorelease] forItem:currentItem];
@@ -90,7 +92,7 @@ enum {
     
     [menu addItem:[NSMenuItem separatorItem]];
     
-    currentItem = [[NSMenuItem alloc] initWithTitle:@"Offline" action:nil keyEquivalent:@""];
+    currentItem = [[NSMenuItem alloc] initWithTitle:CONNECTION_OFFLINE action:nil keyEquivalent:@""];
     [currentItem setEnabled: NO];
     [menu addItem:currentItem];
     [currentItem release];
@@ -114,10 +116,10 @@ enum {
     UPDATE_PROBLEMS problem = (UPDATE_PROBLEMS)[number intValue];
     switch(problem) {
         case UPDATE_PROBLEM_CONNECTION:
-            [[[statusItem menu] itemAtIndex:SM_INDEX_ONLINE_STATUS] setTitle:@"Offline"];
+            [[[statusItem menu] itemAtIndex:SM_INDEX_CONNECTION_STATUS] setTitle:CONNECTION_OFFLINE];
             break;
         case UPDATE_PROBLEM_NOT_ONLINE_YET:
-            [[[statusItem menu] itemAtIndex:SM_INDEX_ONLINE_STATUS] setTitle:@"Connecting"];
+            [[[statusItem menu] itemAtIndex:SM_INDEX_CONNECTION_STATUS] setTitle:CONNECTION_CONNECTING];
             break;
     }
 }
@@ -144,35 +146,38 @@ enum {
     [extendedInfoMenu addItem:[[[NSMenuItem alloc] initWithTitle:currentTitle action:nil keyEquivalent:@""] autorelease]];
 }
 
-- (NSMenuItem *) makeBadgeItemWithRgbColor:(unsigned long)color forValue:(NSNumber *)value {
-    NSMenuItem * item = [[[NSMenuItem alloc] init] autorelease];
+- (NSMutableAttributedString *) makeBadgeWithRgbColor:(unsigned long)rgb forValue:(NSNumber *)value {
     NSMutableAttributedString * nas;
     NSString * title;
-    float red, green, blue;
-    red = ((color >> 16) & 0xFF) / 255.0;
-    green = ((color >> 8) & 0xFF) / 255.0;
-    blue = ((color) & 0xFF) / 255.0;
-    title = [NSString stringWithUTF8String:TEXT_SHAOE_CSTRING_UTF8_CIRCLE_MED];
-    title = [NSString stringWithFormat:@"%@   %@", title, [value stringValue]];
+    NSColor * color = [NSColor colorWithDeviceRed:((rgb >> 16) & 0xFF) / 255.0 
+                                            green:((rgb >> 8) & 0xFF) / 255.0
+                                             blue:(rgb & 0xFF) / 255.0
+                                            alpha:1.0];
+    title = [NSString stringWithUTF8String:TEXT_SHAPE_CSTRING_UTF8_CIRCLE_MED];
+    title = [NSString stringWithFormat:@"%@ %@   ", title, [value stringValue]];
     nas = [[NSMutableAttributedString alloc] initWithString:title];
     [nas setAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                        [NSColor colorWithDeviceRed:red green:green blue:blue alpha:1.0], NSForegroundColorAttributeName,
+                        [NSFont fontWithName:@"Helvetica" size:14], NSFontAttributeName, 
+                        color, NSForegroundColorAttributeName,
                         nil]
                  range:NSMakeRange(0, 1)];
-    [item setAttributedTitle:nas];
-    [nas release];
-    return item;
+    [nas setAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                        [NSFont fontWithName:@"Helvetica" size:15], NSFontAttributeName, 
+                        [NSColor blackColor], NSForegroundColorAttributeName,
+                        nil]
+                 range:NSMakeRange(1, [nas length]-1)];
+
+    return [nas autorelease];
 }
 
 - (void) updateExtendedInfoWithData:(UserData *) data {
-    NSMenu * extendedInfoMenu = [[[statusItem menu] itemAtIndex:SM_INDEX_EXTENDED_INFO] submenu];
-    
-    [extendedInfoMenu setAutoenablesItems:NO];
-    [extendedInfoMenu removeAllItems];
-    
-    [extendedInfoMenu addItem:[self makeBadgeItemWithRgbColor:0xFFFF00 forValue:[data badgesGold]]];
-    [extendedInfoMenu addItem:[self makeBadgeItemWithRgbColor:0xC0C0C0 forValue:[data badgesSilver]]];
-    [extendedInfoMenu addItem:[self makeBadgeItemWithRgbColor:0xFFD700 forValue:[data badgesBronze]]];
+    NSMenuItem * item = [[statusItem menu] itemAtIndex:SM_INDEX_BADGES];
+    NSMutableAttributedString * result = [[[NSMutableAttributedString alloc] init] autorelease];
+
+    [result appendAttributedString:[self makeBadgeWithRgbColor:0xFFFF00 forValue:[data badgesGold]]];
+    [result appendAttributedString:[self makeBadgeWithRgbColor:0xC0C0C0 forValue:[data badgesSilver]]];
+    [result appendAttributedString:[self makeBadgeWithRgbColor:0xFFD700 forValue:[data badgesBronze]]];
+    [item setAttributedTitle:result];    
 }
 
 - (void) updateReputationChangesWithData:(UserData *) data {
@@ -197,7 +202,7 @@ enum {
         [menuItem setTitle:[NSString stringWithFormat:@"Rep: %@", [data reputation]]];
     }
     else {
-        [menuItem setTitle:[NSString stringWithFormat:@"Rep: %@(%@)", [data reputation], offset]];
+        [menuItem setTitle:[NSString stringWithFormat:@"Rep: %@ (%@)", [data reputation], offset]];
     }
 
     [self updateExtendedReputationInfoWithData:data];
@@ -216,7 +221,7 @@ enum {
     [nameItem setTarget:nameItem];
     [nameItem setTitle:currentTitle];
     [self updateReputationInfoWithData:data];
-    [[menu itemAtIndex:SM_INDEX_ONLINE_STATUS] setTitle:@"Online"];
+    [[menu itemAtIndex:SM_INDEX_CONNECTION_STATUS] setTitle:CONNECTION_CONNECTED];
     [self updateExtendedInfoWithData:data];    
     [self updateReputationChangesWithData:data];
 }
@@ -264,9 +269,9 @@ enum {
             break;
         case SM_INDEX_REPUTATION_CHANGES:
         case SM_INDEX_NAME:
-        case SM_INDEX_EXTENDED_INFO:
+        case SM_INDEX_BADGES:
         case SM_INDEX_NEW_QUESTIONS:
-        case SM_INDEX_ONLINE_STATUS:
+        case SM_INDEX_CONNECTION_STATUS:
         case SM_INDEX_SETTINGS:
         case SM_INDEX_QUIT:
         default:

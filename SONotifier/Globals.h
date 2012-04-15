@@ -20,15 +20,21 @@
 #ifndef SONotifier_Globals_h
 #define SONotifier_Globals_h
 
+// *****  NSUserDefaults keys  ***** //
 #define DATA_KEY_UPDATE_INTERVAL    @"com_bsharet_sonotifier_update_interval"
 #define DATA_KEY_USER_ID            @"com_bsharet_sonotifier_user_id"
 #define DATA_KEY_USER_INFO          @"com_bsharet_sonotifier_user_info"
 #define DATA_KEY_REPUTATION_CHANGE  @"com_bsharet_sonotifier_reputation_change"
 #define DATA_KEY_CONFIGURED         @"com_bsharet_sonotifier_configured"
 
+// *****  StackExchange API 2.0  ***** 
+//  Base URL
 #define API_20_BASE_URL             @"http://api.stackexchange.com/2.0"
+//  Keys for parsing server JSON response 
+//    Reputation changes response
 #define API_KEY_REPUTATION_CHANGE   @"reputation_change"
 #define API_KEY_REPUTATION_TITLE    @"title"
+//    User info response
 #define API_KEY_USER_ID             @"user_id"
 #define API_KEY_USER_TYPE           @"user_type"
 #define API_KEY_USER_CREATION_DATE  @"creation_date"
@@ -43,7 +49,7 @@
 #define API_KEY_USER_REP_MONTH      @"reputation_change_month"
 #define API_KEY_USER_REP_QUARTER    @"reputation_change_quarter"
 #define API_KEY_USER_REP_YEAR       @"reputation_change_year"
-
+//    Recent questions response
 #define API_KEY_QUESTION_ID             @"question_id"
 #define API_KEY_QUESTION_SCORE          @"score"
 #define API_KEY_QUESTION_ANSWER_COUNT   @"answer_count"
@@ -52,10 +58,12 @@
 #define API_KEY_QUESTION_LINK           @"link"
 #define API_KEY_QUESTION_ANSWERED       @"is_answered"
 
+// *****  Strings  ***** //
 #define TEXT_SHAPE_CSTRING_UTF8_CIRCLE_SML  "\u25CF"
-#define TEXT_SHAOE_CSTRING_UTF8_CIRCLE_MED  "\u26AB"
+#define TEXT_SHAPE_CSTRING_UTF8_CIRCLE_MED  "\u26AB"
 
+// *****  Connection properties  ***** //
 #define DEFAULT_UPDATE_INTERVAL     (60. * 10)
 
 
-#endif
+#endif  //SONotifier_Globals_h
