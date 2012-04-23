@@ -25,11 +25,12 @@
 
 @end
 @interface SettingsWindowController : NSWindowController <NSWindowDelegate>{
-
+    IBOutlet NSButton *launchAtStartUp;
     IBOutlet NSTextField *favoriteTags;
     IBOutlet NSTextField *userId;
     IBOutlet NSTextField *updateIntervals;
     IBOutlet NSWindow *window;
+    NSInteger storedLaunchState;
 }
 
 @property (nonatomic, retain) NSObject<SettingsWindowDelegate> * delegate;

@@ -25,9 +25,11 @@
 
 @implementation BaseMenu
 
-#define CONNECTION_OFFLINE      @"Connection Problem"
-#define CONNECTION_CONNECTING   @"Connecting..."
-#define CONNECTION_CONNECTED    @"Connected"
+enum CONNECTION_STATUS {
+    CONNECTION_STATUS_OFFLINE,
+    CONNECTION_STATUS_ONLINE
+};
+
 enum {
     SM_INDEX_NAME,
     SM_INDEX_REPUTATION,
@@ -52,6 +54,7 @@ enum {
 
 - (void) initStatusItem {
     [self setStatusIconWithImagePath:RESOURCE_NAME_ICON_OFFLINE];
+    connect_status = CONNECTION_STATUS_OFFLINE;
     [statusItem setHighlightMode:YES];
     [statusItem setEnabled:YES];
     [statusItem setTarget:self];
@@ -67,49 +70,41 @@ enum {
     [menu setAutoenablesItems:NO];
     [menu setDelegate:self];
     
-    LinkMenuItem * nameItem = [[LinkMenuItem alloc] init];
+    LinkMenuItem * nameItem = [[[LinkMenuItem alloc] init] autorelease];
     [menu addItem:nameItem];// name
-    [nameItem release];
     
-    currentItem = [[NSMenuItem alloc] init];
+    currentItem = [[[NSMenuItem alloc] init] autorelease];
     [menu addItem:currentItem];// reputation
     [menu setSubmenu:[[[NSMenu alloc] initWithTitle:@""] autorelease] forItem:currentItem];    
-    [currentItem release];
     
-    currentItem = [[NSMenuItem alloc] initWithTitle:@"Extended Info" action:nil keyEquivalent:@""];
+    currentItem = [[[NSMenuItem alloc] initWithTitle:@"Extended Info" action:nil keyEquivalent:@""] autorelease];
     [menu addItem:currentItem];
-    [currentItem release];
 
     [menu addItem:[NSMenuItem separatorItem]];
         
-    currentItem = [[NSMenuItem alloc] initWithTitle:@"Rep Changes" action:nil keyEquivalent:@""];
+    currentItem = [[[NSMenuItem alloc] initWithTitle:@"Rep Changes" action:nil keyEquivalent:@""] autorelease];
     [menu addItem:currentItem];
     [menu setSubmenu:[[[NSMenu alloc] initWithTitle:@""] autorelease] forItem:currentItem];
-    [currentItem release];
     
-    currentItem = [[NSMenuItem alloc] initWithTitle:@"New Questions" action:nil keyEquivalent:@""];
+    currentItem = [[[NSMenuItem alloc] initWithTitle:@"New Questions" action:nil keyEquivalent:@""] autorelease];
     [menu addItem:currentItem];
     [menu setSubmenu:[[[NSMenu alloc] initWithTitle:@""] autorelease] forItem:currentItem];
-    [currentItem release];
     
     [menu addItem:[NSMenuItem separatorItem]];
     
-    currentItem = [[NSMenuItem alloc] initWithTitle:CONNECTION_OFFLINE action:nil keyEquivalent:@""];
+    currentItem = [[[NSMenuItem alloc] initWithTitle:CONNECTION_OFFLINE action:nil keyEquivalent:@""] autorelease];
     [currentItem setEnabled: NO];
     [menu addItem:currentItem];
-    [currentItem release];
     
-    currentItem = [[NSMenuItem alloc] initWithTitle:@"Settings" action:@selector(showSettings) keyEquivalent:@""];
+    currentItem = [[[NSMenuItem alloc] initWithTitle:@"Settings" action:@selector(showSettings) keyEquivalent:@""] autorelease];
     [currentItem setTarget:delegate];
     [currentItem setEnabled:YES];
     [menu addItem:currentItem];
-    [currentItem release];
     
-    currentItem = [[NSMenuItem alloc] initWithTitle:@"Quit" action:@selector(quitApp) keyEquivalent:@""];
+    currentItem = [[[NSMenuItem alloc] initWithTitle:@"Quit" action:@selector(quitApp) keyEquivalent:@""] autorelease];
     [currentItem setTarget:self];
     [currentItem setEnabled:YES];
     [menu addItem:currentItem];
-    [currentItem release];
     
     [statusItem setMenu:menu];
 }
@@ -125,6 +120,7 @@ enum {
             break;
     }
     [self setStatusIconWithImagePath:RESOURCE_NAME_ICON_OFFLINE];
+    connect_status = CONNECTION_STATUS_OFFLINE;
 }
 
 - (void) updateFailedForProblem:(UPDATE_PROBLEMS)problem {
@@ -201,11 +197,11 @@ enum {
     NSNumber * offset;
     lastSetRep = [data reputation];
     offset = [NSNumber numberWithInt:[lastSetRep intValue] - [lastViewedRep intValue]];
-    if ([offset intValue] == 0) {
+    if (([offset intValue] <= 0) || ([lastViewedRep intValue] == 0)) {
         [menuItem setTitle:[NSString stringWithFormat:@"Rep: %@", [data reputation]]];
     }
     else {
-        
+        [self setStatusIconWithImagePath:RESOURCE_NAME_ICON_UPDATE];
         [menuItem setTitle:[NSString stringWithFormat:@"Rep: %@ (%@)", [data reputation], offset]];
     }
 
@@ -231,8 +227,6 @@ enum {
 }
 
 - (void) updateUiWithSiteData:(SiteData *) data {
-    [self setStatusIconWithImagePath:RESOURCE_NAME_ICON_ONLINE];
-    
     NSMenu * menu = [[[statusItem menu] itemAtIndex:SM_INDEX_NEW_QUESTIONS] submenu];
     [menu removeAllItems];
     NSArray * newestQuestionsArray = [data newestQuestions];
@@ -245,11 +239,19 @@ enum {
     }
 }
 
+- (void) setStatusItemOnline {
+    [self setStatusIconWithImagePath:RESOURCE_NAME_ICON_ONLINE];
+    connect_status = CONNECTION_STATUS_ONLINE;
+}
+
+- (void) performUpdateComletedOnUi:(UpdateManager*)updater {
+    [self setStatusItemOnline];
+    [self updateUiWithUserData:[updater userData]];
+    [self updateUiWithSiteData:[updater siteData]];
+}
+
 - (void) updateCompletedWithUpdater:(id)updater {
-    [self performSelectorOnMainThread:@selector(updateUiWithUserData:) 
-                           withObject:[(UpdateManager*)updater userData] waitUntilDone:NO];
-    [self performSelectorOnMainThread:@selector(updateUiWithSiteData:) 
-                           withObject:[(UpdateManager*)updater siteData] waitUntilDone:NO];
+    [self performSelectorOnMainThread:@selector(performUpdateComletedOnUi:) withObject:updater waitUntilDone:NO];
 }
 
 - (void) buildUi {
@@ -280,6 +282,16 @@ enum {
         case SM_INDEX_CONNECTION_STATUS:
         case SM_INDEX_SETTINGS:
         case SM_INDEX_QUIT:
+        default:
+            break;
+    }
+    switch (connect_status) {
+        case CONNECTION_STATUS_ONLINE:
+            [self setStatusIconWithImagePath:RESOURCE_NAME_ICON_ONLINE];
+            break;
+        case CONNECTION_STATUS_OFFLINE:
+            [self setStatusIconWithImagePath:RESOURCE_NAME_ICON_OFFLINE];
+            break;    
         default:
             break;
     }

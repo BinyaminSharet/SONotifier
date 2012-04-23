@@ -23,6 +23,7 @@
 // ***** Source names ***** //
 #define RESOURCE_NAME_ICON_ONLINE   @"icon_online"
 #define RESOURCE_NAME_ICON_OFFLINE  @"icon_offline"
+#define RESOURCE_NAME_ICON_UPDATE   @"icon_update"
 
 // *****  NSUserDefaults keys  ***** //
 #define DATA_KEY_UPDATE_INTERVAL    @"com_bsharet_sonotifier_update_interval"
@@ -30,6 +31,7 @@
 #define DATA_KEY_USER_INFO          @"com_bsharet_sonotifier_user_info"
 #define DATA_KEY_REPUTATION_CHANGE  @"com_bsharet_sonotifier_reputation_change"
 #define DATA_KEY_CONFIGURED         @"com_bsharet_sonotifier_configured"
+#define DATA_KEY_LAUNCH_AT_STARTUP  @"com_bsharet_sonotifier_launch_at_startup"
 
 // *****  StackExchange API 2.0  ***** 
 //  Base URL
@@ -68,6 +70,11 @@
 
 // *****  Connection properties  ***** //
 #define DEFAULT_UPDATE_INTERVAL     (60. * 10)
+
+// *****  Connection status strings  ***** //
+#define CONNECTION_OFFLINE      @"Connection Problem"
+#define CONNECTION_CONNECTING   @"Connecting..."
+#define CONNECTION_CONNECTED    @"Connected"
 
 
 #endif  //SONotifier_Globals_h

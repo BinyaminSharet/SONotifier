@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		823BAB491545BD0500C98751 /* icon_offline.png in Resources */ = {isa = PBXBuildFile; fileRef = 823BAB481545BD0500C98751 /* icon_offline.png */; };
+		823BAB4C1545C7AF00C98751 /* icon_update.png in Resources */ = {isa = PBXBuildFile; fileRef = 823BAB4B1545C7AF00C98751 /* icon_update.png */; };
 		824A924E15324356002033A7 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A924D15324356002033A7 /* Cocoa.framework */; };
 		824A925815324356002033A7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 824A925615324356002033A7 /* InfoPlist.strings */; };
 		824A925A15324356002033A7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 824A925915324356002033A7 /* main.m */; };
@@ -43,6 +44,7 @@
 
 /* Begin PBXFileReference section */
 		823BAB481545BD0500C98751 /* icon_offline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_offline.png; sourceTree = "<group>"; };
+		823BAB4B1545C7AF00C98751 /* icon_update.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_update.png; sourceTree = "<group>"; };
 		824A924915324356002033A7 /* SONotifier.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SONotifier.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		824A924D15324356002033A7 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		824A925015324356002033A7 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -211,6 +213,7 @@
 		82B7849D153581ED0097863D /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				823BAB4B1545C7AF00C98751 /* icon_update.png */,
 				823BAB481545BD0500C98751 /* icon_offline.png */,
 				82B784A21535835A0097863D /* icon_online.png */,
 			);
@@ -293,6 +296,7 @@
 				82B784A31535835A0097863D /* icon_online.png in Resources */,
 				82A68A7D1539C3EE008DA2E8 /* SettingsWindow.xib in Resources */,
 				823BAB491545BD0500C98751 /* icon_offline.png in Resources */,
+				823BAB4C1545C7AF00C98751 /* icon_update.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -30,6 +30,7 @@
     NSStatusItem * statusItem;
     NSNumber * lastViewedRep;
     NSNumber * lastSetRep;
+    NSInteger connect_status;
 }
 
 @property (nonatomic, retain) NSObject<BaseMenuDelegate> * delegate;

@@ -19,6 +19,7 @@
 
 #import "SettingsWindowController.h"
 #import "PersistantData.h"
+#import "Utils.h"
 
 @implementation SettingsWindowController
 
@@ -27,8 +28,9 @@
 - (id)init
 {
     self = [super initWithWindowNibName:@"SettingsWindow"];
-    if (self) {
-
+    if (self) 
+    {
+        
     }
     
     return self;
@@ -38,7 +40,9 @@
 {
     [super windowDidLoad];
     NSLog(@"[self window]: %@", [self window]);
-    [[self window] setDelegate:self];    
+    [[self window] setDelegate:self];
+    storedLaunchState = ([@"YES" compare:[PersistantData retrieveFromUserDefaults:DATA_KEY_LAUNCH_AT_STARTUP]] == NSOrderedSame) ? NSOnState : NSOffState;
+    [launchAtStartUp setState:storedLaunchState];
     // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
 }
 
@@ -49,39 +53,64 @@
     [[self window] setLevel:NSFloatingWindowLevel];
 }
 
-- (IBAction)saveAndClose:(id)sender {
+- (IBAction)saveAndClose:(id)sender 
+{
     NSLog(@"[self window]: %@", [self window]);
     [[self window] performClose:self];
     [[self window] close];
 }
 
-- (BOOL) updateFromFields {
+- (BOOL) updateFromFields 
+{
     NSString * str;
     str = [updateIntervals stringValue];
-    if (str) {
+    if (str) 
+    {
         int intVal = [str intValue];
-        if (intVal > 0) {
+        if (intVal > 0) 
+        {
             NSLog(@"Setting update interval to: %d minutes, the string is: %@", intVal, str);
             [PersistantData saveItemToPreferences:[NSNumber numberWithDouble:intVal * 60.] withKey:DATA_KEY_UPDATE_INTERVAL];
         }
     }
     str = [userId stringValue];
-    if (str) {
+    if (str) 
+    {
         int intVal = [str intValue];
-        if (intVal > 0) {
+        if (intVal > 0) 
+        {
             NSNumber * num = [NSNumber numberWithInt:intVal];
             NSLog(@"Setting user id to: %d , the string is: %@", intVal, str);
             [PersistantData saveItemToPreferences:num withKey:DATA_KEY_USER_ID];
         }
     }
+    NSInteger choice = [launchAtStartUp state];
+    if (choice != storedLaunchState) 
+    {
+        NSString * value;
+        if (choice == NSOnState) 
+        {
+            [Utils addAppAsLoginItem];
+            value = @"YES";
+        }
+        else
+        {
+            [Utils deleteAppFromLoginItem];
+            value = @"NO";
+        }
+        [PersistantData saveItemToPreferences:value withKey:DATA_KEY_LAUNCH_AT_STARTUP];
+        storedLaunchState = choice;
+    }
     return YES;
 }
 
-- (BOOL)windowShouldClose:(id)sender {
+- (BOOL)windowShouldClose:(id)sender 
+{
     NSLog(@"Should close called");
     BOOL allGood;
     allGood = [self updateFromFields];
-    if (allGood) {
+    if (allGood) 
+    {
         [delegate dataUpdated];
     }
     return YES;
