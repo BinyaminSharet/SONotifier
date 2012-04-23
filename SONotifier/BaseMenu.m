@@ -44,12 +44,14 @@ enum {
 
 @synthesize delegate;
 
+- (void) setStatusIconWithImagePath:(NSString *) image_name {
+    NSString* imageName = [[NSBundle mainBundle] pathForResource:image_name ofType:@"png"];
+    NSImage* imageObj = [[[NSImage alloc] initWithContentsOfFile:imageName] autorelease];
+    [statusItem setImage:imageObj];
+}
 
 - (void) initStatusItem {
-    NSString* imageName = [[NSBundle mainBundle] pathForResource:@"stackoverflow" ofType:@"png"];
-    NSImage* imageObj = [[NSImage alloc] initWithContentsOfFile:imageName];
-    [statusItem setImage:imageObj];
-    [imageObj release];
+    [self setStatusIconWithImagePath:RESOURCE_NAME_ICON_OFFLINE];
     [statusItem setHighlightMode:YES];
     [statusItem setEnabled:YES];
     [statusItem setTarget:self];
@@ -122,6 +124,7 @@ enum {
             [[[statusItem menu] itemAtIndex:SM_INDEX_CONNECTION_STATUS] setTitle:CONNECTION_CONNECTING];
             break;
     }
+    [self setStatusIconWithImagePath:RESOURCE_NAME_ICON_OFFLINE];
 }
 
 - (void) updateFailedForProblem:(UPDATE_PROBLEMS)problem {
@@ -202,6 +205,7 @@ enum {
         [menuItem setTitle:[NSString stringWithFormat:@"Rep: %@", [data reputation]]];
     }
     else {
+        
         [menuItem setTitle:[NSString stringWithFormat:@"Rep: %@ (%@)", [data reputation], offset]];
     }
 
@@ -227,6 +231,8 @@ enum {
 }
 
 - (void) updateUiWithSiteData:(SiteData *) data {
+    [self setStatusIconWithImagePath:RESOURCE_NAME_ICON_ONLINE];
+    
     NSMenu * menu = [[[statusItem menu] itemAtIndex:SM_INDEX_NEW_QUESTIONS] submenu];
     [menu removeAllItems];
     NSArray * newestQuestionsArray = [data newestQuestions];

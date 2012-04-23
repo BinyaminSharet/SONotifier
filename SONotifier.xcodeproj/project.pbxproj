@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		823BAB491545BD0500C98751 /* icon_offline.png in Resources */ = {isa = PBXBuildFile; fileRef = 823BAB481545BD0500C98751 /* icon_offline.png */; };
 		824A924E15324356002033A7 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A924D15324356002033A7 /* Cocoa.framework */; };
 		824A925815324356002033A7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 824A925615324356002033A7 /* InfoPlist.strings */; };
 		824A925A15324356002033A7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 824A925915324356002033A7 /* main.m */; };
@@ -27,7 +28,7 @@
 		82A68A7D1539C3EE008DA2E8 /* SettingsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82A68A7C1539C3EA008DA2E8 /* SettingsWindow.xib */; };
 		82A68A801539C9E5008DA2E8 /* SettingsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A68A7F1539C9E5008DA2E8 /* SettingsWindowController.m */; };
 		82B7849A15355BFF0097863D /* PersistantData.m in Sources */ = {isa = PBXBuildFile; fileRef = 82B7849915355BFF0097863D /* PersistantData.m */; };
-		82B784A31535835A0097863D /* stackoverflow.png in Resources */ = {isa = PBXBuildFile; fileRef = 82B784A21535835A0097863D /* stackoverflow.png */; };
+		82B784A31535835A0097863D /* icon_online.png in Resources */ = {isa = PBXBuildFile; fileRef = 82B784A21535835A0097863D /* icon_online.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +42,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		823BAB481545BD0500C98751 /* icon_offline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_offline.png; sourceTree = "<group>"; };
 		824A924915324356002033A7 /* SONotifier.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SONotifier.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		824A924D15324356002033A7 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		824A925015324356002033A7 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -80,7 +82,7 @@
 		82B7849815355BFF0097863D /* PersistantData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersistantData.h; sourceTree = "<group>"; };
 		82B7849915355BFF0097863D /* PersistantData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersistantData.m; sourceTree = "<group>"; };
 		82B7849C1535610C0097863D /* Globals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Globals.h; sourceTree = "<group>"; };
-		82B784A21535835A0097863D /* stackoverflow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stackoverflow.png; sourceTree = "<group>"; };
+		82B784A21535835A0097863D /* icon_online.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_online.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -209,7 +211,8 @@
 		82B7849D153581ED0097863D /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				82B784A21535835A0097863D /* stackoverflow.png */,
+				823BAB481545BD0500C98751 /* icon_offline.png */,
+				82B784A21535835A0097863D /* icon_online.png */,
 			);
 			name = Shared;
 			sourceTree = "<group>";
@@ -287,8 +290,9 @@
 				824A925815324356002033A7 /* InfoPlist.strings in Resources */,
 				824A925E15324356002033A7 /* Credits.rtf in Resources */,
 				824A926415324357002033A7 /* MainMenu.xib in Resources */,
-				82B784A31535835A0097863D /* stackoverflow.png in Resources */,
+				82B784A31535835A0097863D /* icon_online.png in Resources */,
 				82A68A7D1539C3EE008DA2E8 /* SettingsWindow.xib in Resources */,
+				823BAB491545BD0500C98751 /* icon_offline.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

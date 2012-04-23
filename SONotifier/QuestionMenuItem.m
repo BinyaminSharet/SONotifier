@@ -25,8 +25,7 @@
 @synthesize url;
 
 - (NSString *) createTitleFromDictionary:(NSDictionary *) dict {
-    return [Utils decorateStringWithThreeDots:[dict objectForKey:API_KEY_QUESTION_TITLE]
-                             limitedForLength:60];
+    return [Utils string:[dict objectForKey:API_KEY_QUESTION_TITLE] limitedToLength:60];
 }
 
 - (id) initFromDictionary:(NSDictionary *) dict {

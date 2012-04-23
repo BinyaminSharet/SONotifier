@@ -20,6 +20,10 @@
 #ifndef SONotifier_Globals_h
 #define SONotifier_Globals_h
 
+// ***** Source names ***** //
+#define RESOURCE_NAME_ICON_ONLINE   @"icon_online"
+#define RESOURCE_NAME_ICON_OFFLINE  @"icon_offline"
+
 // *****  NSUserDefaults keys  ***** //
 #define DATA_KEY_UPDATE_INTERVAL    @"com_bsharet_sonotifier_update_interval"
 #define DATA_KEY_USER_ID            @"com_bsharet_sonotifier_user_id"

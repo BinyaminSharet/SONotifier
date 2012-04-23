@@ -33,7 +33,7 @@
     NSNumber * reputation = [dict objectForKey:API_KEY_REPUTATION_CHANGE];
     repColor = ([reputation intValue] > 0) ? [NSColor greenColor] : [NSColor redColor];
     attributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                  [NSFont fontWithName:@"Helvetica" size:14], NSFontAttributeName, 
+                  [NSFont fontWithName:@"Helvetica" size:15], NSFontAttributeName, 
                   repColor, NSForegroundColorAttributeName,
                   nil];
     current = [[[NSAttributedString alloc] 
@@ -41,10 +41,9 @@
                 attributes:attributes] autorelease];
     [finalStr appendAttributedString:current];
     attributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                  [NSFont fontWithName:@"Helvetica" size:14], NSFontAttributeName, 
+                  [NSFont fontWithName:@"Helvetica" size:15], NSFontAttributeName, 
                   nil];
-    title = [Utils decorateStringWithThreeDots:[dict objectForKey:API_KEY_REPUTATION_TITLE] 
-                              limitedForLength:50];
+    title = [Utils string:[dict objectForKey:API_KEY_REPUTATION_TITLE] limitedToLength:50];
     current = [[[NSAttributedString alloc]
                 initWithString:title attributes:attributes] autorelease];
     [finalStr appendAttributedString:current];
