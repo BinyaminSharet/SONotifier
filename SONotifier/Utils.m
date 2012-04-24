@@ -24,45 +24,54 @@
 
 @implementation Utils
 
-+ (NSString *) string:(NSString*)string limitedToLength:(NSInteger)maxLength {
-    if ([string length] > maxLength) {
++ (NSString *) string:(NSString*)string limitedToLength:(NSInteger)maxLength 
+{
+    if ([string length] > maxLength) 
+    {
         string = [NSString stringWithFormat:@"%@...", [string substringToIndex:maxLength - 3]];
     }
     return string;
 }
 
-+ (void) addAppAsLoginItem {
++ (void) addAppAsLoginItem 
+{
 	NSString * appPath = [[NSBundle mainBundle] bundlePath];
     CFURLRef url = (CFURLRef)[NSURL fileURLWithPath:appPath]; 
     LSSharedFileListRef loginItems = LSSharedFileListCreate(NULL,
                                                             kLSSharedFileListSessionLoginItems, NULL);
-	if (loginItems) {
+	if (loginItems) 
+    {
 		LSSharedFileListItemRef item = LSSharedFileListInsertItemURL(loginItems,
                                                                      kLSSharedFileListItemLast, NULL, NULL,
                                                                      url, NULL, NULL);
-		if (item){
+		if (item)
+        {
 			CFRelease(item);
         }
+        CFRelease(loginItems);
 	}	
-    
-	CFRelease(loginItems);
 }
 
-+ (void) deleteAppFromLoginItem {
++ (void) deleteAppFromLoginItem 
+{
 	NSString * appPath = [[NSBundle mainBundle] bundlePath];
     CFURLRef url = (CFURLRef)[NSURL fileURLWithPath:appPath]; 
 	LSSharedFileListRef loginItems = LSSharedFileListCreate(NULL,
                                                             kLSSharedFileListSessionLoginItems, NULL);
-	if (loginItems) {
+	if (loginItems) 
+    {
 		UInt32 seedValue;
 		NSArray  *loginItemsArray = (NSArray *)LSSharedFileListCopySnapshot(loginItems, &seedValue);
 		int i;
-		for(i = 0 ; i< [loginItemsArray count]; i++){
+		for(i = 0 ; i< [loginItemsArray count]; i++)
+        {
 			LSSharedFileListItemRef itemRef = (LSSharedFileListItemRef)[loginItemsArray
                                                                         objectAtIndex:i];
-			if (LSSharedFileListItemResolve(itemRef, 0, (CFURLRef*) &url, NULL) == noErr) {
+			if (LSSharedFileListItemResolve(itemRef, 0, (CFURLRef*) &url, NULL) == noErr) 
+            {
 				NSString * urlPath = [(NSURL*)url path];
-				if ([urlPath compare:appPath] == NSOrderedSame){
+				if ([urlPath compare:appPath] == NSOrderedSame)
+                {
 					LSSharedFileListItemRemove(loginItems,itemRef);
 				}
 			}

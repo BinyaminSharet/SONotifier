@@ -36,11 +36,13 @@
     // Insert code here to initialize your application
 }
 
-- (void) runUpdateManager {
+- (void) runUpdateManager 
+{
     updateManager = [[UpdateManager alloc] init];
     [updateManager setUpdateDelegate:menus];
     NSNumber * interval = [PersistantData retrieveFromUserDefaults:DATA_KEY_UPDATE_INTERVAL];
-    if (interval == nil) {
+    if (interval == nil) 
+    {
         interval = [NSNumber numberWithDouble:60. * 10];
         [PersistantData saveItemToPreferences:interval withKey:DATA_KEY_UPDATE_INTERVAL];
     }
@@ -50,13 +52,15 @@
     [updateManager startRunning]; 
 }
 
-- (void) setUi {
+- (void) setUi 
+{
     menus = [[BaseMenu alloc] init];
     [menus buildUi];
     [menus setDelegate:self];
 }
 
-- (NSString *)input: (NSString *)prompt defaultValue: (NSString *)defaultValue {
+- (NSString *)input: (NSString *)prompt defaultValue: (NSString *)defaultValue 
+{
     NSAlert *alert = [NSAlert alertWithMessageText: prompt
                                      defaultButton:@"OK"
                                    alternateButton:@"Cancel"
@@ -67,25 +71,32 @@
     [input setStringValue:defaultValue];
     [alert setAccessoryView:input];
     NSInteger button = [alert runModal];
-    if (button == NSAlertDefaultReturn) {
+    if (button == NSAlertDefaultReturn) 
+    {
         [input validateEditing];
         return [input stringValue];
-    } else if (button == NSAlertAlternateReturn) {
+    } 
+    else if (button == NSAlertAlternateReturn) 
+    {
         return nil;
-    } else {
+    } 
+    else 
+    {
         NSAssert1(NO, @"Invalid input dialog button %d", button);
         return nil;
     }
 }
 
-- (BOOL) getBasicConfiguration {
+- (BOOL) getBasicConfiguration 
+{
     NSString * input = [self input:@"Enter User ID" defaultValue:@""];
-    if (input != nil ) {
-        NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
+    if (input != nil ) 
+    {
+        NSNumberFormatter * f = [[[NSNumberFormatter alloc] init] autorelease];
         [f setNumberStyle:NSNumberFormatterDecimalStyle];
         NSNumber * uid = [f numberFromString:input];
-        [f release];
-        if (uid != nil) {
+        if (uid != nil) 
+        {
             [PersistantData saveItemToPreferences:uid withKey:DATA_KEY_USER_ID];
             [PersistantData saveItemToPreferences:@"YES" withKey:DATA_KEY_CONFIGURED];
             return YES;
@@ -94,29 +105,36 @@
     return NO;
 }
 
-- (void) awakeFromNib {
+- (void) awakeFromNib 
+{
     [self setUi];
-    if ([PersistantData retrieveFromUserDefaults:DATA_KEY_CONFIGURED] == nil) {
-        if ([self getBasicConfiguration]) {
+    if ([PersistantData retrieveFromUserDefaults:DATA_KEY_CONFIGURED] == nil) 
+    {
+        if ([self getBasicConfiguration]) 
+        {
             [self runUpdateManager];
         }
-        else {
+        else 
+        {
             NSLog(@"DAMN");
         }
     }
-    else {
+    else 
+    {
         [self runUpdateManager];   
     }
 }
 
-- (void) showSettings {
+- (void) showSettings 
+{
     SettingsWindowController * settings = [[[SettingsWindowController alloc] init] autorelease];
     [settings setDelegate:self];
     [settings showWindow:self];
     [self setSettingWindow:settings];
 }
 
-- (void) dataUpdated {
+- (void) dataUpdated 
+{
     [updateManager setUserId:[PersistantData retrieveFromUserDefaults:DATA_KEY_USER_ID]];
     [updateManager setUpdateInterval:[[PersistantData retrieveFromUserDefaults:DATA_KEY_UPDATE_INTERVAL] doubleValue]];
 }

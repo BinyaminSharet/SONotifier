@@ -24,13 +24,16 @@
 @implementation QuestionMenuItem
 @synthesize url;
 
-- (NSString *) createTitleFromDictionary:(NSDictionary *) dict {
+- (NSString *) createTitleFromDictionary:(NSDictionary *) dict 
+{
     return [Utils string:[dict objectForKey:API_KEY_QUESTION_TITLE] limitedToLength:60];
 }
 
-- (id) initFromDictionary:(NSDictionary *) dict {
+- (id) initFromDictionary:(NSDictionary *) dict 
+{
     self = [super init];
-    if (self) {
+    if (self) 
+    {
         NSString * title = [self createTitleFromDictionary:dict];
         [self setTitle:title];
         [self setUrl:[dict objectForKey:API_KEY_QUESTION_LINK]];

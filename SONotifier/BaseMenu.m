@@ -46,25 +46,42 @@ enum {
 
 @synthesize delegate;
 
-- (void) setStatusIconWithImagePath:(NSString *) image_name {
+- (void) setStatusIconWithImagePath:(NSString *) image_name 
+{
     NSString* imageName = [[NSBundle mainBundle] pathForResource:image_name ofType:@"png"];
     NSImage* imageObj = [[[NSImage alloc] initWithContentsOfFile:imageName] autorelease];
     [statusItem setImage:imageObj];
 }
 
-- (void) initStatusItem {
+- (void)statusBarClicked:(id)sender 
+{
+    if (connect_status == CONNECTION_STATUS_ONLINE) 
+    {
+        [self setStatusIconWithImagePath:RESOURCE_NAME_ICON_ONLINE];
+    }
+    else 
+    {
+        [self setStatusIconWithImagePath:RESOURCE_NAME_ICON_OFFLINE];
+    }
+}
+
+- (void) initStatusItem 
+{
     [self setStatusIconWithImagePath:RESOURCE_NAME_ICON_OFFLINE];
     connect_status = CONNECTION_STATUS_OFFLINE;
     [statusItem setHighlightMode:YES];
     [statusItem setEnabled:YES];
     [statusItem setTarget:self];
+    [statusItem setAction:@selector(statusBarClicked:)];
 }
 
-- (void) quitApp {
+- (void) quitApp 
+{
     [NSApp terminate:nil];
 }
 
-- (void) initMenuItems {
+- (void) initMenuItems 
+{
     NSMenuItem * currentItem = nil;
     NSMenu * menu = [[[NSMenu alloc] init] autorelease];
     [menu setAutoenablesItems:NO];
@@ -109,9 +126,11 @@ enum {
     [statusItem setMenu:menu];
 }
 
-- (void) updateUiForFailingWithProblem:(NSNumber *)number {
+- (void) updateUiForFailingWithProblem:(NSNumber *)number 
+{
     UPDATE_PROBLEMS problem = (UPDATE_PROBLEMS)[number intValue];
-    switch(problem) {
+    switch(problem) 
+    {
         case UPDATE_PROBLEM_CONNECTION:
             [[[statusItem menu] itemAtIndex:SM_INDEX_CONNECTION_STATUS] setTitle:CONNECTION_OFFLINE];
             break;
@@ -123,12 +142,14 @@ enum {
     connect_status = CONNECTION_STATUS_OFFLINE;
 }
 
-- (void) updateFailedForProblem:(UPDATE_PROBLEMS)problem {
+- (void) updateFailedForProblem:(UPDATE_PROBLEMS)problem 
+{
     NSNumber * number = [NSNumber numberWithInt:problem];
     [self performSelectorOnMainThread:@selector(updateUiForFailingWithProblem:) withObject:number waitUntilDone:NO];
 }
 
-- (void) updateExtendedReputationInfoWithData:(UserData *) data {
+- (void) updateExtendedReputationInfoWithData:(UserData *) data 
+{
     NSMenu * extendedInfoMenu = [[[statusItem menu] itemAtIndex:SM_INDEX_REPUTATION] submenu]; 
     NSString * currentTitle;
     [extendedInfoMenu setAutoenablesItems:NO];
@@ -145,7 +166,8 @@ enum {
     [extendedInfoMenu addItem:[[[NSMenuItem alloc] initWithTitle:currentTitle action:nil keyEquivalent:@""] autorelease]];
 }
 
-- (NSMutableAttributedString *) makeBadgeWithRgbColor:(unsigned long)rgb forValue:(NSNumber *)value {
+- (NSMutableAttributedString *) makeBadgeWithRgbColor:(unsigned long)rgb forValue:(NSNumber *)value 
+{
     NSMutableAttributedString * nas;
     NSString * title;
     NSColor * color = [NSColor colorWithDeviceRed:((rgb >> 16) & 0xFF) / 255.0 
@@ -179,28 +201,33 @@ enum {
     [item setAttributedTitle:result];    
 }
 
-- (void) updateReputationChangesWithData:(UserData *) data {
+- (void) updateReputationChangesWithData:(UserData *) data 
+{
     NSMenu * menu = [[[statusItem menu] itemAtIndex:SM_INDEX_REPUTATION_CHANGES] submenu];
     [menu setAutoenablesItems:NO];
     [menu removeAllItems];
     NSArray * reputationChangeArray = [data reputationFromAnswers];
     int counter = 0;
-    for (NSDictionary * dict in reputationChangeArray) {
+    for (NSDictionary * dict in reputationChangeArray) 
+    {
         if (counter++ == 7)
             break; // up to 7 results
         [menu addItem:[[[LinkMenuItem alloc] initFromDictionary:dict] autorelease]];
     }    
 }
 
-- (void) updateReputationInfoWithData:(UserData *) data {
+- (void) updateReputationInfoWithData:(UserData *) data 
+{
     NSMenuItem * menuItem = [[statusItem menu] itemAtIndex:SM_INDEX_REPUTATION];
     NSNumber * offset;
     lastSetRep = [data reputation];
     offset = [NSNumber numberWithInt:[lastSetRep intValue] - [lastViewedRep intValue]];
-    if (([offset intValue] <= 0) || ([lastViewedRep intValue] == 0)) {
+    if (([offset intValue] <= 0) || ([lastViewedRep intValue] == 0)) 
+    {
         [menuItem setTitle:[NSString stringWithFormat:@"Rep: %@", [data reputation]]];
     }
-    else {
+    else 
+    {
         [self setStatusIconWithImagePath:RESOURCE_NAME_ICON_UPDATE];
         [menuItem setTitle:[NSString stringWithFormat:@"Rep: %@ (%@)", [data reputation], offset]];
     }
@@ -208,7 +235,8 @@ enum {
     [self updateExtendedReputationInfoWithData:data];
 }
 
-- (void) updateUiWithUserData:(UserData *) data {
+- (void) updateUiWithUserData:(UserData *) data 
+{
     NSMenu * menu = [statusItem menu];
     NSString * currentTitle;
     // username
@@ -226,12 +254,14 @@ enum {
     [self updateReputationChangesWithData:data];
 }
 
-- (void) updateUiWithSiteData:(SiteData *) data {
+- (void) updateUiWithSiteData:(SiteData *) data 
+{
     NSMenu * menu = [[[statusItem menu] itemAtIndex:SM_INDEX_NEW_QUESTIONS] submenu];
     [menu removeAllItems];
     NSArray * newestQuestionsArray = [data newestQuestions];
     int counter = 0;
-    for (NSDictionary * dict in newestQuestionsArray) {
+    for (NSDictionary * dict in newestQuestionsArray) 
+    {
         if (counter++ == 7)
             break;
         QuestionMenuItem * currentQuestionItem = [[[QuestionMenuItem alloc] initFromDictionary:dict] autorelease];
@@ -239,38 +269,46 @@ enum {
     }
 }
 
-- (void) setStatusItemOnline {
+- (void) setStatusItemOnline 
+{
     [self setStatusIconWithImagePath:RESOURCE_NAME_ICON_ONLINE];
     connect_status = CONNECTION_STATUS_ONLINE;
 }
 
-- (void) performUpdateComletedOnUi:(UpdateManager*)updater {
+- (void) performUpdateComletedOnUi:(UpdateManager*)updater 
+{
     [self setStatusItemOnline];
     [self updateUiWithUserData:[updater userData]];
     [self updateUiWithSiteData:[updater siteData]];
 }
 
-- (void) updateCompletedWithUpdater:(id)updater {
+- (void) updateCompletedWithUpdater:(id)updater 
+{
     [self performSelectorOnMainThread:@selector(performUpdateComletedOnUi:) withObject:updater waitUntilDone:NO];
 }
 
-- (void) buildUi {
+- (void) buildUi 
+{
     [self initStatusItem];
     [self initMenuItems];
 }
 
-- (id) init {
+- (id) init 
+{
     self = [super init];
-    if (self) {
+    if (self) 
+    {
         statusItem = [[[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength] retain];
         
     }
     return self;
 }
 
-- (void)menu:(NSMenu *)menu willHighlightItem:(NSMenuItem *)item {
+- (void)menu:(NSMenu *)menu willHighlightItem:(NSMenuItem *)item 
+{
     NSInteger index = [menu indexOfItem:item];
-    switch(index) {
+    switch(index) 
+    {
         case SM_INDEX_REPUTATION:
             [item setTitle:[NSString stringWithFormat:@"Rep: %@", lastSetRep]];
             lastViewedRep = lastSetRep;
@@ -282,16 +320,6 @@ enum {
         case SM_INDEX_CONNECTION_STATUS:
         case SM_INDEX_SETTINGS:
         case SM_INDEX_QUIT:
-        default:
-            break;
-    }
-    switch (connect_status) {
-        case CONNECTION_STATUS_ONLINE:
-            [self setStatusIconWithImagePath:RESOURCE_NAME_ICON_ONLINE];
-            break;
-        case CONNECTION_STATUS_OFFLINE:
-            [self setStatusIconWithImagePath:RESOURCE_NAME_ICON_OFFLINE];
-            break;    
         default:
             break;
     }

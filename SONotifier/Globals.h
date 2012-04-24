@@ -36,6 +36,9 @@
 // *****  StackExchange API 2.0  ***** 
 //  Base URL
 #define API_20_BASE_URL             @"http://api.stackexchange.com/2.0"
+#define API_20_FILTER_QUESTIONS     @"!-rf7acLF"
+
+
 //  Keys for parsing server JSON response 
 //    Reputation changes response
 #define API_KEY_REPUTATION_CHANGE   @"reputation_change"

@@ -24,7 +24,8 @@
 @implementation LinkMenuItem
 @synthesize url;
 
-- (NSAttributedString *) createTitleFromDictionary:(NSDictionary *)dict {
+- (NSAttributedString *) createTitleFromDictionary:(NSDictionary *)dict 
+{
     NSMutableAttributedString * finalStr = [[[NSMutableAttributedString alloc] init] autorelease];
     NSAttributedString * current;
     NSString * title;
@@ -50,9 +51,11 @@
     return finalStr;
 }
 
-- (id) initFromDictionary:(NSDictionary *) dict {
+- (id) initFromDictionary:(NSDictionary *) dict 
+{
     self = [super init];
-    if (self) {
+    if (self) 
+    {
         NSAttributedString * ftitle = [self createTitleFromDictionary:dict];
         [self setAttributedTitle:ftitle];
         [self setUrl:[NSString stringWithFormat:@"http://www.stackoverflow.com/questions/%@",

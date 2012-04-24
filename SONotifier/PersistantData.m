@@ -25,7 +25,8 @@
 {
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     
-	if (standardUserDefaults) {
+	if (standardUserDefaults) 
+    {
 		[standardUserDefaults setObject:item forKey:key];
 		[standardUserDefaults synchronize];
         return YES;

@@ -36,9 +36,11 @@
 @synthesize reputationQuarter;
 @synthesize reputationYear;
 
-- (id) init {
+- (id) init 
+{
     self = [super init];
-    if (self) {
+    if (self) 
+    {
         reputationFromAnswers = [[NSMutableArray alloc] init];
         reputationFromQuestions = [[NSMutableArray alloc] init];
         username = @"--";
@@ -47,17 +49,20 @@
     return self;
 }
 
-- (BOOL) updateLastChangesFromJsonString:(NSString *)jsonString {
+- (BOOL) updateLastChangesFromJsonString:(NSString *)jsonString 
+{
     NSError *jsonParsingError = nil;
-    NSLog(@"Asking to parse jsonString:!!!!!%@!!!!!", jsonString);
     NSDictionary *data = [NSJSONSerialization JSONObjectWithData:[jsonString dataUsingEncoding:NSUTF8StringEncoding] 
                                                          options:0 error:&jsonParsingError];
-    if (data) {
+    if (data) 
+    {
         NSArray * repArray = [data objectForKey:@"items"];
         [reputationFromQuestions removeAllObjects];
         [reputationFromAnswers removeAllObjects];
-        for (NSDictionary * dict in repArray) {
-            if ([(NSNumber*)[dict objectForKey:API_KEY_REPUTATION_CHANGE] compare:[NSNumber numberWithInt:0]] != NSOrderedSame) {
+        for (NSDictionary * dict in repArray) 
+        {
+            if ([(NSNumber*)[dict objectForKey:API_KEY_REPUTATION_CHANGE] compare:[NSNumber numberWithInt:0]] != NSOrderedSame) 
+            {
                 [reputationFromAnswers addObject:dict];
             }
         }
@@ -66,16 +71,19 @@
     return NO;
 }
 
-- (BOOL) updateInfoFromJsonString:(NSString *)jsonString {
+- (BOOL) updateInfoFromJsonString:(NSString *)jsonString 
+{
     NSError *jsonParsingError = nil;
     NSArray * userArray;
     NSDictionary *data = [NSJSONSerialization JSONObjectWithData:[jsonString dataUsingEncoding:NSUTF8StringEncoding] 
                                                          options:0 error:&jsonParsingError];
-    if (data) {
+    if (data) 
+    {
         NSNumber * prevReputation = reputation;
         userArray = [data objectForKey:@"items"];
         NSLog(@"%lu", [userArray count]);
-        if ([userArray count] > 0) {
+        if ([userArray count] > 0) 
+        {
             data = [userArray objectAtIndex:0];
             
             [self setUsername:[data objectForKey:API_KEY_USER_NAME]];
