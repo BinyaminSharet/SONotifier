@@ -38,5 +38,6 @@
 - (void) buildUi;
 - (void) updateCompletedWithUpdater:(id)updater;
 - (void) updateFailedForProblem:(UPDATE_PROBLEMS)problem;
-- (void)menu:(NSMenu *)menu willHighlightItem:(NSMenuItem *)item;
+- (void) menuWillOpen:(NSMenu *)menu;
+- (void) menu:(NSMenu *)menu willHighlightItem:(NSMenuItem *)item;
 @end

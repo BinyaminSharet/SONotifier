@@ -40,8 +40,9 @@
 	id val = nil;
 	
 	if (standardUserDefaults) 
+    {
 		val = [standardUserDefaults objectForKey:key];
-	
+	}
 	return val;
 }
 

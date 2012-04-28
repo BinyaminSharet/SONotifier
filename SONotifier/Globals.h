@@ -37,6 +37,8 @@
 //  Base URL
 #define API_20_BASE_URL             @"http://api.stackexchange.com/2.0"
 #define API_20_FILTER_QUESTIONS     @"!-rf7acLF"
+#define API_20_APP_ID               @"&client_id=287"
+#define API_20_APP_KEY              @"&key=nWxVLEQliwjmk5QH5NZIpw(("
 
 
 //  Keys for parsing server JSON response 

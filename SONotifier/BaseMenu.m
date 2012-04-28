@@ -53,7 +53,7 @@ enum {
     [statusItem setImage:imageObj];
 }
 
-- (void)statusBarClicked:(id)sender 
+- (void)menuWillOpen:(NSMenu *)menu
 {
     if (connect_status == CONNECTION_STATUS_ONLINE) 
     {
@@ -72,7 +72,6 @@ enum {
     [statusItem setHighlightMode:YES];
     [statusItem setEnabled:YES];
     [statusItem setTarget:self];
-    [statusItem setAction:@selector(statusBarClicked:)];
 }
 
 - (void) quitApp 
@@ -222,7 +221,7 @@ enum {
     NSNumber * offset;
     lastSetRep = [data reputation];
     offset = [NSNumber numberWithInt:[lastSetRep intValue] - [lastViewedRep intValue]];
-    if (([offset intValue] <= 0) || ([lastViewedRep intValue] == 0)) 
+    if (([offset intValue] == 0) || ([lastViewedRep intValue] == 0)) 
     {
         [menuItem setTitle:[NSString stringWithFormat:@"Rep: %@", [data reputation]]];
     }

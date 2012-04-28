@@ -67,7 +67,7 @@
 
 - (NSString *) getDataForApiRequest:(NSString *) apiRequest 
 {
-    NSString * urlString = [NSString stringWithFormat:@"%@%@", API_20_BASE_URL, apiRequest];
+    NSString * urlString = [NSString stringWithFormat:@"%@%@%@%@", API_20_BASE_URL, apiRequest, API_20_APP_ID, API_20_APP_KEY];
     return [self getDataForUrl:urlString];
 }
 
