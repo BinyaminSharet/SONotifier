@@ -19,9 +19,15 @@
 
 #import <Cocoa/Cocoa.h>
 
+enum SETTING_UPDATE_FLAGS 
+{
+    SETTINGS_USER_ID_CHANGED            = 0x00000001,
+    SETTINGS_UPDATE_INTERVAL_CHANGED    = 0x00000002,
+    SETTINGS_LAUNCH_ONSTART_CHANGED     = 0x00000004,
+};
 @protocol SettingsWindowDelegate <NSObject>
 
-- (void) dataUpdated;
+- (void) dataUpdated:(NSInteger)updateFlags;
 
 @end
 @interface SettingsWindowController : NSWindowController <NSWindowDelegate>{

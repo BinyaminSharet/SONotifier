@@ -39,10 +39,12 @@
 - (void)windowDidLoad
 {
     [super windowDidLoad];
-    NSLog(@"[self window]: %@", [self window]);
     [[self window] setDelegate:self];
     storedLaunchState = ([@"YES" compare:[PersistantData retrieveFromUserDefaults:DATA_KEY_LAUNCH_AT_STARTUP]] == NSOrderedSame) ? NSOnState : NSOffState;
     [launchAtStartUp setState:storedLaunchState];
+    NSNumber * intervals = [PersistantData retrieveFromUserDefaults:DATA_KEY_UPDATE_INTERVAL];
+    intervals = [NSNumber numberWithInt:[intervals intValue] / 60];
+    [updateIntervals setStringValue:[intervals stringValue]];
     // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
 }
 
@@ -60,8 +62,9 @@
     [[self window] close];
 }
 
-- (BOOL) updateFromFields 
+- (NSInteger) updateFromFields 
 {
+    NSInteger flags = 0;
     NSString * str;
     str = [updateIntervals stringValue];
     if (str) 
@@ -71,6 +74,7 @@
         {
             NSLog(@"Setting update interval to: %d minutes, the string is: %@", intVal, str);
             [PersistantData saveItemToPreferences:[NSNumber numberWithDouble:intVal * 60.] withKey:DATA_KEY_UPDATE_INTERVAL];
+            flags |= SETTINGS_UPDATE_INTERVAL_CHANGED;
         }
     }
     str = [userId stringValue];
@@ -82,6 +86,7 @@
             NSNumber * num = [NSNumber numberWithInt:intVal];
             NSLog(@"Setting user id to: %d , the string is: %@", intVal, str);
             [PersistantData saveItemToPreferences:num withKey:DATA_KEY_USER_ID];
+            flags |= SETTINGS_USER_ID_CHANGED;
         }
     }
     NSInteger choice = [launchAtStartUp state];
@@ -100,19 +105,15 @@
         }
         [PersistantData saveItemToPreferences:value withKey:DATA_KEY_LAUNCH_AT_STARTUP];
         storedLaunchState = choice;
+        flags |= SETTINGS_LAUNCH_ONSTART_CHANGED;
     }
-    return YES;
+    return flags;
 }
 
 - (BOOL)windowShouldClose:(id)sender 
 {
     NSLog(@"Should close called");
-    BOOL allGood;
-    allGood = [self updateFromFields];
-    if (allGood) 
-    {
-        [delegate dataUpdated];
-    }
+    [delegate dataUpdated:[self updateFromFields]];
     return YES;
 }
 @end

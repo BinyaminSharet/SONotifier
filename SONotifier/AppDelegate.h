@@ -31,6 +31,6 @@
 @property (nonatomic, retain) SettingsWindowController * settingWindow;
 
 - (void) showSettings;
-- (void) dataUpdated;
+- (void) dataUpdated:(NSInteger)updateFlags;
 
 @end

@@ -133,9 +133,15 @@
     [self setSettingWindow:settings];
 }
 
-- (void) dataUpdated 
+- (void) dataUpdated:(NSInteger)updateFlags
 {
-    [updateManager setUserId:[PersistantData retrieveFromUserDefaults:DATA_KEY_USER_ID]];
-    [updateManager setUpdateInterval:[[PersistantData retrieveFromUserDefaults:DATA_KEY_UPDATE_INTERVAL] doubleValue]];
+    if (updateFlags & SETTINGS_USER_ID_CHANGED) 
+    {
+        [updateManager setUserId:[PersistantData retrieveFromUserDefaults:DATA_KEY_USER_ID]];
+    }
+    if (updateFlags & SETTINGS_UPDATE_INTERVAL_CHANGED)
+    {
+        [updateManager setUpdateInterval:[[PersistantData retrieveFromUserDefaults:DATA_KEY_UPDATE_INTERVAL] doubleValue]];
+    }
 }
 @end

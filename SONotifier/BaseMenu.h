@@ -31,6 +31,7 @@
     NSNumber * lastViewedRep;
     NSNumber * lastSetRep;
     NSInteger connect_status;
+    unsigned long lastConnectionAttempt;
 }
 
 @property (nonatomic, retain) NSObject<BaseMenuDelegate> * delegate;

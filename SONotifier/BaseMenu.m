@@ -53,16 +53,53 @@ enum {
     [statusItem setImage:imageObj];
 }
 
-- (void)menuWillOpen:(NSMenu *)menu
+- (NSAttributedString *) createConnectionStatusString
 {
+    NSString * status;
+    NSMutableAttributedString * basicConnectionStatus;
+    NSAttributedString * extendedConnectionStatus;
+    NSMutableDictionary * attributes = [[[NSMutableDictionary alloc] initWithCapacity:2] autorelease];
     if (connect_status == CONNECTION_STATUS_ONLINE) 
     {
         [self setStatusIconWithImagePath:RESOURCE_NAME_ICON_ONLINE];
+        status = @"Connected";
     }
     else 
     {
         [self setStatusIconWithImagePath:RESOURCE_NAME_ICON_OFFLINE];
+        status = @"Disconnected";
     }
+    [attributes setValue:[NSFont fontWithName:@"Helvetica" size:14] forKey:NSFontAttributeName];
+    [attributes setValue:[NSColor blackColor] forKey:NSForegroundColorAttributeName];
+    basicConnectionStatus = [[[NSMutableAttributedString alloc] 
+                              initWithString:status 
+                              attributes:attributes ] autorelease];
+    
+    if (lastConnectionAttempt == 0) 
+    {
+        status = @"no connection yet";
+    }
+    else
+    {
+        unsigned long  seconds;
+        seconds = time(NULL) - lastConnectionAttempt;
+        status = [NSString stringWithFormat:@" - checked %d min. ago", seconds / 60];
+    }
+    [attributes removeAllObjects];
+    [attributes setValue:[NSFont fontWithName:@"Helvetica" size:12] forKey:NSFontAttributeName];
+    [attributes setValue:[NSColor grayColor] forKey:NSForegroundColorAttributeName];    
+    extendedConnectionStatus = [[[NSMutableAttributedString alloc] 
+                                 initWithString:status
+                                 attributes:attributes] autorelease];
+    [basicConnectionStatus appendAttributedString:extendedConnectionStatus];
+    return basicConnectionStatus;
+}
+
+- (void)menuWillOpen:(NSMenu *)menu
+{
+    NSAttributedString * connectionStatusString = [self createConnectionStatusString];
+    NSMenuItem * item = [[statusItem menu] itemAtIndex:SM_INDEX_CONNECTION_STATUS];
+    [item setAttributedTitle:connectionStatusString];
 }
 
 - (void) initStatusItem 
@@ -144,6 +181,7 @@ enum {
 - (void) updateFailedForProblem:(UPDATE_PROBLEMS)problem 
 {
     NSNumber * number = [NSNumber numberWithInt:problem];
+    lastConnectionAttempt = time(NULL);
     [self performSelectorOnMainThread:@selector(updateUiForFailingWithProblem:) withObject:number waitUntilDone:NO];
 }
 
@@ -283,6 +321,7 @@ enum {
 
 - (void) updateCompletedWithUpdater:(id)updater 
 {
+    lastConnectionAttempt = time(NULL);
     [self performSelectorOnMainThread:@selector(performUpdateComletedOnUi:) withObject:updater waitUntilDone:NO];
 }
 
@@ -298,7 +337,7 @@ enum {
     if (self) 
     {
         statusItem = [[[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength] retain];
-        
+        lastConnectionAttempt = 0;
     }
     return self;
 }
