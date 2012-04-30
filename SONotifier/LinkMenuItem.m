@@ -33,6 +33,7 @@
     NSColor * repColor;
     NSNumber * reputation = [dict objectForKey:API_KEY_REPUTATION_CHANGE];
     repColor = ([reputation intValue] > 0) ? [NSColor greenColor] : [NSColor redColor];
+    repColor = ([reputation intValue] == 0) ? [NSColor blackColor] : repColor;
     attributes = [NSDictionary dictionaryWithObjectsAndKeys:
                   [NSFont fontWithName:@"Helvetica" size:15], NSFontAttributeName, 
                   repColor, NSForegroundColorAttributeName,
@@ -65,6 +66,12 @@
         [self setAction:@selector(openUrl:)];
     }
     return self;
+}
+
+- (void) dealloc
+{
+    [self setUrl:nil];
+    [super dealloc];
 }
 
 - (IBAction)openUrl:(id)sender

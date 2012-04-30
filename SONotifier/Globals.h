@@ -45,6 +45,7 @@
 //    Reputation changes response
 #define API_KEY_REPUTATION_CHANGE   @"reputation_change"
 #define API_KEY_REPUTATION_TITLE    @"title"
+#define API_KEY_REPUTATION_POST_ID  @"post_id"
 //    User info response
 #define API_KEY_USER_ID             @"user_id"
 #define API_KEY_USER_TYPE           @"user_type"

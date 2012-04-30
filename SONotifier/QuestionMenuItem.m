@@ -44,6 +44,12 @@
     return self;
 }
 
+- (void) dealloc
+{
+    [self setUrl:nil];
+    [super dealloc];
+}
+
 - (IBAction)openUrl:(id)sender
 {
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[self url]]];

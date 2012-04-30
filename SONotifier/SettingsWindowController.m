@@ -30,7 +30,15 @@
     self = [super initWithWindowNibName:@"SettingsWindow"];
     if (self) 
     {
-        
+        [super windowDidLoad];
+        [[self window] setDelegate:self];
+        storedLaunchState = ([@"YES" compare:[PersistantData retrieveFromUserDefaults:DATA_KEY_LAUNCH_AT_STARTUP]] == NSOrderedSame) ? NSOnState : NSOffState;
+        [launchAtStartUp setState:storedLaunchState];
+        NSNumber * intervals = [PersistantData retrieveFromUserDefaults:DATA_KEY_UPDATE_INTERVAL];
+        intervals = [NSNumber numberWithInt:[intervals intValue] / 60];
+        [updateIntervals setStringValue:[intervals stringValue]];
+        [[self window] center];
+        [[self window] setLevel:NSFloatingWindowLevel];
     }
     
     return self;
@@ -38,21 +46,12 @@
 
 - (void)windowDidLoad
 {
-    [super windowDidLoad];
-    [[self window] setDelegate:self];
-    storedLaunchState = ([@"YES" compare:[PersistantData retrieveFromUserDefaults:DATA_KEY_LAUNCH_AT_STARTUP]] == NSOrderedSame) ? NSOnState : NSOffState;
-    [launchAtStartUp setState:storedLaunchState];
-    NSNumber * intervals = [PersistantData retrieveFromUserDefaults:DATA_KEY_UPDATE_INTERVAL];
-    intervals = [NSNumber numberWithInt:[intervals intValue] / 60];
-    [updateIntervals setStringValue:[intervals stringValue]];
     // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
 }
 
 - (IBAction)showWindow:(id)sender
 {
     [super showWindow:sender];
-    [[self window] center];
-    [[self window] setLevel:NSFloatingWindowLevel];
 }
 
 - (IBAction)saveAndClose:(id)sender 

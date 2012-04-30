@@ -59,9 +59,25 @@
         NSArray * repArray = [data objectForKey:@"items"];
         [reputationFromQuestions removeAllObjects];
         [reputationFromAnswers removeAllObjects];
-        for (NSDictionary * dict in repArray) 
+        for (NSDictionary * origDict in repArray) 
         {
-            if ([(NSNumber*)[dict objectForKey:API_KEY_REPUTATION_CHANGE] compare:[NSNumber numberWithInt:0]] != NSOrderedSame) 
+            NSMutableDictionary * dict = [NSMutableDictionary dictionaryWithDictionary:origDict];
+            BOOL found = NO;
+            NSNumber * post_id = [dict objectForKey:API_KEY_REPUTATION_POST_ID];
+            for (NSMutableDictionary * addedDict in reputationFromAnswers)
+            {
+                if ([post_id compare:[addedDict objectForKey:API_KEY_REPUTATION_POST_ID]] == NSOrderedSame)
+                {
+                    NSNumber * new_val = [NSNumber numberWithInt:
+                                          [[dict objectForKey:API_KEY_REPUTATION_CHANGE] intValue] +
+                                          [[addedDict objectForKey:API_KEY_REPUTATION_CHANGE] intValue]];
+                    [addedDict setValue:new_val forKey:API_KEY_REPUTATION_CHANGE];
+                    found = YES;
+                    break;
+                }
+            }
+            if (found == NO)
+//            if ([(NSNumber*)[dict objectForKey:API_KEY_REPUTATION_CHANGE] compare:[NSNumber numberWithInt:0]] != NSOrderedSame) 
             {
                 [reputationFromAnswers addObject:dict];
             }
