@@ -35,8 +35,10 @@
 }
 
 @property (nonatomic, retain) NSObject<BaseMenuDelegate> * delegate;
+@property (nonatomic, retain) UpdateManager * updateManager;
 
 - (void) buildUi;
+- (void) setUpdateManager:(UpdateManager *)manager;
 - (void) updateCompletedWithUpdater:(id)updater;
 - (void) updateFailedForProblem:(UPDATE_PROBLEMS)problem;
 - (void) menuWillOpen:(NSMenu *)menu;

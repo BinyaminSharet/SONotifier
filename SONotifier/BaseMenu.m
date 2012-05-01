@@ -45,6 +45,13 @@ enum {
 
 
 @synthesize delegate;
+@synthesize updateManager;
+
+- (void) setUpdateManager:(UpdateManager *)manager
+{
+    updateManager = manager;
+    [[[statusItem menu] itemAtIndex:SM_INDEX_CONNECTION_STATUS] setTarget:updateManager];
+}
 
 - (void) setStatusIconWithImagePath:(NSString *) image_name 
 {
@@ -145,8 +152,9 @@ enum {
     
     [menu addItem:[NSMenuItem separatorItem]];
     
-    currentItem = [[[NSMenuItem alloc] initWithTitle:CONNECTION_OFFLINE action:nil keyEquivalent:@""] autorelease];
-    [currentItem setEnabled: NO];
+    currentItem = [[[NSMenuItem alloc] initWithTitle:CONNECTION_OFFLINE action:@selector(updateFromCommand) keyEquivalent:@""] autorelease];
+    [currentItem setTarget:updateManager];
+    [currentItem setEnabled: YES];
     [menu addItem:currentItem];
     
     currentItem = [[[NSMenuItem alloc] initWithTitle:@"Settings" action:@selector(showSettings) keyEquivalent:@""] autorelease];

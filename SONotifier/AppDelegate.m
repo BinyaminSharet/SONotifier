@@ -50,6 +50,7 @@
     NSNumber * userid = [PersistantData retrieveFromUserDefaults:DATA_KEY_USER_ID];
     [updateManager setUserId:userid];
     [updateManager startRunning]; 
+    [menus setUpdateManager:updateManager];
 }
 
 - (void) setUi 

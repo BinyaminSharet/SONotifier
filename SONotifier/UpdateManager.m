@@ -139,6 +139,12 @@
     [self scheduleUpdate];
 }
 
+- (void) updateFromCommand
+{
+    NSLog(@"updateFromCommand called");
+    [self update];
+}
+
 - (void) scheduleUpdate 
 {
     [updateTimer invalidate];
