@@ -32,11 +32,13 @@
     {
         [super windowDidLoad];
         [[self window] setDelegate:self];
-        storedLaunchState = ([@"YES" compare:[PersistantData retrieveFromUserDefaults:DATA_KEY_LAUNCH_AT_STARTUP]] == NSOrderedSame) ? NSOnState : NSOffState;
+        NSString * temp = [PersistantData retrieveFromUserDefaults:DATA_KEY_LAUNCH_AT_STARTUP];
+        storedLaunchState = ([@"YES" compare:temp] == NSOrderedSame) ? NSOnState : NSOffState;
         [launchAtStartUp setState:storedLaunchState];
-        NSNumber * intervals = [PersistantData retrieveFromUserDefaults:DATA_KEY_UPDATE_INTERVAL];
+        intervals = [PersistantData retrieveFromUserDefaults:DATA_KEY_UPDATE_INTERVAL];
         intervals = [NSNumber numberWithInt:[intervals intValue] / 60];
         [updateIntervals setStringValue:[intervals stringValue]];
+        storedUserId = [PersistantData retrieveFromUserDefaults:DATA_KEY_USER_ID];
         [[self window] center];
         [[self window] setLevel:NSFloatingWindowLevel];
     }
@@ -56,7 +58,6 @@
 
 - (IBAction)saveAndClose:(id)sender 
 {
-    NSLog(@"[self window]: %@", [self window]);
     [[self window] performClose:self];
     [[self window] close];
 }
@@ -69,26 +70,36 @@
     if (str) 
     {
         int intVal = [str intValue];
-        if (intVal > 0) 
+        // avoid access to persistant data when no change happens
+        if (intVal > 0)
         {
-            NSLog(@"Setting update interval to: %d minutes, the string is: %@", intVal, str);
-            [PersistantData saveItemToPreferences:[NSNumber numberWithDouble:intVal * 60.] withKey:DATA_KEY_UPDATE_INTERVAL];
-            flags |= SETTINGS_UPDATE_INTERVAL_CHANGED;
+            if (intVal != [intervals intValue]) 
+            {
+                NSLog(@"Setting update interval to: %d minutes, the string is: %@", intVal, str);
+                NSNumber * num = [NSNumber numberWithDouble:intVal * 60.];
+                [PersistantData saveItemToPreferences:num withKey:DATA_KEY_UPDATE_INTERVAL];
+                flags |= SETTINGS_UPDATE_INTERVAL_CHANGED;
+            }
         }
     }
     str = [userId stringValue];
     if (str) 
     {
         int intVal = [str intValue];
+        // avoid access to persistant data when no change happens
         if (intVal > 0) 
         {
-            NSNumber * num = [NSNumber numberWithInt:intVal];
-            NSLog(@"Setting user id to: %d , the string is: %@", intVal, str);
-            [PersistantData saveItemToPreferences:num withKey:DATA_KEY_USER_ID];
-            flags |= SETTINGS_USER_ID_CHANGED;
+            if (intVal != [storedUserId intValue])
+            {
+                NSNumber * num = [NSNumber numberWithInt:intVal];
+                NSLog(@"Setting user id to: %d , the string is: %@", intVal, str);
+                [PersistantData saveItemToPreferences:num withKey:DATA_KEY_USER_ID];
+                flags |= SETTINGS_USER_ID_CHANGED;
+            }
         }
     }
     NSInteger choice = [launchAtStartUp state];
+    // avoid access to persistant data when no change happens
     if (choice != storedLaunchState) 
     {
         NSString * value;

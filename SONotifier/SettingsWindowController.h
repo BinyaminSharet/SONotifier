@@ -37,9 +37,12 @@ enum SETTING_UPDATE_FLAGS
     IBOutlet NSTextField *updateIntervals;
     IBOutlet NSWindow *window;
     NSInteger storedLaunchState;
+    NSNumber * intervals;
+    NSNumber * storedUserId;
 }
 
 @property (nonatomic, retain) NSObject<SettingsWindowDelegate> * delegate;
 
 - (BOOL)windowShouldClose:(id)sender;
+
 @end

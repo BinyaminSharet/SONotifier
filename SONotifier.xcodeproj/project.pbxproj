@@ -66,14 +66,14 @@
 		824A927715324357002033A7 /* SONotifierTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SONotifierTests.m; sourceTree = "<group>"; };
 		824A928115324767002033A7 /* BaseMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseMenu.h; sourceTree = "<group>"; };
 		824A928215324767002033A7 /* BaseMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseMenu.m; sourceTree = "<group>"; };
-		824A9284153248C3002033A7 /* UserData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserData.h; sourceTree = "<group>"; };
-		824A9285153248C3002033A7 /* UserData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserData.m; sourceTree = "<group>"; };
-		824A928A1533194B002033A7 /* UpdateManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateManager.h; sourceTree = "<group>"; };
-		824A928B1533194B002033A7 /* UpdateManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateManager.m; sourceTree = "<group>"; };
+		824A9284153248C3002033A7 /* UserData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserData.h; path = SONotifier/UserData.h; sourceTree = "<group>"; };
+		824A9285153248C3002033A7 /* UserData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserData.m; path = SONotifier/UserData.m; sourceTree = "<group>"; };
+		824A928A1533194B002033A7 /* UpdateManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UpdateManager.h; path = SONotifier/UpdateManager.h; sourceTree = "<group>"; };
+		824A928B1533194B002033A7 /* UpdateManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UpdateManager.m; path = SONotifier/UpdateManager.m; sourceTree = "<group>"; };
 		824A928D15345BEF002033A7 /* LinkMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkMenuItem.h; sourceTree = "<group>"; };
 		824A928E15345BEF002033A7 /* LinkMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinkMenuItem.m; sourceTree = "<group>"; };
-		82A68A7215379ECC008DA2E8 /* SiteData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SiteData.h; sourceTree = "<group>"; };
-		82A68A7315379ECC008DA2E8 /* SiteData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SiteData.m; sourceTree = "<group>"; };
+		82A68A7215379ECC008DA2E8 /* SiteData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SiteData.h; path = SONotifier/SiteData.h; sourceTree = "<group>"; };
+		82A68A7315379ECC008DA2E8 /* SiteData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SiteData.m; path = SONotifier/SiteData.m; sourceTree = "<group>"; };
 		82A68A761537AE3B008DA2E8 /* QuestionMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionMenuItem.h; sourceTree = "<group>"; };
 		82A68A771537AE3B008DA2E8 /* QuestionMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionMenuItem.m; sourceTree = "<group>"; };
 		82A68A7915397058008DA2E8 /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
@@ -81,8 +81,8 @@
 		82A68A7C1539C3EA008DA2E8 /* SettingsWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsWindow.xib; sourceTree = "<group>"; };
 		82A68A7E1539C9E5008DA2E8 /* SettingsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsWindowController.h; sourceTree = "<group>"; };
 		82A68A7F1539C9E5008DA2E8 /* SettingsWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsWindowController.m; sourceTree = "<group>"; };
-		82B7849815355BFF0097863D /* PersistantData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersistantData.h; sourceTree = "<group>"; };
-		82B7849915355BFF0097863D /* PersistantData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersistantData.m; sourceTree = "<group>"; };
+		82B7849815355BFF0097863D /* PersistantData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PersistantData.h; path = SONotifier/PersistantData.h; sourceTree = "<group>"; };
+		82B7849915355BFF0097863D /* PersistantData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PersistantData.m; path = SONotifier/PersistantData.m; sourceTree = "<group>"; };
 		82B7849C1535610C0097863D /* Globals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Globals.h; sourceTree = "<group>"; };
 		82B784A21535835A0097863D /* icon_online.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_online.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -150,31 +150,14 @@
 		824A925315324356002033A7 /* SONotifier */ = {
 			isa = PBXGroup;
 			children = (
+				82646BA0155185A9005B2120 /* Data Management */,
+				82646BA31551862E005B2120 /* Misc */,
+				82646BA2155185F7005B2120 /* UI Elements */,
 				824A925F15324356002033A7 /* AppDelegate.h */,
 				824A926015324356002033A7 /* AppDelegate.m */,
-				824A928115324767002033A7 /* BaseMenu.h */,
-				824A928215324767002033A7 /* BaseMenu.m */,
-				82B7849C1535610C0097863D /* Globals.h */,
-				824A928D15345BEF002033A7 /* LinkMenuItem.h */,
-				824A928E15345BEF002033A7 /* LinkMenuItem.m */,
 				824A926215324357002033A7 /* MainMenu.xib */,
-				82B7849815355BFF0097863D /* PersistantData.h */,
-				82B7849915355BFF0097863D /* PersistantData.m */,
 				82B7849D153581ED0097863D /* Shared */,
 				824A925415324356002033A7 /* Supporting Files */,
-				824A928A1533194B002033A7 /* UpdateManager.h */,
-				824A928B1533194B002033A7 /* UpdateManager.m */,
-				824A9284153248C3002033A7 /* UserData.h */,
-				824A9285153248C3002033A7 /* UserData.m */,
-				82A68A7215379ECC008DA2E8 /* SiteData.h */,
-				82A68A7315379ECC008DA2E8 /* SiteData.m */,
-				82A68A761537AE3B008DA2E8 /* QuestionMenuItem.h */,
-				82A68A771537AE3B008DA2E8 /* QuestionMenuItem.m */,
-				82A68A7915397058008DA2E8 /* Utils.h */,
-				82A68A7A15397058008DA2E8 /* Utils.m */,
-				82A68A7C1539C3EA008DA2E8 /* SettingsWindow.xib */,
-				82A68A7E1539C9E5008DA2E8 /* SettingsWindowController.h */,
-				82A68A7F1539C9E5008DA2E8 /* SettingsWindowController.m */,
 			);
 			path = SONotifier;
 			sourceTree = "<group>";
@@ -208,6 +191,48 @@
 				824A927315324357002033A7 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		82646BA0155185A9005B2120 /* Data Management */ = {
+			isa = PBXGroup;
+			children = (
+				82B7849815355BFF0097863D /* PersistantData.h */,
+				82B7849915355BFF0097863D /* PersistantData.m */,
+				824A928A1533194B002033A7 /* UpdateManager.h */,
+				824A928B1533194B002033A7 /* UpdateManager.m */,
+				824A9284153248C3002033A7 /* UserData.h */,
+				824A9285153248C3002033A7 /* UserData.m */,
+				82A68A7215379ECC008DA2E8 /* SiteData.h */,
+				82A68A7315379ECC008DA2E8 /* SiteData.m */,
+			);
+			name = "Data Management";
+			path = ..;
+			sourceTree = "<group>";
+		};
+		82646BA2155185F7005B2120 /* UI Elements */ = {
+			isa = PBXGroup;
+			children = (
+				824A928115324767002033A7 /* BaseMenu.h */,
+				824A928215324767002033A7 /* BaseMenu.m */,
+				824A928D15345BEF002033A7 /* LinkMenuItem.h */,
+				824A928E15345BEF002033A7 /* LinkMenuItem.m */,
+				82A68A761537AE3B008DA2E8 /* QuestionMenuItem.h */,
+				82A68A771537AE3B008DA2E8 /* QuestionMenuItem.m */,
+				82A68A7C1539C3EA008DA2E8 /* SettingsWindow.xib */,
+				82A68A7E1539C9E5008DA2E8 /* SettingsWindowController.h */,
+				82A68A7F1539C9E5008DA2E8 /* SettingsWindowController.m */,
+			);
+			name = "UI Elements";
+			sourceTree = "<group>";
+		};
+		82646BA31551862E005B2120 /* Misc */ = {
+			isa = PBXGroup;
+			children = (
+				82B7849C1535610C0097863D /* Globals.h */,
+				82A68A7915397058008DA2E8 /* Utils.h */,
+				82A68A7A15397058008DA2E8 /* Utils.m */,
+			);
+			name = Misc;
 			sourceTree = "<group>";
 		};
 		82B7849D153581ED0097863D /* Shared */ = {
