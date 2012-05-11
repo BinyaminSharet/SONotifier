@@ -22,6 +22,7 @@
 #import "LinkMenuItem.h"
 #import "QuestionMenuItem.h"
 #import "PersistantData.h"
+#import "Utils.h"
 
 @implementation BaseMenu
 
@@ -139,6 +140,7 @@ enum {
     
     currentItem = [[[NSMenuItem alloc] initWithTitle:@"Extended Info" action:nil keyEquivalent:@""] autorelease];
     [menu addItem:currentItem];
+    [menu setSubmenu:[[[NSMenu alloc] initWithTitle:@""] autorelease] forItem:currentItem];
 
     [menu addItem:[NSMenuItem separatorItem]];
         
@@ -211,7 +213,7 @@ enum {
     [extendedInfoMenu addItem:[[[NSMenuItem alloc] initWithTitle:currentTitle action:nil keyEquivalent:@""] autorelease]];
 }
 
-- (NSMutableAttributedString *) makeBadgeWithRgbColor:(unsigned long)rgb forValue:(NSNumber *)value 
+- (NSMutableAttributedString *) makeBadgeWithRgbColor:(unsigned long)rgb forString:(NSString *)value 
 {
     NSMutableAttributedString * nas;
     NSString * title;
@@ -220,8 +222,8 @@ enum {
                                              blue:(rgb & 0xFF) / 255.0
                                             alpha:1.0];
     title = [NSString stringWithUTF8String:TEXT_SHAPE_CSTRING_UTF8_CIRCLE_MED];
-    title = [NSString stringWithFormat:@"%@ %@   ", title, [value stringValue]];
-    nas = [[NSMutableAttributedString alloc] initWithString:title];
+    title = [NSString stringWithFormat:@"%@ %@   ", title, value];
+    nas = [[[NSMutableAttributedString alloc] initWithString:title] autorelease];
     [nas setAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
                         [NSFont fontWithName:@"Helvetica" size:14], NSFontAttributeName, 
                         color, NSForegroundColorAttributeName,
@@ -232,18 +234,35 @@ enum {
                         [NSColor blackColor], NSForegroundColorAttributeName,
                         nil]
                  range:NSMakeRange(1, [nas length]-1)];
-
-    return [nas autorelease];
+    
+    return nas;
+   
+}
+- (NSMutableAttributedString *) makeBadgeWithRgbColor:(unsigned long)rgb forValue:(NSNumber *)value 
+{
+    return [self makeBadgeWithRgbColor:rgb forString:[value stringValue]];
 }
 
-- (void) updateExtendedInfoWithData:(UserData *) data {
+- (void) updateBadgesInfoWithData:(UserData *) data 
+{
     NSMenuItem * item = [[statusItem menu] itemAtIndex:SM_INDEX_BADGES];
+    NSMenu * submenu = [item submenu];
     NSMutableAttributedString * result = [[[NSMutableAttributedString alloc] init] autorelease];
 
     [result appendAttributedString:[self makeBadgeWithRgbColor:0xFFFF00 forValue:[data badgesGold]]];
     [result appendAttributedString:[self makeBadgeWithRgbColor:0xC0C0C0 forValue:[data badgesSilver]]];
     [result appendAttributedString:[self makeBadgeWithRgbColor:0xFFD700 forValue:[data badgesBronze]]];
     [item setAttributedTitle:result];    
+    
+    NSArray * badgesArray = [data latestBadges];
+    [submenu removeAllItems];
+    for (NSDictionary * dict in badgesArray)
+    {
+        unsigned long color = [Utils getBadgeColorForType:[dict objectForKey:API_KEY_BADGES_RANK]];
+        NSMenuItem * badgeInfo = [[[NSMenuItem alloc] init] autorelease];
+        [badgeInfo setAttributedTitle:[self makeBadgeWithRgbColor:color forString:[dict objectForKey:API_KEY_BADGES_NAME]]];
+        [submenu addItem:badgeInfo];
+    }
 }
 
 - (void) updateReputationChangesWithData:(UserData *) data 
@@ -295,7 +314,7 @@ enum {
     [nameItem setTitle:currentTitle];
     [self updateReputationInfoWithData:data];
     [[menu itemAtIndex:SM_INDEX_CONNECTION_STATUS] setTitle:CONNECTION_CONNECTED];
-    [self updateExtendedInfoWithData:data];    
+    [self updateBadgesInfoWithData:data];    
     [self updateReputationChangesWithData:data];
 }
 

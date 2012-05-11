@@ -76,12 +76,10 @@
     return [@"/questions?page=1&pagesize=10&order=desc&sort=activity&site=stackoverflow&filter=" stringByAppendingString:API_20_FILTER_QUESTIONS];
 }
 
-- (void) bgUpdate 
+- (BOOL) fetchUserInfoFromServer
 {
     NSString * apiRequest;
-    NSString *responseStr;
-    BOOL problem = NO;
-    
+    NSString * responseStr;    
     NSLog(@"[UpdateManager/bgUpdate] Getting user info");    
     apiRequest = [NSString stringWithFormat:@"/users/%@?site=stackoverflow", userId];
     responseStr = [self getDataForApiRequest:apiRequest];
@@ -90,41 +88,73 @@
         if ([userData updateInfoFromJsonString:responseStr]) 
         {
             [PersistantData saveItemToPreferences:responseStr withKey:DATA_KEY_USER_INFO];
-        }
-        else 
-        {
-            problem = YES;
+            return NO;
         }
     } 
-    else 
+    return YES;
+}
+
+- (BOOL) fetchLatestBadgesFromServer
+{
+    NSString * apiRequest;
+    NSString * responseStr;    
+    NSLog(@"[UpdateManager/bgUpdate] Getting user latest badges");    
+    //badges for the last week
+    NSTimeInterval interval = [[NSDate date ]timeIntervalSince1970];
+    interval = interval - (7 * 24 * 60 * 60);    
+    apiRequest = [NSString stringWithFormat:@"/users/%@/badges?order=desc&min=%.0f&sort=awarded&site=stackoverflow", userId, interval];
+    responseStr = [self getDataForApiRequest:apiRequest];
+    if (responseStr != nil)
     {
-        problem = YES;
-    }
-    
+        if ([userData updateBadgesFromJsonString:responseStr]) 
+        {
+            [PersistantData saveItemToPreferences:responseStr withKey:DATA_KEY_BADGES_INFO];
+            return NO;
+        }
+    } 
+    return YES;
+}
+
+- (BOOL) fetchReputationChangesFromServer
+{
+    NSString * apiRequest;
+    NSString * responseStr;
     NSLog(@"[UpdateManager/bgUpdate] Getting reputation changes");    
     apiRequest = [NSString stringWithFormat:@"/users/%@/reputation?page=1&pagesize=14&site=stackoverflow&filter=!amIOctbmUQ-Bx0", userId];
     responseStr = [self getDataForApiRequest:apiRequest];
-
+    
     if (responseStr != nil)
     {
-        [userData updateLastChangesFromJsonString:responseStr];
-        [PersistantData saveItemToPreferences:responseStr withKey:DATA_KEY_REPUTATION_CHANGE];
+        if ([userData updateLastChangesFromJsonString:responseStr])
+        {
+            [PersistantData saveItemToPreferences:responseStr withKey:DATA_KEY_REPUTATION_CHANGE];
+            return NO;            
+        }
     } 
-    else 
-    {
-        problem = YES;
-    }
-    
+    return YES;
+}
+
+- (BOOL) fetchNewQuestionsFromServer
+{
+    NSString * responseStr;
     NSLog(@"[UpdateManager/bgUpdate] Getting new questions");
     responseStr = [self getDataForApiRequest:[self buildNewQuestionQuery]];
     if (responseStr != nil)
     {
         [siteData updateNewsetQuestionsFromJsonString:responseStr];
+        return NO;
     } 
-    else
-    {
-        problem = YES;
-    }
+    return YES;
+}
+
+- (void) bgUpdate 
+{
+    BOOL problem = NO;
+    
+    problem |= [self fetchUserInfoFromServer];
+    problem |= [self fetchLatestBadgesFromServer];
+    problem |= [self fetchReputationChangesFromServer];
+    problem |= [self fetchNewQuestionsFromServer];
     
     [updateDelegate updateCompletedWithUpdater:self];
     if (problem == YES)

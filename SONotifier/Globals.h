@@ -29,6 +29,7 @@
 #define DATA_KEY_UPDATE_INTERVAL    @"com_bsharet_sonotifier_update_interval"
 #define DATA_KEY_USER_ID            @"com_bsharet_sonotifier_user_id"
 #define DATA_KEY_USER_INFO          @"com_bsharet_sonotifier_user_info"
+#define DATA_KEY_BADGES_INFO        @"com_bsharet_sonotifier_badges_info"
 #define DATA_KEY_REPUTATION_CHANGE  @"com_bsharet_sonotifier_reputation_change"
 #define DATA_KEY_CONFIGURED         @"com_bsharet_sonotifier_configured"
 #define DATA_KEY_LAUNCH_AT_STARTUP  @"com_bsharet_sonotifier_launch_at_startup"
@@ -69,6 +70,14 @@
 #define API_KEY_QUESTION_TAGS_ARRAY     @"tags"
 #define API_KEY_QUESTION_LINK           @"link"
 #define API_KEY_QUESTION_ANSWERED       @"is_answered"
+//    Recent badges response
+#define API_KEY_BADGES_ID               @"badge_id"
+#define API_KEY_BADGES_RANK             @"rank"
+#define API_KEY_BADGES_NAME             @"name"
+#define API_KEY_BADGES_BADGE_TYPE       @"badge_type"
+#define API_KEY_BADGES_AWARD_COUNT      @"award_count"
+#define API_KEY_BADGES_LINK             @"link"
+#define API_KEY_BADGES_USER_INFO        @"user"
 
 // *****  Strings  ***** //
 #define TEXT_SHAPE_CSTRING_UTF8_CIRCLE_SML  "\u25CF"

@@ -36,9 +36,11 @@
 @property (nonatomic, retain) NSNumber * badgesBronze;
 @property (nonatomic, readonly) NSMutableArray * reputationFromQuestions;
 @property (nonatomic, readonly) NSMutableArray * reputationFromAnswers;
+@property (nonatomic, readonly) NSMutableArray * latestBadges;
 
 
 - (BOOL) updateLastChangesFromJsonString:(NSString *)jsonString;
+- (BOOL) updateBadgesFromJsonString:(NSString *)jsonString;
 - (BOOL) updateInfoFromJsonString:(NSString *)jsonString;
 
 @end

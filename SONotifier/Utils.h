@@ -27,6 +27,7 @@
 }
 
 + (NSString *) string:(NSString*)string limitedToLength:(NSInteger)maxLength;
++ (unsigned long) getBadgeColorForType:(NSString *) type;
 + (void) addAppAsLoginItem;
 + (void) deleteAppFromLoginItem;
 

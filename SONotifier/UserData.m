@@ -35,6 +35,7 @@
 @synthesize reputationMonth;
 @synthesize reputationQuarter;
 @synthesize reputationYear;
+@synthesize latestBadges;
 
 - (id) init 
 {
@@ -43,10 +44,18 @@
     {
         reputationFromAnswers = [[NSMutableArray alloc] init];
         reputationFromQuestions = [[NSMutableArray alloc] init];
+        latestBadges = [[NSMutableArray alloc] init];
         username = @"--";
         reputation = [NSNumber numberWithInt:0];
     }
     return self;
+}
+
+- (void) dealloc
+{
+    [reputationFromAnswers release];
+    [reputationFromQuestions release];
+    [latestBadges release];
 }
 
 - (BOOL) updateLastChangesFromJsonString:(NSString *)jsonString 
@@ -87,6 +96,27 @@
     return NO;
 }
 
+
+- (BOOL) updateBadgesFromJsonString:(NSString *)jsonString 
+{
+    NSError *jsonParsingError = nil;
+    NSDictionary *data = [NSJSONSerialization JSONObjectWithData:[jsonString dataUsingEncoding:NSUTF8StringEncoding] 
+                                                         options:0 error:&jsonParsingError];
+    if (data) 
+    {
+        NSArray * badgesArray;
+        [latestBadges removeAllObjects];
+        badgesArray = [data objectForKey:@"items"];
+        for (NSDictionary * badgeInfo in badgesArray)
+        {
+            NSMutableDictionary * mDataInfo = [NSMutableDictionary dictionaryWithDictionary:badgeInfo];
+            [mDataInfo removeObjectForKey:API_KEY_BADGES_USER_INFO];
+            [latestBadges addObject:mDataInfo];
+        }     
+        return YES;
+    }
+    return NO;
+}
 - (BOOL) updateInfoFromJsonString:(NSString *)jsonString 
 {
     NSError *jsonParsingError = nil;

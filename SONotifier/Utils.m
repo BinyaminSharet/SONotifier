@@ -21,6 +21,7 @@
  */
 
 #import "Utils.h"
+#import "Globals.h"
 
 @implementation Utils
 
@@ -78,5 +79,25 @@
 		}
 		[loginItemsArray release];
 	}
+}
+
++ (unsigned long) getBadgeColorForType:(NSString *) type
+{
+    if ([type isEqualToString:API_KEY_USER_BADGE_GOLD])
+    {
+        return 0xFFFF00;
+    }
+    else if ([type isEqualToString:API_KEY_USER_BADGE_SILVER])
+    {
+        return 0xC0C0C0;
+    }
+    else if ([type isEqualToString:API_KEY_USER_BADGE_BRONZE])
+    {
+        return 0xFFD700;
+    }
+    else
+    {
+        return 0;
+    }
 }
 @end
