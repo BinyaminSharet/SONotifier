@@ -152,7 +152,6 @@
 			children = (
 				82646BA0155185A9005B2120 /* Data Management */,
 				82646BA31551862E005B2120 /* Misc */,
-				82646BA2155185F7005B2120 /* UI Elements */,
 				824A925F15324356002033A7 /* AppDelegate.h */,
 				824A926015324356002033A7 /* AppDelegate.m */,
 				824A926215324357002033A7 /* MainMenu.xib */,
@@ -168,6 +167,7 @@
 				824A925515324356002033A7 /* SONotifier-Info.plist */,
 				824A925615324356002033A7 /* InfoPlist.strings */,
 				824A925915324356002033A7 /* main.m */,
+				82646BA2155185F7005B2120 /* UI Elements */,
 				824A925B15324356002033A7 /* SONotifier-Prefix.pch */,
 				824A925C15324356002033A7 /* Credits.rtf */,
 			);

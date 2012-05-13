@@ -60,6 +60,7 @@
         responseStr = [[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding] autorelease];
         responseStr = [responseStr stringByReplacingOccurrencesOfString:@"&quot;" withString:@"\\\""];
         responseStr = [responseStr stringByReplacingOccurrencesOfString:@"&#39;" withString:@"'"];
+        responseStr = [responseStr stringByReplacingOccurrencesOfString:@"&#180;" withString:@"`"];
         NSLog(@"Received data: %@", responseStr);
     }
     return responseStr;
