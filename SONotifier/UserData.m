@@ -56,6 +56,7 @@
     [reputationFromAnswers release];
     [reputationFromQuestions release];
     [latestBadges release];
+    [super dealloc];
 }
 
 - (BOOL) updateLastChangesFromJsonString:(NSString *)jsonString 

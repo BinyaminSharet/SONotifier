@@ -30,5 +30,6 @@
 + (unsigned long) getBadgeColorForType:(NSString *) type;
 + (void) addAppAsLoginItem;
 + (void) deleteAppFromLoginItem;
++ (NSString *) getTimeStrForSeconds:(unsigned long)seconds;
 
 @end

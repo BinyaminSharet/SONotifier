@@ -27,6 +27,7 @@
 @synthesize siteData;
 @synthesize userId;
 
+
 - (id) init 
 {
     self = [super init];
@@ -45,6 +46,7 @@
     updateTimer = nil;
     self.userData = nil;
     self.siteData = nil;
+    [super dealloc];
 }
 
 - (NSString *) getDataForUrl:(NSString *)urlString 

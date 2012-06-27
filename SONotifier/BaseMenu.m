@@ -91,7 +91,8 @@ enum {
     {
         unsigned long  seconds;
         seconds = time(NULL) - lastConnectionAttempt;
-        status = [NSString stringWithFormat:@" - checked %d min. ago", seconds / 60];
+        NSString * timeStr = [Utils getTimeStrForSeconds:seconds];
+        status = [NSString stringWithFormat:@" - checked %@ ago", timeStr];
     }
     [attributes removeAllObjects];
     [attributes setValue:[NSFont fontWithName:@"Helvetica" size:12] forKey:NSFontAttributeName];

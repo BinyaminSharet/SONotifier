@@ -75,9 +75,11 @@
                 {
 					LSSharedFileListItemRemove(loginItems,itemRef);
 				}
+                CFRelease(url);
 			}
 		}
 		[loginItemsArray release];
+        CFRelease(loginItems);
 	}
 }
 
@@ -99,5 +101,58 @@
     {
         return 0;
     }
+}
+
+#define MINUTE_IN_SECONDS   (60)
+#define HOUR_IN_SECONDS     (MINUTE_IN_SECONDS * 60)
+#define DAY_IN_SECONDS      (HOUR_IN_SECONDS * 60)
+#define WEEK_IN_SECONDS     (DAY_IN_SECONDS * 7)
+#define MONTH_IN_SECONDS    (DAY_IN_SECONDS * 30)
+#define YEAR_IN_SECONDS     (DAY_IN_SECONDS * 365)
+
++ (NSString *) getTimeStrForSeconds:(unsigned long)seconds
+{
+    int i;
+    struct {
+        NSString * title;
+        unsigned int factor;
+    } options[] = {
+        {   @"year",    YEAR_IN_SECONDS     },
+        {   @"month",   MONTH_IN_SECONDS    },
+        {   @"week",    WEEK_IN_SECONDS     },
+        {   @"day",     DAY_IN_SECONDS      },
+        {   @"hour",    HOUR_IN_SECONDS     },
+        {   @"minute",  MINUTE_IN_SECONDS   },
+        {   @"second",  1                   },
+    };
+    NSString * result;
+    unsigned int adjusted;
+
+    for (i = 0; i < (sizeof(options) / sizeof(options[0])) - 1; ++i)
+    {
+        if (seconds > options[i].factor)
+        {
+            break;
+        }
+    }
+    
+    adjusted = seconds / options[i].factor;
+    
+    if (adjusted == 1)
+    {
+        if ([options[i].title isEqualToString:@"hour"])
+        {
+            result = @"an hour";
+        }
+        else 
+        {
+            result = [NSString stringWithFormat:@"a %@", options[i].title];
+        }
+    }
+    else 
+    {
+        result = [NSString stringWithFormat:@"%d %@s", adjusted, options[i].title];
+    }
+    return result;
 }
 @end
