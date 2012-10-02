@@ -38,16 +38,30 @@
 
 - (void) runUpdateManager 
 {
-    updateManager = [[UpdateManager alloc] init];
-    [updateManager setUpdateDelegate:menus];
     NSNumber * interval = [PersistantData retrieveFromUserDefaults:DATA_KEY_UPDATE_INTERVAL];
     if (interval == nil) 
     {
         interval = [NSNumber numberWithDouble:60. * 10];
         [PersistantData saveItemToPreferences:interval withKey:DATA_KEY_UPDATE_INTERVAL];
     }
-    [updateManager setUpdateInterval:[interval doubleValue]];
+    NSString * seSiteName = [PersistantData retrieveFromUserDefaults:DATA_KEY_SE_SITE_API_NAME];
+    if (seSiteName == nil)
+    {
+        // show dialog to select SE site to follow
+        // fo now only, we do:
+        seSiteName = @"stackoverflow";
+    }
+    
     NSNumber * userid = [PersistantData retrieveFromUserDefaults:DATA_KEY_USER_ID];
+    if (userid == nil)
+    {
+        // handle no userid
+    }
+
+    updateManager = [[UpdateManager alloc] init];
+    [updateManager setUpdateDelegate:menus];
+    [updateManager setSiteName:seSiteName];
+    [updateManager setUpdateInterval:[interval doubleValue]];
     [updateManager setUserId:userid];
     [updateManager startRunning]; 
     [menus setUpdateManager:updateManager];
@@ -144,5 +158,6 @@
     {
         [updateManager setUpdateInterval:[[PersistantData retrieveFromUserDefaults:DATA_KEY_UPDATE_INTERVAL] doubleValue]];
     }
+    [updateManager setSiteName:[PersistantData retrieveFromUserDefaults:DATA_KEY_SE_SITE_API_NAME]];
 }
 @end

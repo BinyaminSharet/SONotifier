@@ -30,6 +30,7 @@
 		82A68A801539C9E5008DA2E8 /* SettingsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A68A7F1539C9E5008DA2E8 /* SettingsWindowController.m */; };
 		82B7849A15355BFF0097863D /* PersistantData.m in Sources */ = {isa = PBXBuildFile; fileRef = 82B7849915355BFF0097863D /* PersistantData.m */; };
 		82B784A31535835A0097863D /* icon_online.png in Resources */ = {isa = PBXBuildFile; fileRef = 82B784A21535835A0097863D /* icon_online.png */; };
+		82CFE245161B344100FE5821 /* SEApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 82CFE244161B344100FE5821 /* SEApi.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +86,8 @@
 		82B7849915355BFF0097863D /* PersistantData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PersistantData.m; path = SONotifier/PersistantData.m; sourceTree = "<group>"; };
 		82B7849C1535610C0097863D /* Globals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Globals.h; sourceTree = "<group>"; };
 		82B784A21535835A0097863D /* icon_online.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_online.png; sourceTree = "<group>"; };
+		82CFE243161B344100FE5821 /* SEApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SEApi.h; path = SONotifier/SEApi.h; sourceTree = "<group>"; };
+		82CFE244161B344100FE5821 /* SEApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SEApi.m; path = SONotifier/SEApi.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -204,6 +207,8 @@
 				824A9285153248C3002033A7 /* UserData.m */,
 				82A68A7215379ECC008DA2E8 /* SiteData.h */,
 				82A68A7315379ECC008DA2E8 /* SiteData.m */,
+				82CFE243161B344100FE5821 /* SEApi.h */,
+				82CFE244161B344100FE5821 /* SEApi.m */,
 			);
 			name = "Data Management";
 			path = ..;
@@ -367,6 +372,7 @@
 				82A68A781537AE3B008DA2E8 /* QuestionMenuItem.m in Sources */,
 				82A68A7B15397058008DA2E8 /* Utils.m in Sources */,
 				82A68A801539C9E5008DA2E8 /* SettingsWindowController.m in Sources */,
+				82CFE245161B344100FE5821 /* SEApi.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

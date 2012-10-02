@@ -24,7 +24,7 @@
 + (BOOL)saveItemToPreferences:(id)item withKey:(NSString *)key
 {
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-    
+//    NSLog(@"[PersistantData saveItemToPreferences:%@ withKey:%@]", item, key);
 	if (standardUserDefaults) 
     {
 		[standardUserDefaults setObject:item forKey:key];
@@ -43,6 +43,7 @@
     {
 		val = [standardUserDefaults objectForKey:key];
 	}
+//    NSLog(@"[PersistantData retrieveFromUserDefaults:%@] return:%@", key, val);
 	return val;
 }
 

@@ -19,6 +19,7 @@
 
 #import "UpdateManager.h"
 #import "PersistantData.h"
+#import "SEApi.h"
 
 @implementation UpdateManager
 
@@ -26,7 +27,7 @@
 @synthesize userData;
 @synthesize siteData;
 @synthesize userId;
-
+@synthesize siteName;
 
 - (id) init 
 {
@@ -49,34 +50,11 @@
     [super dealloc];
 }
 
-- (NSString *) getDataForUrl:(NSString *)urlString 
-{
-    NSURLRequest *request;
-    NSData * response;
-    NSString *responseStr = nil;
-    NSLog(@"[UpdateManager/getDataForUrl:] URL: %@", urlString);
-    request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];    
-    response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-    if (response != nil) 
-    {
-        responseStr = [[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding] autorelease];
-        responseStr = [responseStr stringByReplacingOccurrencesOfString:@"&quot;" withString:@"\\\""];
-        responseStr = [responseStr stringByReplacingOccurrencesOfString:@"&#39;" withString:@"'"];
-        responseStr = [responseStr stringByReplacingOccurrencesOfString:@"&#180;" withString:@"`"];
-        NSLog(@"Received data: %@", responseStr);
-    }
-    return responseStr;
-}
-
-- (NSString *) getDataForApiRequest:(NSString *) apiRequest 
-{
-    NSString * urlString = [NSString stringWithFormat:@"%@%@%@%@", API_20_BASE_URL, apiRequest, API_20_APP_ID, API_20_APP_KEY];
-    return [self getDataForUrl:urlString];
-}
-
 - (NSString *) buildNewQuestionQuery 
 {
-    return [@"/questions?page=1&pagesize=10&order=desc&sort=activity&site=stackoverflow&filter=" stringByAppendingString:API_20_FILTER_QUESTIONS];
+    NSString * res = [NSString stringWithFormat:@"/questions?page=1&pagesize=10&order=desc&sort=activity&site=%@&filter=%@", 
+                      siteName, API_20_FILTER_QUESTIONS];
+    return res;
 }
 
 - (BOOL) fetchUserInfoFromServer
@@ -84,8 +62,8 @@
     NSString * apiRequest;
     NSString * responseStr;    
     NSLog(@"[UpdateManager/bgUpdate] Getting user info");    
-    apiRequest = [NSString stringWithFormat:@"/users/%@?site=stackoverflow", userId];
-    responseStr = [self getDataForApiRequest:apiRequest];
+    apiRequest = [NSString stringWithFormat:@"/users/%@?site=%@", userId, siteName];
+    responseStr = [SEApi getDataForApiRequest:apiRequest];
     if (responseStr != nil)
     {
         if ([userData updateInfoFromJsonString:responseStr]) 
@@ -105,8 +83,8 @@
     //badges for the last week
     NSTimeInterval interval = [[NSDate date ]timeIntervalSince1970];
     interval = interval - (7 * 24 * 60 * 60);    
-    apiRequest = [NSString stringWithFormat:@"/users/%@/badges?order=desc&min=%.0f&sort=awarded&site=stackoverflow", userId, interval];
-    responseStr = [self getDataForApiRequest:apiRequest];
+    apiRequest = [NSString stringWithFormat:@"/users/%@/badges?order=desc&min=%.0f&sort=awarded&site=%@", userId, interval, siteName];
+    responseStr = [SEApi getDataForApiRequest:apiRequest];
     if (responseStr != nil)
     {
         if ([userData updateBadgesFromJsonString:responseStr]) 
@@ -123,8 +101,8 @@
     NSString * apiRequest;
     NSString * responseStr;
     NSLog(@"[UpdateManager/bgUpdate] Getting reputation changes");    
-    apiRequest = [NSString stringWithFormat:@"/users/%@/reputation?page=1&pagesize=14&site=stackoverflow&filter=!amIOctbmUQ-Bx0", userId];
-    responseStr = [self getDataForApiRequest:apiRequest];
+    apiRequest = [NSString stringWithFormat:@"/users/%@/reputation?page=1&pagesize=14&site=%@&filter=!amIOctbmUQ-Bx0", userId, siteName];
+    responseStr = [SEApi getDataForApiRequest:apiRequest];
     
     if (responseStr != nil)
     {
@@ -141,7 +119,7 @@
 {
     NSString * responseStr;
     NSLog(@"[UpdateManager/bgUpdate] Getting new questions");
-    responseStr = [self getDataForApiRequest:[self buildNewQuestionQuery]];
+    responseStr = [SEApi getDataForApiRequest:[self buildNewQuestionQuery]];
     if (responseStr != nil)
     {
         [siteData updateNewsetQuestionsFromJsonString:responseStr];

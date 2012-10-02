@@ -20,17 +20,111 @@
 #import "SettingsWindowController.h"
 #import "PersistantData.h"
 #import "Utils.h"
+#import "SEApi.h"
+
+#define API_KEY_API_SITE_PARAMETER  @"api_site_parameter"
+#define API_KEY_SITE_NAME           @"name"
+#define API_KEY_SITE_URL            @"site_url"
+#define API_KEY_LOGO_URL            @"logo_url"
+#define API_KEY_SITE_TYPE           @"site_type"
+#define API_VALUE_SITE_TYPE_MAIN    @"main_site"
+
+
 
 @implementation SettingsWindowController
 
 @synthesize delegate;
+@synthesize sitesArray = _siteArray;
+
+- (NSString *) getSitesListFromUserDefaults
+{
+    NSNumber * lastupdate = [PersistantData retrieveFromUserDefaults:DATA_KEY_SE_SITE_LAST_UPDATE];
+    if (lastupdate) 
+    {
+        NSTimeInterval current = [[NSDate date] timeIntervalSince1970];
+        double offset = [lastupdate doubleValue] - current;
+        // if updated in last 24 hours
+        if (offset < ( 60 * 60 * 24))
+        {
+            return [PersistantData retrieveFromUserDefaults:DATA_KEY_SE_SITE_FULL_JSON];
+        }
+    }
+    return nil;
+}
+
+- (void) setCurrentSiteIndexInArray
+{
+    NSString * siteName = [PersistantData retrieveFromUserDefaults:DATA_KEY_SE_SITE_API_NAME];
+    selectedSiteIndex = 0;
+    if (siteName)
+    {
+        for (int i = 0; i < [[self sitesArray] count]; ++i)
+        {
+            if ([siteName isEqualToString:[[[self sitesArray] objectAtIndex:i] objectForKey:API_KEY_API_SITE_PARAMETER]])
+            {
+                selectedSiteIndex = i;
+                break;
+            }
+        }
+    }
+}
+
+-(void) removeNonMainEntriesFromSitesArray
+{
+    for (int i = [[self sitesArray] count] - 1; i >= 0; --i)
+    {
+        NSDictionary * dict = [[self sitesArray] objectAtIndex:i];
+        if ([API_VALUE_SITE_TYPE_MAIN isEqualToString:[dict objectForKey:API_KEY_SITE_TYPE]] == NO)
+        {
+            [[self sitesArray] removeObjectAtIndex:i];
+        }
+    }
+}
+
+- (BOOL) populateSitesArray
+{
+    BOOL downloaded = NO;
+    selectedSiteIndex = 0;
+    NSString * jsonString = nil;
+    // check if already populated in the last day
+    //jsonString = [self getSitesListFromUserDefaults];
+    if (jsonString == nil)
+    {
+        downloaded = YES;
+        jsonString = [SEApi getDataForApiRequest:@"/sites?page=1&pagesize=999"];
+    }    
+    NSError *jsonParsingError = nil;
+    NSDictionary *data = [NSJSONSerialization JSONObjectWithData:[jsonString dataUsingEncoding:NSUTF8StringEncoding] 
+                                                         options:0 error:&jsonParsingError];
+    if (data) 
+    {
+        NSArray * arr = [data objectForKey:@"items"];
+        if (arr)
+        {
+            //_siteArray = [NSMutableArray arrayWithArray:arr];
+            _siteArray = [arr mutableCopy];
+            [self removeNonMainEntriesFromSitesArray];
+            if (downloaded)
+            {
+                [PersistantData saveItemToPreferences:jsonString withKey:DATA_KEY_SE_SITE_FULL_JSON];
+                NSTimeInterval interval = [[NSDate date] timeIntervalSince1970];
+                [PersistantData saveItemToPreferences:[NSNumber numberWithDouble:interval] withKey:DATA_KEY_SE_SITE_LAST_UPDATE];
+
+            }
+            [self setSitesArray:_siteArray];
+            [self setCurrentSiteIndexInArray];
+            return YES;
+        }
+    }
+    return NO;
+}
 
 - (id)init
 {
     self = [super initWithWindowNibName:@"SettingsWindow"];
     if (self) 
     {
-        [super windowDidLoad];
+        [self populateSitesArray];
         [[self window] setDelegate:self];
         NSString * temp = [PersistantData retrieveFromUserDefaults:DATA_KEY_LAUNCH_AT_STARTUP];
         storedLaunchState = ([@"YES" compare:temp] == NSOrderedSame) ? NSOnState : NSOffState;
@@ -49,6 +143,7 @@
 - (void)windowDidLoad
 {
     // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
+    [super windowDidLoad];
 }
 
 - (IBAction)showWindow:(id)sender
@@ -117,13 +212,38 @@
         storedLaunchState = choice;
         flags |= SETTINGS_LAUNCH_ONSTART_CHANGED;
     }
+    // Save site data
+    NSDictionary * dict = [_siteArray objectAtIndex:selectedSiteIndex];
+    [PersistantData saveItemToPreferences:[dict objectForKey:API_KEY_API_SITE_PARAMETER] withKey:DATA_KEY_SE_SITE_API_NAME];
+    [PersistantData saveItemToPreferences:[dict objectForKey:API_KEY_SITE_NAME] withKey:DATA_KEY_SE_SITE_NAME];
+    [PersistantData saveItemToPreferences:[dict objectForKey:API_KEY_SITE_URL] withKey:DATA_KEY_SE_SITE_URL];
     return flags;
 }
 
 - (BOOL)windowShouldClose:(id)sender 
 {
-    NSLog(@"Should close called");
     [delegate dataUpdated:[self updateFromFields]];
     return YES;
 }
+
+// Table of sites.
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
+{
+    NSDictionary * dict = [[self sitesArray] objectAtIndex:rowIndex];
+    NSString * str = [NSString stringWithString:[dict objectForKey:API_KEY_SITE_NAME]];
+    [[aTableColumn dataCell] setEditable:NO];
+    return str;
+}
+
+- (IBAction)columnChangeSelected:(id)sender
+{
+    selectedSiteIndex = [sitesTable selectedRow];
+}
+
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
+    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:selectedSiteIndex];
+    [tableView selectRowIndexes:indexSet byExtendingSelection:NO];
+    return [[self sitesArray] count];
+}
+
 @end

@@ -33,13 +33,19 @@
 #define DATA_KEY_REPUTATION_CHANGE  @"com_bsharet_sonotifier_reputation_change"
 #define DATA_KEY_CONFIGURED         @"com_bsharet_sonotifier_configured"
 #define DATA_KEY_LAUNCH_AT_STARTUP  @"com_bsharet_sonotifier_launch_at_startup"
+#define DATA_KEY_SE_SITE_API_NAME   @"com_bsharet_sonotifier_se_site_api_name"
+#define DATA_KEY_SE_SITE_NAME       @"com_bsharet_sonotifier_se_site_name"
+#define DATA_KEY_SE_SITE_URL        @"com_bsharet_sonotifier_se_site_url"
+#define DATA_KEY_SE_SITE_FULL_JSON  @"com_bsharet_sonotifier_se_site_full_json"
+#define DATA_KEY_SE_SITE_LAST_UPDATE    @"com_bsharet_sonotifier_se_site_last_update"
 
 // *****  StackExchange API 2.0  ***** 
 //  Base URL
-#define API_20_BASE_URL             @"http://api.stackexchange.com/2.0"
+#define API_20_BASE_URL             @"http://api.stackexchange.com/2.1"
 #define API_20_FILTER_QUESTIONS     @"!-rf7acLF"
-#define API_20_APP_ID               @"&client_id=287"
-#define API_20_APP_KEY              @"&key=nWxVLEQliwjmk5QH5NZIpw(("
+#define API_20_APP_ID               @"287"
+#define API_20_APP_KEY              @"nWxVLEQliwjmk5QH5NZIpw(("
+#define API_20_FILTER_SITES         @"!2--_63XxK.Et4Pwe0ZXKT"
 
 
 //  Keys for parsing server JSON response 
@@ -90,6 +96,5 @@
 #define CONNECTION_OFFLINE      @"Connection Problem"
 #define CONNECTION_CONNECTING   @"Connecting..."
 #define CONNECTION_CONNECTED    @"Connected"
-
 
 #endif  //SONotifier_Globals_h

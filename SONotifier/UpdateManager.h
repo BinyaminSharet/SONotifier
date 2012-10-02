@@ -41,6 +41,7 @@ typedef enum {
 @property (nonatomic, retain) UserData * userData;
 @property (nonatomic, retain) SiteData * siteData;
 @property (nonatomic, retain) NSNumber * userId;
+@property (nonatomic, retain) NSString * siteName;
 
 - (void) updateFromCommand;
 - (void) setUpdateInterval:(NSTimeInterval)interval;

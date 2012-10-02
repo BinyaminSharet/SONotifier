@@ -30,19 +30,26 @@ enum SETTING_UPDATE_FLAGS
 - (void) dataUpdated:(NSInteger)updateFlags;
 
 @end
-@interface SettingsWindowController : NSWindowController <NSWindowDelegate>{
+@interface SettingsWindowController : NSWindowController <NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource>{
     IBOutlet NSButton *launchAtStartUp;
     IBOutlet NSTextField *favoriteTags;
     IBOutlet NSTextField *userId;
     IBOutlet NSTextField *updateIntervals;
     IBOutlet NSWindow *window;
+    IBOutlet NSTableView *sitesTable;
     NSInteger storedLaunchState;
     NSNumber * intervals;
     NSNumber * storedUserId;
+    NSInteger selectedSiteIndex;
+    NSMutableArray * _siteArray;
 }
 
 @property (nonatomic, retain) NSObject<SettingsWindowDelegate> * delegate;
+@property (nonatomic, retain) NSMutableArray * sitesArray;
 
 - (BOOL)windowShouldClose:(id)sender;
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex;
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView;
+- (IBAction)columnChangeSelected:(id)sender;
 
 @end
