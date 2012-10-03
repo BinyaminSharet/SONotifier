@@ -87,7 +87,7 @@
     selectedSiteIndex = 0;
     NSString * jsonString = nil;
     // check if already populated in the last day
-    //jsonString = [self getSitesListFromUserDefaults];
+    jsonString = [self getSitesListFromUserDefaults];
     if (jsonString == nil)
     {
         downloaded = YES;
