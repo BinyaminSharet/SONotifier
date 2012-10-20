@@ -16,7 +16,7 @@
     NSURLRequest *request;
     NSData * response;
     NSString *responseStr = nil;
-    NSLog(@"[UpdateManager/getDataForUrl:] URL: %@", urlString);
+    //NSLog(@"[SEApi/getDataForUrl:] URL: %@", urlString);
     request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];    
     response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
     if (response != nil) 
@@ -25,7 +25,7 @@
         responseStr = [responseStr stringByReplacingOccurrencesOfString:@"&quot;" withString:@"\\\""];
         responseStr = [responseStr stringByReplacingOccurrencesOfString:@"&#39;" withString:@"'"];
         responseStr = [responseStr stringByReplacingOccurrencesOfString:@"&#180;" withString:@"`"];
-        //NSLog(@"Received data: %@", responseStr);
+        //NSLog(@"[SEApi/getDataForUrl:] Received data: %@", responseStr);
     }
     return responseStr;
 }

@@ -30,6 +30,8 @@
 @property (nonatomic, retain) NSNumber * reputationMonth;
 @property (nonatomic, retain) NSNumber * reputationQuarter;
 @property (nonatomic, retain) NSNumber * reputationYear;
+@property (nonatomic, retain) NSImage * userProfileImage;
+@property (nonatomic, retain) NSString * userProgileImageUrl;
 
 @property (nonatomic, retain) NSNumber * badgesGold;
 @property (nonatomic, retain) NSNumber * badgesSilver;

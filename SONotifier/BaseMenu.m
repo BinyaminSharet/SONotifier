@@ -307,8 +307,11 @@ enum {
     // username
     currentTitle = [data username];
     LinkMenuItem * nameItem = (LinkMenuItem*)[menu itemAtIndex:SM_INDEX_NAME];
-    [nameItem setUrl:[NSString stringWithFormat:@"http://www.stackoverflow.com/users/%@", 
-                      [PersistantData retrieveFromUserDefaults:DATA_KEY_USER_ID]]];
+    NSString * urlString = [NSString stringWithFormat:@"%@/users/%@", 
+                            [PersistantData retrieveFromUserDefaults:DATA_KEY_SE_SITE_URL],
+                            [PersistantData retrieveFromUserDefaults:DATA_KEY_USER_ID]];
+    [nameItem setUrl:urlString];
+    [nameItem setImage:[data userProfileImage]];
     [nameItem setAction:@selector(openUrl:)];
     [nameItem setEnabled:YES];
     [nameItem setTarget:nameItem];

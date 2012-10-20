@@ -19,6 +19,7 @@
 
 #import "LinkMenuItem.h"
 #import "Globals.h"
+#import "PersistantData.h"
 #import "Utils.h"
 
 @implementation LinkMenuItem
@@ -59,7 +60,8 @@
     {
         NSAttributedString * ftitle = [self createTitleFromDictionary:dict];
         [self setAttributedTitle:ftitle];
-        [self setUrl:[NSString stringWithFormat:@"http://www.stackoverflow.com/questions/%@",
+        [self setUrl:[NSString stringWithFormat:@"%@/questions/%@",
+                      [PersistantData retrieveFromUserDefaults:DATA_KEY_SE_SITE_URL],
                       [dict objectForKey:@"post_id"]]];
         [self setEnabled:YES];
         [self setTarget:self];

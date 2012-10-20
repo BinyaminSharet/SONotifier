@@ -181,7 +181,7 @@
 
 - (void) setUpdateInterval:(NSTimeInterval)interval 
 {
-    NSLog(@"[UpdateManager/setUpdateInterval] %f", interval);
+    //NSLog(@"[UpdateManager/setUpdateInterval] %f", interval);
     BOOL reschedule = updateInterval > interval;
     updateInterval = interval;
     if (reschedule) 

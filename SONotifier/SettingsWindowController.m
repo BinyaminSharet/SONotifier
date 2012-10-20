@@ -94,15 +94,19 @@
         jsonString = [SEApi getDataForApiRequest:@"/sites?page=1&pagesize=999"];
     }    
     NSError *jsonParsingError = nil;
-    NSDictionary *data = [NSJSONSerialization JSONObjectWithData:[jsonString dataUsingEncoding:NSUTF8StringEncoding] 
-                                                         options:0 error:&jsonParsingError];
+    NSDictionary *data = [[NSJSONSerialization JSONObjectWithData:[jsonString dataUsingEncoding:NSUTF8StringEncoding] 
+                                                         options:0 error:&jsonParsingError] retain];
+    if (jsonParsingError)
+    {
+        [jsonParsingError release];
+    }
     if (data) 
     {
         NSArray * arr = [data objectForKey:@"items"];
         if (arr)
         {
             //_siteArray = [NSMutableArray arrayWithArray:arr];
-            _siteArray = [arr mutableCopy];
+            self.sitesArray = [[arr mutableCopy] autorelease];
             [self removeNonMainEntriesFromSitesArray];
             if (downloaded)
             {
@@ -111,10 +115,11 @@
                 [PersistantData saveItemToPreferences:[NSNumber numberWithDouble:interval] withKey:DATA_KEY_SE_SITE_LAST_UPDATE];
 
             }
-            [self setSitesArray:_siteArray];
             [self setCurrentSiteIndexInArray];
+            [data release];
             return YES;
         }
+        [data release];
     }
     return NO;
 }
@@ -213,7 +218,7 @@
         flags |= SETTINGS_LAUNCH_ONSTART_CHANGED;
     }
     // Save site data
-    NSDictionary * dict = [_siteArray objectAtIndex:selectedSiteIndex];
+    NSDictionary * dict = [[self sitesArray] objectAtIndex:selectedSiteIndex];
     [PersistantData saveItemToPreferences:[dict objectForKey:API_KEY_API_SITE_PARAMETER] withKey:DATA_KEY_SE_SITE_API_NAME];
     [PersistantData saveItemToPreferences:[dict objectForKey:API_KEY_SITE_NAME] withKey:DATA_KEY_SE_SITE_NAME];
     [PersistantData saveItemToPreferences:[dict objectForKey:API_KEY_SITE_URL] withKey:DATA_KEY_SE_SITE_URL];
@@ -246,4 +251,10 @@
     return [[self sitesArray] count];
 }
 
+- (void) dealloc
+{
+    [self setSitesArray:nil];
+    [super dealloc];
+    
+}
 @end

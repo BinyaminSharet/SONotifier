@@ -36,6 +36,8 @@
 @synthesize reputationQuarter;
 @synthesize reputationYear;
 @synthesize latestBadges;
+@synthesize userProfileImage;
+@synthesize userProgileImageUrl;
 
 - (id) init 
 {
@@ -97,7 +99,6 @@
     return NO;
 }
 
-
 - (BOOL) updateBadgesFromJsonString:(NSString *)jsonString 
 {
     NSError *jsonParsingError = nil;
@@ -118,6 +119,7 @@
     }
     return NO;
 }
+
 - (BOOL) updateInfoFromJsonString:(NSString *)jsonString 
 {
     NSError *jsonParsingError = nil;
@@ -142,6 +144,14 @@
             [self setReputationYear:[data objectForKey:API_KEY_USER_REP_YEAR]];
             [self setReputationOffset:[NSNumber numberWithInt:[reputation intValue] - [prevReputation intValue]]];
             
+            NSString * newUserProfileImageUrl = [data objectForKey:API_KEY_USER_PROFILE_PIC];
+            if ([[self userProgileImageUrl] isEqualToString:newUserProfileImageUrl]==NO)
+            {
+                NSImage * profileImage = [[[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:newUserProfileImageUrl]] autorelease];
+                [profileImage setSize:NSMakeSize(25, 25)];
+                [self setUserProfileImage:profileImage];
+                [self setUserProgileImageUrl:newUserProfileImageUrl];
+            }
             // badge count
             data = [data objectForKey:API_KEY_USER_BADGES_DICT];
             [self setBadgesGold:[data objectForKey:API_KEY_USER_BADGE_GOLD]];

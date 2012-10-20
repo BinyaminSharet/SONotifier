@@ -39,7 +39,7 @@
 #define DATA_KEY_SE_SITE_FULL_JSON  @"com_bsharet_sonotifier_se_site_full_json"
 #define DATA_KEY_SE_SITE_LAST_UPDATE    @"com_bsharet_sonotifier_se_site_last_update"
 
-// *****  StackExchange API 2.0  ***** 
+// *****  StackExchange API 2.1  ***** 
 //  Base URL
 #define API_20_BASE_URL             @"http://api.stackexchange.com/2.1"
 #define API_20_FILTER_QUESTIONS     @"!-rf7acLF"
@@ -49,10 +49,12 @@
 
 
 //  Keys for parsing server JSON response 
+
 //    Reputation changes response
 #define API_KEY_REPUTATION_CHANGE   @"reputation_change"
 #define API_KEY_REPUTATION_TITLE    @"title"
 #define API_KEY_REPUTATION_POST_ID  @"post_id"
+
 //    User info response
 #define API_KEY_USER_ID             @"user_id"
 #define API_KEY_USER_TYPE           @"user_type"
@@ -68,6 +70,8 @@
 #define API_KEY_USER_REP_MONTH      @"reputation_change_month"
 #define API_KEY_USER_REP_QUARTER    @"reputation_change_quarter"
 #define API_KEY_USER_REP_YEAR       @"reputation_change_year"
+#define API_KEY_USER_PROFILE_PIC    @"profile_image"
+
 //    Recent questions response
 #define API_KEY_QUESTION_ID             @"question_id"
 #define API_KEY_QUESTION_SCORE          @"score"
@@ -76,6 +80,7 @@
 #define API_KEY_QUESTION_TAGS_ARRAY     @"tags"
 #define API_KEY_QUESTION_LINK           @"link"
 #define API_KEY_QUESTION_ANSWERED       @"is_answered"
+
 //    Recent badges response
 #define API_KEY_BADGES_ID               @"badge_id"
 #define API_KEY_BADGES_RANK             @"rank"
