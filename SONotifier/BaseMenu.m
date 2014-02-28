@@ -223,7 +223,7 @@ enum {
                                             green:((rgb >> 8) & 0xFF) / 255.0
                                              blue:(rgb & 0xFF) / 255.0
                                             alpha:1.0];
-    title = [NSString stringWithUTF8String:TEXT_SHAPE_CSTRING_UTF8_CIRCLE_MED];
+    title = [NSString stringWithUTF8String:TEXT_SHAPE_CSTRING_UTF8_FISHEYE];
     title = [NSString stringWithFormat:@"%@ %@   ", title, value];
     nas = [[[NSMutableAttributedString alloc] initWithString:title] autorelease];
     [nas setAttributes:[NSDictionary dictionaryWithObjectsAndKeys:

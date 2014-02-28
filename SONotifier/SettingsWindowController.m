@@ -71,7 +71,7 @@
 
 -(void) removeNonMainEntriesFromSitesArray
 {
-    for (int i = [[self sitesArray] count] - 1; i >= 0; --i)
+    for (int i = (int)[[self sitesArray] count] - 1; i >= 0; --i)
     {
         NSDictionary * dict = [[self sitesArray] objectAtIndex:i];
         if ([API_VALUE_SITE_TYPE_MAIN isEqualToString:[dict objectForKey:API_KEY_SITE_TYPE]] == NO)

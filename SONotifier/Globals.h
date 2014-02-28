@@ -92,7 +92,9 @@
 
 // *****  Strings  ***** //
 #define TEXT_SHAPE_CSTRING_UTF8_CIRCLE_SML  "\u25CF"
-#define TEXT_SHAPE_CSTRING_UTF8_CIRCLE_MED  "\u26AB"
+// For some reason, this symbol is not supported in OSX 10.9
+//#define TEXT_SHAPE_CSTRING_UTF8_CIRCLE_MED  "\u26AB"
+#define TEXT_SHAPE_CSTRING_UTF8_FISHEYE  "\u25c9"
 
 // *****  Connection properties  ***** //
 #define DEFAULT_UPDATE_INTERVAL     (60. * 10)

@@ -126,7 +126,7 @@
         {   @"second",  1                   },
     };
     NSString * result;
-    unsigned int adjusted;
+    unsigned long adjusted;
 
     for (i = 0; i < (sizeof(options) / sizeof(options[0])) - 1; ++i)
     {
@@ -151,7 +151,7 @@
     }
     else 
     {
-        result = [NSString stringWithFormat:@"%d %@s", adjusted, options[i].title];
+        result = [NSString stringWithFormat:@"%lu %@s", adjusted, options[i].title];
     }
     return result;
 }
