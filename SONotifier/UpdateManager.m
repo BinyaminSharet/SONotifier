@@ -101,7 +101,7 @@
     NSString * apiRequest;
     NSString * responseStr;
     NSLog(@"[UpdateManager/bgUpdate] Getting reputation changes");    
-    apiRequest = [NSString stringWithFormat:@"/users/%@/reputation?page=1&pagesize=14&site=%@&filter=!amIOctbmUQ-Bx0", userId, siteName];
+    apiRequest = [NSString stringWithFormat:@"/users/%@/reputation?page=1&pagesize=14&site=%@&filter=%@", userId, siteName, API_20_FILTER_REP_CHANGES];
     responseStr = [SEApi getDataForApiRequest:apiRequest];
     
     if (responseStr != nil)

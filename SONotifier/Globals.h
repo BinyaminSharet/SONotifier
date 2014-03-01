@@ -33,6 +33,8 @@
 #define DATA_KEY_REPUTATION_CHANGE  @"com_bsharet_sonotifier_reputation_change"
 #define DATA_KEY_CONFIGURED         @"com_bsharet_sonotifier_configured"
 #define DATA_KEY_LAUNCH_AT_STARTUP  @"com_bsharet_sonotifier_launch_at_startup"
+#define DATA_KEY_SHOW_NOTIFICATIONS @"com_bsharet_sonotifier_show_notifications"
+#define DATA_KEY_SE_SITE_INDEX      @"com_bsharet_sonotifier_se_site_index"
 #define DATA_KEY_SE_SITE_API_NAME   @"com_bsharet_sonotifier_se_site_api_name"
 #define DATA_KEY_SE_SITE_NAME       @"com_bsharet_sonotifier_se_site_name"
 #define DATA_KEY_SE_SITE_URL        @"com_bsharet_sonotifier_se_site_url"
@@ -46,6 +48,7 @@
 #define API_20_APP_ID               @"287"
 #define API_20_APP_KEY              @"nWxVLEQliwjmk5QH5NZIpw(("
 #define API_20_FILTER_SITES         @"!2--_63XxK.Et4Pwe0ZXKT"
+#define API_20_FILTER_REP_CHANGES   @"!amIOctbmUQ-Bx0"
 
 
 //  Keys for parsing server JSON response 

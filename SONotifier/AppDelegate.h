@@ -22,7 +22,7 @@
 #import "UpdateManager.h"
 #import "SettingsWindowController.h"
 
-@interface AppDelegate : NSObject <NSApplicationDelegate, BaseMenuDelegate, SettingsWindowDelegate> {
+@interface AppDelegate : NSObject <NSApplicationDelegate, BaseMenuDelegate, SettingsWindowDelegate, NSUserNotificationCenterDelegate> {
     BaseMenu * menus;
     UpdateManager * updateManager;
 }

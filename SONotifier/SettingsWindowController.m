@@ -2,17 +2,17 @@
  * Copyright (C) 2012 Binyamin Sharet
  *
  * This file is part of SONotifier.
- * 
+ *
  * SONotifier is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * SONotifier is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with SONotifier. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -39,7 +39,7 @@
 - (NSString *) getSitesListFromUserDefaults
 {
     NSNumber * lastupdate = [PersistantData retrieveFromUserDefaults:DATA_KEY_SE_SITE_LAST_UPDATE];
-    if (lastupdate) 
+    if (lastupdate)
     {
         NSTimeInterval current = [[NSDate date] timeIntervalSince1970];
         double offset = [lastupdate doubleValue] - current;
@@ -92,15 +92,15 @@
     {
         downloaded = YES;
         jsonString = [SEApi getDataForApiRequest:@"/sites?page=1&pagesize=999"];
-    }    
+    }
     NSError *jsonParsingError = nil;
-    NSDictionary *data = [[NSJSONSerialization JSONObjectWithData:[jsonString dataUsingEncoding:NSUTF8StringEncoding] 
-                                                         options:0 error:&jsonParsingError] retain];
+    NSDictionary *data = [[NSJSONSerialization JSONObjectWithData:[jsonString dataUsingEncoding:NSUTF8StringEncoding]
+                                                          options:0 error:&jsonParsingError] retain];
     if (jsonParsingError)
     {
         [jsonParsingError release];
     }
-    if (data) 
+    if (data)
     {
         NSArray * arr = [data objectForKey:@"items"];
         if (arr)
@@ -113,7 +113,7 @@
                 [PersistantData saveItemToPreferences:jsonString withKey:DATA_KEY_SE_SITE_FULL_JSON];
                 NSTimeInterval interval = [[NSDate date] timeIntervalSince1970];
                 [PersistantData saveItemToPreferences:[NSNumber numberWithDouble:interval] withKey:DATA_KEY_SE_SITE_LAST_UPDATE];
-
+                
             }
             [self setCurrentSiteIndexInArray];
             [data release];
@@ -124,20 +124,35 @@
     return NO;
 }
 
++ (int) getCurrentSelectedSiteIndex
+{
+    NSNumber * num = [PersistantData retrieveFromUserDefaults:DATA_KEY_SE_SITE_INDEX];
+    if ( num == nil )
+    {
+        return -1;
+    }
+    return [num intValue];
+}
+
 - (id)init
 {
     self = [super initWithWindowNibName:@"SettingsWindow"];
-    if (self) 
+    if (self)
     {
         [self populateSitesArray];
         [[self window] setDelegate:self];
         NSString * temp = [PersistantData retrieveFromUserDefaults:DATA_KEY_LAUNCH_AT_STARTUP];
         storedLaunchState = ([@"YES" compare:temp] == NSOrderedSame) ? NSOnState : NSOffState;
         [launchAtStartUp setState:storedLaunchState];
+        temp = [PersistantData retrieveFromUserDefaults:DATA_KEY_SHOW_NOTIFICATIONS];
+        storedNotificationsState = ([@"YES" compare:temp] == NSOrderedSame) ? NSOnState : NSOffState;
+        [showNotifications setState:storedNotificationsState];
         intervals = [PersistantData retrieveFromUserDefaults:DATA_KEY_UPDATE_INTERVAL];
         intervals = [NSNumber numberWithInt:[intervals intValue] / 60];
         [updateIntervals setStringValue:[intervals stringValue]];
         storedUserId = [PersistantData retrieveFromUserDefaults:DATA_KEY_USER_ID];
+        [userId setStringValue:[NSString stringWithFormat:@"%@", storedUserId]];
+        storedSelectedSiteIndex = [SettingsWindowController getCurrentSelectedSiteIndex];
         [[self window] center];
         [[self window] setLevel:NSFloatingWindowLevel];
     }
@@ -156,24 +171,24 @@
     [super showWindow:sender];
 }
 
-- (IBAction)saveAndClose:(id)sender 
+- (IBAction)saveAndClose:(id)sender
 {
     [[self window] performClose:self];
     [[self window] close];
 }
 
-- (NSInteger) updateFromFields 
+- (NSInteger) updateFromFields
 {
     NSInteger flags = 0;
     NSString * str;
     str = [updateIntervals stringValue];
-    if (str) 
+    if (str)
     {
         int intVal = [str intValue];
         // avoid access to persistant data when no change happens
         if (intVal > 0)
         {
-            if (intVal != [intervals intValue]) 
+            if (intVal != [intervals intValue])
             {
                 NSLog(@"Setting update interval to: %d minutes, the string is: %@", intVal, str);
                 NSNumber * num = [NSNumber numberWithDouble:intVal * 60.];
@@ -183,11 +198,11 @@
         }
     }
     str = [userId stringValue];
-    if (str) 
+    if (str)
     {
         int intVal = [str intValue];
         // avoid access to persistant data when no change happens
-        if (intVal > 0) 
+        if (intVal > 0)
         {
             if (intVal != [storedUserId intValue])
             {
@@ -200,10 +215,10 @@
     }
     NSInteger choice = [launchAtStartUp state];
     // avoid access to persistant data when no change happens
-    if (choice != storedLaunchState) 
+    if (choice != storedLaunchState)
     {
         NSString * value;
-        if (choice == NSOnState) 
+        if (choice == NSOnState)
         {
             [Utils addAppAsLoginItem];
             value = @"YES";
@@ -217,15 +232,25 @@
         storedLaunchState = choice;
         flags |= SETTINGS_LAUNCH_ONSTART_CHANGED;
     }
+    choice = [showNotifications state];
+    if (choice != storedNotificationsState)
+    {
+        NSString * value;
+        value = ( choice == NSOnState ) ? @"YES" : @"NO";
+        [PersistantData saveItemToPreferences:value withKey:DATA_KEY_SHOW_NOTIFICATIONS];
+        storedNotificationsState = choice;
+        flags |= SETTINGS_SHOW_NOTIFICATIONS_CHANGED;
+    }
     // Save site data
-    NSDictionary * dict = [[self sitesArray] objectAtIndex:selectedSiteIndex];
-    [PersistantData saveItemToPreferences:[dict objectForKey:API_KEY_API_SITE_PARAMETER] withKey:DATA_KEY_SE_SITE_API_NAME];
-    [PersistantData saveItemToPreferences:[dict objectForKey:API_KEY_SITE_NAME] withKey:DATA_KEY_SE_SITE_NAME];
-    [PersistantData saveItemToPreferences:[dict objectForKey:API_KEY_SITE_URL] withKey:DATA_KEY_SE_SITE_URL];
+    if ( selectedSiteIndex != storedSelectedSiteIndex)
+    {
+        flags |= SETTINGS_SITE_CHANGED;
+        storedSelectedSiteIndex = selectedSiteIndex;
+    }
     return flags;
 }
 
-- (BOOL)windowShouldClose:(id)sender 
+- (BOOL)windowShouldClose:(id)sender
 {
     [delegate dataUpdated:[self updateFromFields]];
     return YES;
@@ -237,17 +262,26 @@
     NSDictionary * dict = [[self sitesArray] objectAtIndex:rowIndex];
     NSString * str = [NSString stringWithString:[dict objectForKey:API_KEY_SITE_NAME]];
     [[aTableColumn dataCell] setEditable:NO];
+    int shouldSelectIndex = [SettingsWindowController getCurrentSelectedSiteIndex];
+    if ( shouldSelectIndex == rowIndex )
+    {
+        NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:rowIndex];
+        [aTableView selectRowIndexes:indexSet byExtendingSelection:NO];
+    }
     return str;
 }
 
 - (IBAction)columnChangeSelected:(id)sender
 {
     selectedSiteIndex = [sitesTable selectedRow];
+    NSDictionary * dict = [[self sitesArray] objectAtIndex:selectedSiteIndex];
+    [PersistantData saveItemToPreferences:[dict objectForKey:API_KEY_API_SITE_PARAMETER] withKey:DATA_KEY_SE_SITE_API_NAME];
+    [PersistantData saveItemToPreferences:[dict objectForKey:API_KEY_SITE_NAME] withKey:DATA_KEY_SE_SITE_NAME];
+    [PersistantData saveItemToPreferences:[dict objectForKey:API_KEY_SITE_URL] withKey:DATA_KEY_SE_SITE_URL];
+    [PersistantData saveItemToPreferences:[NSNumber numberWithInteger:selectedSiteIndex] withKey:DATA_KEY_SE_SITE_INDEX];
 }
 
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
-    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:selectedSiteIndex];
-    [tableView selectRowIndexes:indexSet byExtendingSelection:NO];
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView {
     return [[self sitesArray] count];
 }
 

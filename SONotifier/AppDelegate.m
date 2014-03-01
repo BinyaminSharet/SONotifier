@@ -33,7 +33,15 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    // Insert code here to initialize your application
+     [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:self];
+}
+
+
+- (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center
+     shouldPresentNotification:(NSUserNotification *)notification
+{
+    id temp = [PersistantData retrieveFromUserDefaults:DATA_KEY_SHOW_NOTIFICATIONS];
+    return ([@"YES" compare:temp] == NSOrderedSame) ? YES : NO;
 }
 
 - (void) runUpdateManager 
@@ -47,14 +55,13 @@
     NSString * seSiteName = [PersistantData retrieveFromUserDefaults:DATA_KEY_SE_SITE_API_NAME];
     if (seSiteName == nil)
     {
-        // show dialog to select SE site to follow
-        // fo now only, we do:
-        seSiteName = @"stackoverflow";
+        // OHNO
     }
     
     NSNumber * userid = [PersistantData retrieveFromUserDefaults:DATA_KEY_USER_ID];
     if (userid == nil)
     {
+        // OHNO
         // handle no userid
     }
 
@@ -102,41 +109,26 @@
     }
 }
 
-- (BOOL) getBasicConfiguration 
+- (void) gogogo
 {
-    NSString * input = [self input:@"Enter User ID" defaultValue:@""];
-    if (input != nil ) 
-    {
-        NSNumberFormatter * f = [[[NSNumberFormatter alloc] init] autorelease];
-        [f setNumberStyle:NSNumberFormatterDecimalStyle];
-        NSNumber * uid = [f numberFromString:input];
-        if (uid != nil) 
-        {
-            [PersistantData saveItemToPreferences:uid withKey:DATA_KEY_USER_ID];
-            [PersistantData saveItemToPreferences:@"YES" withKey:DATA_KEY_CONFIGURED];
-            return YES;
-        }
-    }
-    return NO;
+    [self setUi];
+    [self runUpdateManager];
+}
+
+- (void) firstTimeSetup
+{
+    [self showSettings];
 }
 
 - (void) awakeFromNib 
 {
-    [self setUi];
     if ([PersistantData retrieveFromUserDefaults:DATA_KEY_CONFIGURED] == nil) 
     {
-        if ([self getBasicConfiguration]) 
-        {
-            [self runUpdateManager];
-        }
-        else 
-        {
-            NSLog(@"DAMN");
-        }
+        [self firstTimeSetup];
     }
     else 
     {
-        [self runUpdateManager];   
+        [self gogogo];
     }
 }
 
@@ -146,18 +138,48 @@
     [settings setDelegate:self];
     [settings showWindow:self];
     [self setSettingWindow:settings];
+    
 }
 
 - (void) dataUpdated:(NSInteger)updateFlags
 {
-    if (updateFlags & SETTINGS_USER_ID_CHANGED) 
+    if ([PersistantData retrieveFromUserDefaults:DATA_KEY_CONFIGURED] == nil)
     {
-        [updateManager setUserId:[PersistantData retrieveFromUserDefaults:DATA_KEY_USER_ID]];
+        int requiredFields = SETTINGS_USER_ID_CHANGED;
+        requiredFields |= SETTINGS_SITE_CHANGED;
+        BOOL areWeReady = (updateFlags & requiredFields) == requiredFields;
+        if (areWeReady)
+        {
+            [self gogogo];
+            [PersistantData saveItemToPreferences:@"YES" withKey:DATA_KEY_CONFIGURED];
+        }
+        else
+        {
+            [self firstTimeSetup];
+        }
     }
-    if (updateFlags & SETTINGS_UPDATE_INTERVAL_CHANGED)
+    else
     {
-        [updateManager setUpdateInterval:[[PersistantData retrieveFromUserDefaults:DATA_KEY_UPDATE_INTERVAL] doubleValue]];
+        BOOL sched = NO;
+        if (updateFlags & SETTINGS_USER_ID_CHANGED)
+        {
+            [updateManager setUserId:[PersistantData retrieveFromUserDefaults:DATA_KEY_USER_ID]];
+            sched = YES;
+        }
+        if (updateFlags & SETTINGS_UPDATE_INTERVAL_CHANGED)
+        {
+            [updateManager setUpdateInterval:[[PersistantData retrieveFromUserDefaults:DATA_KEY_UPDATE_INTERVAL] doubleValue]];
+        }
+        if (updateFlags & SETTINGS_SITE_CHANGED)
+        {
+            [updateManager setSiteName:[PersistantData retrieveFromUserDefaults:DATA_KEY_SE_SITE_API_NAME]];
+            sched = YES;
+        }
+        if (sched)
+        {
+            [updateManager updateFromCommand];
+        }
     }
-    [updateManager setSiteName:[PersistantData retrieveFromUserDefaults:DATA_KEY_SE_SITE_API_NAME]];
+    
 }
 @end

@@ -24,6 +24,8 @@ enum SETTING_UPDATE_FLAGS
     SETTINGS_USER_ID_CHANGED            = 0x00000001,
     SETTINGS_UPDATE_INTERVAL_CHANGED    = 0x00000002,
     SETTINGS_LAUNCH_ONSTART_CHANGED     = 0x00000004,
+    SETTINGS_SHOW_NOTIFICATIONS_CHANGED = 0x00000008,
+    SETTINGS_SITE_CHANGED               = 0x00000010,
 };
 @protocol SettingsWindowDelegate <NSObject>
 
@@ -32,12 +34,16 @@ enum SETTING_UPDATE_FLAGS
 @end
 @interface SettingsWindowController : NSWindowController <NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource>{
     IBOutlet NSButton *launchAtStartUp;
+    IBOutlet NSButton *showNotifications;
     IBOutlet NSTextField *favoriteTags;
     IBOutlet NSTextField *userId;
     IBOutlet NSTextField *updateIntervals;
     IBOutlet NSWindow *window;
     IBOutlet NSTableView *sitesTable;
+    
     NSInteger storedLaunchState;
+    NSInteger storedNotificationsState;
+    NSInteger storedSelectedSiteIndex;
     NSNumber * intervals;
     NSNumber * storedUserId;
     NSInteger selectedSiteIndex;

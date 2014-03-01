@@ -126,6 +126,21 @@ enum {
     [NSApp terminate:nil];
 }
 
+- (void)resetDefaults {
+    NSUserDefaults * defs = [NSUserDefaults standardUserDefaults];
+    NSDictionary * dict = [defs dictionaryRepresentation];
+    for (id key in dict) {
+        [defs removeObjectForKey:key];
+    }
+    [defs synchronize];
+}
+
+- (void) quitAndDelete
+{
+    [self resetDefaults];
+    [self quitApp];
+}
+
 - (void) initMenuItems 
 {
     NSMenuItem * currentItem = nil;
@@ -170,6 +185,15 @@ enum {
     [currentItem setTarget:self];
     [currentItem setEnabled:YES];
     [menu addItem:currentItem];
+
+    [menu addItem:[NSMenuItem separatorItem]];
+    
+    /*
+    currentItem = [[[NSMenuItem alloc] initWithTitle:@"Quit & Delete" action:@selector(quitAndDelete) keyEquivalent:@""] autorelease];
+    [currentItem setTarget:self];
+    [currentItem setEnabled:YES];
+    [menu addItem:currentItem];
+     */
     
     [statusItem setMenu:menu];
 }
@@ -296,12 +320,20 @@ enum {
     {
         [self setStatusIconWithImagePath:RESOURCE_NAME_ICON_UPDATE];
         [menuItem setTitle:[NSString stringWithFormat:@"Rep: %@ (%@)", [data reputation], offset]];
+        /*
+         send notification about the update
+         */
+        NSUserNotification *notification = [[NSUserNotification alloc] init];
+        notification.title = @"SONotifier - Reputation Change";
+        notification.informativeText = [NSString stringWithFormat:@"%@ (%@)", [data reputation], offset ];
+        notification.soundName = NSUserNotificationDefaultSoundName;
+        [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
     }
 
     [self updateExtendedReputationInfoWithData:data];
 }
 
-- (void) updateUiWithUserData:(UserData *) data 
+- (void) updateUiWithUserData:(UserData *) data
 {
     NSMenu * menu = [statusItem menu];
     NSString * currentTitle;
