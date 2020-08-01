@@ -43,7 +43,7 @@
 
 // *****  StackExchange API 2.1  ***** 
 //  Base URL
-#define API_20_BASE_URL             @"http://api.stackexchange.com/2.1"
+#define API_20_BASE_URL             @"https://api.stackexchange.com/2.1"
 #define API_20_FILTER_QUESTIONS     @"!-rf7acLF"
 #define API_20_APP_ID               @"287"
 #define API_20_APP_KEY              @"nWxVLEQliwjmk5QH5NZIpw(("
