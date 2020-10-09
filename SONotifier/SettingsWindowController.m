@@ -142,10 +142,10 @@
         [self populateSitesArray];
         [[self window] setDelegate:self];
         NSString * temp = [PersistantData retrieveFromUserDefaults:DATA_KEY_LAUNCH_AT_STARTUP];
-        storedLaunchState = ([@"YES" compare:temp] == NSOrderedSame) ? NSOnState : NSOffState;
+        storedLaunchState = ([@"YES" compare:temp] == NSOrderedSame) ? NSControlStateValueOn : NSControlStateValueOff;
         [launchAtStartUp setState:storedLaunchState];
         temp = [PersistantData retrieveFromUserDefaults:DATA_KEY_SHOW_NOTIFICATIONS];
-        storedNotificationsState = ([@"YES" compare:temp] == NSOrderedSame) ? NSOnState : NSOffState;
+        storedNotificationsState = ([@"YES" compare:temp] == NSOrderedSame) ? NSControlStateValueOn : NSControlStateValueOff;
         [showNotifications setState:storedNotificationsState];
         intervals = [PersistantData retrieveFromUserDefaults:DATA_KEY_UPDATE_INTERVAL];
         intervals = [NSNumber numberWithInt:[intervals intValue] / 60];
@@ -218,7 +218,7 @@
     if (choice != storedLaunchState)
     {
         NSString * value;
-        if (choice == NSOnState)
+        if (choice == NSControlStateValueOn)
         {
             [Utils addAppAsLoginItem];
             value = @"YES";
@@ -236,7 +236,7 @@
     if (choice != storedNotificationsState)
     {
         NSString * value;
-        value = ( choice == NSOnState ) ? @"YES" : @"NO";
+        value = ( choice == NSControlStateValueOn ) ? @"YES" : @"NO";
         [PersistantData saveItemToPreferences:value withKey:DATA_KEY_SHOW_NOTIFICATIONS];
         storedNotificationsState = choice;
         flags |= SETTINGS_SHOW_NOTIFICATIONS_CHANGED;

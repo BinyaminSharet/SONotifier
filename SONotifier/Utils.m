@@ -20,6 +20,7 @@
  * http://cocoatutorial.grapewave.com/tag/lssharedfilelist-h/
  */
 
+#import <ServiceManagement/ServiceManagement.h>
 #import "Utils.h"
 #import "Globals.h"
 
@@ -36,51 +37,18 @@
 
 + (void) addAppAsLoginItem 
 {
-	NSString * appPath = [[NSBundle mainBundle] bundlePath];
-    CFURLRef url = (CFURLRef)[NSURL fileURLWithPath:appPath]; 
-    LSSharedFileListRef loginItems = LSSharedFileListCreate(NULL,
-                                                            kLSSharedFileListSessionLoginItems, NULL);
-	if (loginItems) 
-    {
-		LSSharedFileListItemRef item = LSSharedFileListInsertItemURL(loginItems,
-                                                                     kLSSharedFileListItemLast, NULL, NULL,
-                                                                     url, NULL, NULL);
-		if (item)
-        {
-			CFRelease(item);
-        }
-        CFRelease(loginItems);
-	}	
+    NSString * bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
+    if(!SMLoginItemSetEnabled((__bridge CFStringRef)bundleIdentifier, YES)) {
+        NSLog(@"Failed to add app to login items");
+    }
 }
 
 + (void) deleteAppFromLoginItem 
 {
-	NSString * appPath = [[NSBundle mainBundle] bundlePath];
-    CFURLRef url = (CFURLRef)[NSURL fileURLWithPath:appPath]; 
-	LSSharedFileListRef loginItems = LSSharedFileListCreate(NULL,
-                                                            kLSSharedFileListSessionLoginItems, NULL);
-	if (loginItems) 
-    {
-		UInt32 seedValue;
-		NSArray  *loginItemsArray = (NSArray *)LSSharedFileListCopySnapshot(loginItems, &seedValue);
-		int i;
-		for(i = 0 ; i< [loginItemsArray count]; i++)
-        {
-			LSSharedFileListItemRef itemRef = (LSSharedFileListItemRef)[loginItemsArray
-                                                                        objectAtIndex:i];
-			if (LSSharedFileListItemResolve(itemRef, 0, (CFURLRef*) &url, NULL) == noErr) 
-            {
-				NSString * urlPath = [(NSURL*)url path];
-				if ([urlPath compare:appPath] == NSOrderedSame)
-                {
-					LSSharedFileListItemRemove(loginItems,itemRef);
-				}
-                CFRelease(url);
-			}
-		}
-		[loginItemsArray release];
-        CFRelease(loginItems);
-	}
+    NSString * bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
+    if(!SMLoginItemSetEnabled((__bridge CFStringRef)bundleIdentifier, NO)) {
+        NSLog(@"Failed to remove app from login items");
+    }
 }
 
 + (unsigned long) getBadgeColorForType:(NSString *) type

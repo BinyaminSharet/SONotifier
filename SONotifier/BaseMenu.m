@@ -58,7 +58,7 @@ enum {
 {
     NSString* imageName = [[NSBundle mainBundle] pathForResource:image_name ofType:@"png"];
     NSImage* imageObj = [[[NSImage alloc] initWithContentsOfFile:imageName] autorelease];
-    [statusItem setImage:imageObj];
+    statusItem.button.image = imageObj;
 }
 
 - (NSAttributedString *) createConnectionStatusString
@@ -116,9 +116,9 @@ enum {
 {
     [self setStatusIconWithImagePath:RESOURCE_NAME_ICON_OFFLINE];
     connect_status = CONNECTION_STATUS_OFFLINE;
-    [statusItem setHighlightMode:YES];
-    [statusItem setEnabled:YES];
-    [statusItem setTarget:self];
+    statusItem.button.cell.highlighted = YES;
+    statusItem.button.enabled = YES;
+    statusItem.button.target = self;
 }
 
 - (void) quitApp 

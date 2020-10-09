@@ -83,22 +83,21 @@
 
 - (NSString *)input: (NSString *)prompt defaultValue: (NSString *)defaultValue 
 {
-    NSAlert *alert = [NSAlert alertWithMessageText: prompt
-                                     defaultButton:@"OK"
-                                   alternateButton:@"Cancel"
-                                       otherButton:nil
-                         informativeTextWithFormat:@""];
+    NSAlert * alert = [[NSAlert alloc] init];
+    [alert setMessageText:prompt];
+    [alert addButtonWithTitle:@"OK"];
+    [alert addButtonWithTitle:@"Cabcel"];
     
     NSTextField *input = [[[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, 200, 24)] autorelease];
     [input setStringValue:defaultValue];
     [alert setAccessoryView:input];
     NSInteger button = [alert runModal];
-    if (button == NSAlertDefaultReturn) 
+    if (button == NSAlertFirstButtonReturn)
     {
         [input validateEditing];
         return [input stringValue];
     } 
-    else if (button == NSAlertAlternateReturn) 
+    else if (button == NSAlertSecondButtonReturn)
     {
         return nil;
     } 
